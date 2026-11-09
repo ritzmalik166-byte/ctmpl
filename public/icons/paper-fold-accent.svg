@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path id="Paper fold accent" d="M0 0H27V27L0 0Z" fill="url(#paint0_radial_0_13)"/>
+<defs>
+<radialGradient id="paint0_radial_0_13" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(34 -3.5) rotate(143.13) scale(42.5)">
+<stop stop-color="#E35F5F"/>
+<stop offset="1" stop-color="#E7855E"/>
+</radialGradient>
+</defs>
+</svg>

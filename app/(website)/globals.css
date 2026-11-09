@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Design tokens (from Figma). Every token becomes a Tailwind utility,
+   e.g. --color-ink -> text-ink / bg-ink, --font-inter -> font-inter.
+   ========================================================================== */
+
+@theme inline {
+  /* Fonts: next/font variables are registered on <html> in the root layout */
+  --font-instrument: var(--font-instrument-sans-face), ui-sans-serif, system-ui, sans-serif;
+  --font-inter: var(--font-inter-face), ui-sans-serif, system-ui, sans-serif;
+  --font-caveat: var(--font-caveat-face), "Comic Sans MS", cursive;
+}
+
+@theme {
+  /* Neutrals */
+  --color-ink: #333333; /* headings, body copy */
+  --color-ink-strong: #111111; /* nav text, icons */
+  --color-sand-line: #e7e0d8; /* soft borders */
+  --color-ink-deep: #171717; /* section labels */
+  --color-stone: #67625e; /* intro paragraphs */
+
+  /* Whiteboard markers */
+  --color-marker-navy: #30435c;
+  --color-marker-red: #c75f3c;
+  --color-marker-blue: #2b6391;
+  --color-marker-green: #3e805f;
+  --color-marker-mustard: #b98b29;
+  --color-marker-black: #282725;
+
+  /* Brand */
+  --color-brand-red: #e53926; /* highlighted words */
+  --color-terracotta: #bc6544; /* secondary CTA */
+  --color-terracotta-deep: #c2603e; /* small accents (clock label) */
+  --color-royal-blue: #244bef; /* primary CTA */
+  --color-clay: #c56a47; /* soft button, hovered */
+  --color-paper-cream: #fcf2e6; /* brand button, hovered */
+  --color-ivory: #fdf6e9; /* soft button paper (chunks) */
+  --color-ink-soft: #363636; /* text on hovered brand button */
+
+  /* Surfaces */
+  --color-cream: #fcefe6; /* hero wall */
+  --color-clock-face: #fff6e4;
+  --color-blush: #f2ded7; /* soft button gradient start */
+  --color-paper: rgb(251 247 240 / 0.69); /* soft button gradient end */
+
+  /* Layout */
+  --container-site: 1237px;
+
+  /* Hero headline, fluid on small screens; scales with the scene from lg */
+  --text-hero-xl: clamp(2.75rem, 1.6rem + 4.9vw, 4.5rem);
+  --text-hero-xl--line-height: 1.382;
+  --text-hero-lg: clamp(2.0625rem, 1.2rem + 3.66vw, 3.375rem);
+  --text-hero-lg--line-height: 1.382;
+  --text-hero-xl-scene: clamp(3.5rem, 6.042vw, 5.4375rem); /* 87px @ 1440 */
+  --text-hero-lg-scene: clamp(2.625rem, 4.514vw, 4.0625rem); /* 65px @ 1440 */
+
+  --drop-shadow-soft: 0 8px 10px rgb(0 0 0 / 0.08); /* menu toggle */
+}
+
+/* Side gutter used by <Container>; widens with the viewport */
+:root {
+  --gutter: 1.25rem;
+}
+@media (min-width: 48rem) {
+  :root {
+    --gutter: 2rem;
+  }
+}
+@media (min-width: 80rem) {
+  :root {
+    --gutter: 2.5rem;
+  }
+}
+
+/* Centered content column: 1237px max, never touching the screen edge */
+@utility site-container {
+  width: min(100% - 2 * var(--gutter), var(--container-site));
+  margin-inline: auto;
+}
+
+/* Welcome gateway: if its script never takes over, fade it out on its own */
+@keyframes gateway-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.gateway-failsafe {
+  animation: gateway-failsafe 0.6s ease 8s forwards;
+}
+
+/* Whiteboard magnet "light on": a quick lamp-like flicker, then steady glow */
+@keyframes magnet-light-on {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.9;
+  }
+  40% {
+    opacity: 0.3;
+  }
+  58% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.8;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-white font-instrument text-ink;
+  }
+}
