@@ -63,6 +63,61 @@ export function talk(timeline: gsap.core.Timeline, mouth: Element[], at: number,
   return t;
 }
 
+/**
+ * Talking with mouth frames: on each syllable a small or wide open-mouth frame
+ * replaces the character's own (closed) smile. Returns when the phrase ends.
+ */
+export function talkFrames(timeline: gsap.core.Timeline, small: Element[], wide: Element[], at: number, count: number) {
+  let t = at;
+  for (let i = 0; i < count; i++) {
+    const frame = Math.random() < 0.55 ? small : wide;
+    const open = gsap.utils.random(0.1, 0.18);
+    const shut = gsap.utils.random(0.05, 0.12);
+    timeline.set(frame, { opacity: 1 }, t).set(frame, { opacity: 0 }, t + open);
+    t += open + shut;
+  }
+  return t;
+}
+
+/**
+ * A real-looking blink with painted eye frames over closed-eye artwork:
+ * open → half → closed (the art itself) → half → open, about 0.2 s. A fresh
+ * 2.5–5 s pause comes before each blink, and now and then a double blink.
+ */
+export function blinkFrames(open: Element[], half: Element[]) {
+  const pause = () => gsap.utils.random(2.5, 5);
+  const wait = gsap.to({}, { duration: pause() });
+  const blinkOnce = (tl: gsap.core.Timeline) =>
+    tl
+      .set(open, { opacity: 0 }).set(half, { opacity: 1 }) // lids coming down
+      .set(half, { opacity: 0 }, "+=0.05") // closed
+      .set(half, { opacity: 1 }, "+=0.08") // opening
+      .set(half, { opacity: 0 }, "+=0.05").set(open, { opacity: 1 });
+  const timeline = gsap.timeline({ repeat: -1, onRepeat: () => wait.duration(pause()) }).add(wait);
+  blinkOnce(timeline);
+  timeline.add(() => {
+    if (Math.random() < 0.2) blinkOnce(gsap.timeline({ delay: 0.15 }));
+  });
+  return timeline;
+}
+
+/**
+ * Talking over artwork drawn mid-word (mouth already open): a closed-lips frame
+ * shows at rest; on each syllable it hides, revealing either a slightly open
+ * frame or the art's own open mouth. Returns when the phrase ends.
+ */
+export function talkOverOpenArt(timeline: gsap.core.Timeline, closed: Element[], small: Element[], at: number, count: number) {
+  let t = at;
+  for (let i = 0; i < count; i++) {
+    const open = gsap.utils.random(0.1, 0.18);
+    const shut = gsap.utils.random(0.05, 0.12);
+    timeline.set(closed, { opacity: 0 }, t).set(closed, { opacity: 1 }, t + open);
+    if (Math.random() < 0.55) timeline.set(small, { opacity: 1 }, t).set(small, { opacity: 0 }, t + open);
+    t += open + shut;
+  }
+  return t;
+}
+
 /** Breathing: a barely-there rise and fall, from the feet. */
 export const breathe = (figure: Element[]) =>
   gsap.to(figure, { scaleY: 1.006, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });

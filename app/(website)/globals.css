@@ -20,6 +20,15 @@
   --color-ink-deep: #171717; /* section labels */
   --color-stone: #67625e; /* intro paragraphs */
 
+  /* "What we make": the building lobby at night */
+  --color-night: #262427; /* section background */
+  --color-night-panel: #2f2c30; /* lobby panel */
+  --color-brass: #c8a252; /* directory frame + title */
+  --color-chalk: #f3f1ea; /* floor names */
+  --color-signal: #e05a47; /* "AI-POWERED" tags */
+  --color-signal-strong: #f32929; /* AI badge */
+  --color-card-cream: #fbf8f1; /* selected-service card */
+
   /* Whiteboard markers */
   --color-marker-navy: #30435c;
   --color-marker-red: #c75f3c;
@@ -106,6 +115,14 @@
   }
   100% {
     opacity: 0.8;
+  }
+}
+
+/* "What we make" service card: new floor's text slides up into place */
+@keyframes service-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
   }
 }
 

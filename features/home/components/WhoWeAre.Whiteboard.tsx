@@ -203,7 +203,7 @@ function BoardStats({ layout, active, onActivate }: ActiveStat & { layout: "boar
 export function WhiteboardScene() {
   const activeStat = useActiveStat();
   return (
-    <div className="relative hidden aspect-[1200/732] w-full md:block lg:-mb-[0.556vw] lg:aspect-[1440/732]">
+    <div className="relative hidden aspect-[1200/732] w-full md:block lg:aspect-[1440/732]">
       <div className="@container absolute inset-y-0 left-[-8.333%] w-[120%] font-caveat lg:left-0 lg:w-full">
         <Image src={whiteboardRoom} alt="" fill sizes="(min-width: 1024px) 100vw, 120vw" className="object-cover" />
 
