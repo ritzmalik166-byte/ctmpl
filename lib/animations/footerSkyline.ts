@@ -18,6 +18,12 @@ const SKY = {
 const NIGHT = 14;
 const DAY = 15;
 const TURN = 2.2;
+/** The sun's colours as it crosses: warm at sunrise, white-gold at noon, red-orange at sunset. */
+const SUN = {
+  rise: { "--sun-core": "#ffd27a", "--sun-edge": "#f08a3c", "--sun-glow": "rgba(255,160,80,0.7)" },
+  noon: { "--sun-core": "#fff1b8", "--sun-edge": "#ffd166", "--sun-glow": "rgba(255,232,160,0.6)" },
+  set: { "--sun-core": "#ffb35c", "--sun-edge": "#e2552d", "--sun-glow": "rgba(255,110,60,0.72)" },
+};
 /** How strongly the buildings are lit by day (a pale-blue wash over them). */
 const DAYLIGHT = 0.42;
 
@@ -31,6 +37,9 @@ const DAYLIGHT = 0.42;
  *  - the sun crosses, morning → noon → evening, with small birds flying past;
  *  - as it sets at the right, dusk: the sky darkens, the stars come out, the
  *    windows light up again and the moon rises.
+ * The moon glows softly, its halo breathing; the sun's colours warm and cool
+ * through the day; the CTM sign glows orange all night
+ * (flickering on at dusk, off at dawn).
  * It starts in the night (the moon near where the artwork has it), runs only
  * while the footer is on screen, and with reduced motion stays as night.
  */
@@ -44,6 +53,8 @@ export function useSkylineCycle() {
       const one = (name: string) => root.querySelector<HTMLElement>(`[data-sky="${name}"]`)!;
       const all = (name: string) => gsap.utils.toArray<HTMLElement>(`[data-sky="${name}"]`, root);
       const [sky, stars, moon, sun, daylight] = ["sky", "stars", "moon", "sun", "daylight"].map(one);
+      const [moonGlow, signHalo, signFace] = ["moon-glow", "sign-halo", "sign-face"].map(one);
+      const sign = [signHalo, signFace];
       const windows = all("window");
       const litAtNight = windows.filter((w) => w.dataset.lit === "1");
       const { random } = gsap.utils;
@@ -77,6 +88,11 @@ export function useSkylineCycle() {
         // day: the sun crosses, morning → noon → evening
         .set(sun, { autoAlpha: 1 }, dawnAt + TURN * 0.5)
         .fromTo(sunPath, { p: 0 }, { p: 1, duration: DAY + TURN, ease: "none", onUpdate: () => cross(sun, sunPath.p) }, dawnAt + TURN * 0.5)
+        .set(sun, SUN.rise, dawnAt)
+        .to(sun, { ...SUN.noon, duration: DAY * 0.45, ease: "sine.inOut" }, dayAt + DAY * 0.1)
+        .to(sun, { ...SUN.set, duration: DAY * 0.4, ease: "sine.inOut" }, dayAt + DAY * 0.58)
+        // the CTM sign switches off with the daylight
+        .to(sign, { autoAlpha: 0, duration: 0.8, ease: "power1.in" }, dawnAt + 0.6)
         .to(sky, skyTo("morning", DAY * 0.3), dayAt)
         .to(daylight, { opacity: DAYLIGHT, duration: DAY * 0.3, ease: "sine.inOut" }, dayAt)
         .to(sky, skyTo("noon", DAY * 0.25), dayAt + DAY * 0.3)
@@ -84,6 +100,12 @@ export function useSkylineCycle() {
         .to(daylight, { opacity: DAYLIGHT * 0.5, duration: DAY * 0.35, ease: "sine.inOut" }, dayAt + DAY * 0.62)
         // dusk
         .to(sky, skyTo("night", TURN * 1.4), duskAt)
+        // the CTM sign flickers on, neon style
+        .set(sign, { autoAlpha: 0.6 }, duskAt + 0.5)
+        .set(sign, { autoAlpha: 0 }, duskAt + 0.58)
+        .set(sign, { autoAlpha: 0.9 }, duskAt + 0.72)
+        .set(sign, { autoAlpha: 0.15 }, duskAt + 0.8)
+        .to(sign, { autoAlpha: 1, duration: 0.3 }, duskAt + 0.95)
         .to(daylight, { opacity: 0, duration: TURN * 1.4, ease: "sine.inOut" }, duskAt)
         .set(sun, { autoAlpha: 0 }, duskAt + TURN)
         .to(stars, { autoAlpha: 1, duration: TURN }, duskAt + TURN * 0.4);
@@ -119,7 +141,11 @@ export function useSkylineCycle() {
       cycle.time(NIGHT * 0.8);
       cross(moon, 0.8);
 
-      const running = [cycle, flicker, ...flapping];
+      // the moon's glow breathes; the lit sign hums
+      const moonBreath = gsap.fromTo(moonGlow, { scale: 0.92, opacity: 0.75 }, { scale: 1.12, opacity: 1, duration: 3.2, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      const signHum = gsap.fromTo(signHalo, { scale: 0.96 }, { scale: 1.06, duration: 1.8, ease: "sine.inOut", yoyo: true, repeat: -1 });
+
+      const running = [cycle, flicker, moonBreath, signHum, ...flapping];
       const observer = new IntersectionObserver(([entry]) => running.forEach((a) => (entry.isIntersecting ? a.resume() : a.pause())));
       observer.observe(root);
       return () => observer.disconnect();

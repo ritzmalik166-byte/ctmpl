@@ -5,14 +5,18 @@ import ButtonLink from "@/components/ui/ButtonLink";
 import { siteConfig } from "@/config/site";
 import ctmLogo from "@/public/images/website/brand/ctm-logo.png";
 import whatsappIcon from "@/public/icons/whatsapp-fill.svg";
+import { HeaderShell } from "./HeaderShell";
+import { SiteMenu } from "./SiteMenu";
 
 /**
- * Site header. Floats over the top of the page so the hero art shows
- * behind it. Desktop: logo · WhatsApp · Start a project · menu.
+ * Site header, fixed to the top of the window (see HeaderShell): transparent
+ * over the hero, paper-coloured once the page is scrolled; it slides away
+ * while scrolling down and comes back when scrolling up.
+ * Desktop: logo · WhatsApp · Start a project · menu.
  */
 function Navbar() {
   return (
-    <header className="absolute inset-x-0 top-0 z-50 py-[7px]">
+    <HeaderShell>
       <Container className="flex items-center justify-between gap-4">
         <Link href="/" aria-label={`${siteConfig.name} home`} className="shrink-0">
           <Image
@@ -44,20 +48,11 @@ function Navbar() {
             </div>
           </nav>
 
-          {/* Menu panel arrives with the next design step; button is wired for it. */}
-          <button
-            type="button"
-            aria-label="Open menu"
-            aria-expanded={false}
-            className="flex size-12 shrink-0 cursor-pointer flex-col items-center justify-center gap-1 rounded-full border border-sand-line bg-white drop-shadow-soft transition-transform hover:scale-105 lg:size-16"
-          >
-            <span className="h-0.5 w-5 rounded-[1px] bg-ink-strong" />
-            <span className="h-0.5 w-5 rounded-[1px] bg-ink-strong" />
-            <span className="h-0.5 w-5 rounded-[1px] bg-ink-strong" />
-          </button>
+          {/* the menu: a special edition of The CTM Times (see SiteMenu) */}
+          <SiteMenu />
         </div>
       </Container>
-    </header>
+    </HeaderShell>
   );
 }
 

@@ -5,6 +5,7 @@ import { INITIAL_FLOOR } from "../constants/whatWeMake.constants";
 import { BuildingDirectory, SelectedService } from "./WhatWeMake.Directory";
 import { Lift } from "./WhatWeMake.Lift";
 import { FloorArtworkPreloader } from "./WhatWeMake.Floors";
+import { scrollToElement } from "@/lib/scroll/smoothScroll";
 
 /**
  * The lobby: press a floor in the directory and the lift rides to it.
@@ -27,8 +28,7 @@ export function WhatWeMakeLobby() {
     if (!lift) return;
     const { top, bottom } = lift.getBoundingClientRect();
     if (top < 0 || bottom > window.innerHeight) {
-      const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      lift.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "center" });
+      scrollToElement(lift, { block: "center" }); // through the smooth scroller
     }
   };
 

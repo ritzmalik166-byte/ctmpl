@@ -4,7 +4,7 @@ import type { FormEvent } from "react";
 import { cn } from "@/lib/utils/cn";
 import { bookingFields, startConversationCopy } from "../constants/startConversation.constants";
 import { TORN_STUB } from "../animations/StartConversation.Booking";
-import { PaperLoader } from "./StartConversation.PaperLoader";
+import { PaperLoader } from "@/components/ui/PaperLoader";
 
 export type BookingStatus = "idle" | "sending" | "taking" | "booked";
 
