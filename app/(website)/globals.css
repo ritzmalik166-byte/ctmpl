@@ -10,6 +10,8 @@
   --font-instrument: var(--font-instrument-sans-face), ui-sans-serif, system-ui, sans-serif;
   --font-inter: var(--font-inter-face), ui-sans-serif, system-ui, sans-serif;
   --font-caveat: var(--font-caveat-face), "Comic Sans MS", cursive;
+  --font-typewriter: var(--font-courier-prime-face), "Courier New", Courier, monospace;
+  --font-jakarta: var(--font-plus-jakarta-sans-face), ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme {
@@ -129,5 +131,33 @@
 @layer base {
   body {
     @apply bg-white font-instrument text-ink;
+  }
+}
+
+/* Paper-craft loader: a little square of paper folding over and back, again and again */
+@keyframes paper-fold {
+  0%,
+  100% {
+    transform: perspective(40px) rotateY(0deg) rotateX(0deg);
+  }
+  25% {
+    transform: perspective(40px) rotateY(180deg) rotateX(0deg);
+  }
+  50% {
+    transform: perspective(40px) rotateY(180deg) rotateX(180deg);
+  }
+  75% {
+    transform: perspective(40px) rotateY(0deg) rotateX(180deg);
+  }
+}
+
+/* Footer stars: a slow, soft twinkle */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
   }
 }

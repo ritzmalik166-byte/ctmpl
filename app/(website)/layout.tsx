@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/website/layout/Navbar";
+import Footer from "@/components/website/layout/Footer";
 import Gateway from "@/features/gateway/components/Gateway";
 import { fontVariables } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
@@ -17,6 +18,7 @@ export default function WebsiteLayout({ children }: LayoutProps<"/">) {
         <Gateway />
         <Navbar />
         <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

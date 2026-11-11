@@ -16,7 +16,8 @@ export const STAMP_LANDS_AT = 0.95;
  * Opening another case in the filing room:
  *  1. the open drawer's file tabs sink back inside and it closes,
  *  2. the picked drawer pulls out and its file tabs rise up out of it,
- *  3. on the desk the photo in the case file is swapped for that client's and
+ *  3. on the desk the case file's photo and typed sheet are swapped for that
+ *     client's, and
  *  4. a fresh APPROVED seal is stamped on the file (Neha brings her stamp down).
  * The starting look (case 1 open) is in the markup, so nothing jumps on load.
  */
@@ -36,6 +37,7 @@ export function useFilingRoom(active: number) {
       const [oldDrawer, newDrawer] = [one(`[data-drawer="${from}"]`), one(`[data-drawer="${active}"]`)];
       const [oldTabs, newTabs] = [one(`[data-tabs="${from}"]`), one(`[data-tabs="${active}"]`)];
       const [oldCover, newCover] = [one(`[data-cover="${from}"]`), one(`[data-cover="${active}"]`)];
+      const [oldSheet, newSheet] = [one(`[data-sheet="${from}"]`), one(`[data-sheet="${active}"]`)];
       const [stamp, file] = [one('[data-file="stamp"]'), one('[data-file="folder"]')];
 
       // a quick second pick: finish the previous change at once, then start this one
@@ -44,7 +46,7 @@ export function useFilingRoom(active: number) {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         gsap.set(oldDrawer, CLOSED_DRAWER); gsap.set(newDrawer, OPEN_DRAWER);
         gsap.set(oldTabs, { y: TABS_HIDDEN_Y }); gsap.set(newTabs, { y: 0 });
-        gsap.set(oldCover, { opacity: 0 }); gsap.set(newCover, { opacity: 1, y: 0, rotation: 0, scale: 1 });
+        gsap.set([oldCover, oldSheet], { opacity: 0 }); gsap.set([newCover, newSheet], { opacity: 1, x: 0, y: 0, rotation: 0, scale: 1 });
         return;
       }
 
@@ -61,6 +63,9 @@ export function useFilingRoom(active: number) {
         .to(stamp, { opacity: 0, duration: 0.15, ease: "power1.out" }, 0)
         .to(oldCover, { opacity: 0, y: 14, rotation: -2, duration: 0.3, ease: "power2.in" }, 0.05)
         .fromTo(newCover, { opacity: 0, y: -26, rotation: 2.5, scale: 1.03 }, { opacity: 1, y: 0, rotation: 0, scale: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, 0.3)
+        // ...and the typed sheet is swapped: the old one is slid off, the new one laid down
+        .to(oldSheet, { opacity: 0, x: 26, rotation: 2, duration: 0.32, ease: "power2.in" }, 0.1)
+        .fromTo(newSheet, { opacity: 0, x: -14, y: -22, rotation: -2 }, { opacity: 1, x: 0, y: 0, rotation: 0, duration: 0.5, ease: "power3.out", immediateRender: false }, 0.38)
         // 4. stamp it: the seal comes down hard and the file gives a little thud
         .fromTo(stamp, { opacity: 0, scale: 1.9, rotation: -6 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.16, ease: "power4.in", immediateRender: false }, STAMP_LANDS_AT)
         .to(file, { y: 2, duration: 0.06, ease: "power1.out", yoyo: true, repeat: 1 }, STAMP_LANDS_AT + 0.16);

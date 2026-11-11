@@ -36,6 +36,12 @@ const variants = {
       "bg-terracotta px-[33px] py-3 text-[15px] leading-[normal] font-bold text-white data-flipped:bg-paper-cream data-flipped:text-ink-soft",
     crumple: ["var(--color-terracotta)", "var(--color-paper-cream)", "var(--color-clay)"],
   },
+  /** Orange pill with a folded corner: filing room "View all projects" → cream with dark text */
+  folded: {
+    className:
+      "bg-[#d16a42] bg-[url(/images/website/home/creative-playground/folded-accent.svg)] bg-size-[119px_69px] bg-position-[112.6%_0] bg-no-repeat px-[29px] py-[18px] font-inter text-xl leading-[normal] font-bold tracking-[-0.4px] text-[#faf6ef] shadow-[0_3px_5px_0_rgba(131,80,49,0.09)] data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
+    crumple: ["#d16a42", "var(--color-paper-cream)", "#b95534"],
+  },
 } satisfies Record<string, Variant>;
 
 export type ButtonVariant = keyof typeof variants;
