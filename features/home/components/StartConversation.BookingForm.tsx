@@ -31,13 +31,15 @@ function BookedNote({ onAnother }: { onAnother: () => void }) {
         {booked.stamp}
       </span>
 
-      <button
+      {/* same two-tone fill and paper crumple on hover as "Book The Room" */}
+      <CrumpleButton
         type="button"
         onClick={onAnother}
-        className="mt-auto h-[52px] w-full cursor-pointer rounded-lg border-2 border-[#e05a47] font-inter text-lg font-bold tracking-[-0.3px] text-[#e05a47] transition-colors hover:bg-[#e05a47] hover:text-[#faf6ef]"
+        chunkColors={["#d16a42", "var(--color-paper-cream)", "#b95534"]}
+        className="mt-auto h-[52px] w-full cursor-pointer overflow-clip rounded-lg bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)] font-inter text-lg font-bold tracking-[-0.3px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_rgba(131,80,49,0.12)] transition-[scale] duration-150 active:scale-[0.99] data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#d16a42] data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42]"
       >
         {booked.another}
-      </button>
+      </CrumpleButton>
     </div>
   );
 }
@@ -101,13 +103,13 @@ export function BookingForm({
               ))}
 
               <div className="pt-4">
-                {/* paper crumple on hover, like the site's other buttons (not while sending) */}
+                {/* two-tone burnt orange like "View all projects"; paper crumple on hover (not while sending) */}
                 <CrumpleButton
                   type="submit"
                   aria-busy={status === "sending"}
                   crumple={!busy}
-                  chunkColors={["#e05a47", "var(--color-paper-cream)", "#ef6f5d"]}
-                  className="h-[60px] w-full cursor-pointer overflow-clip rounded-lg bg-[#e05a47] bg-[url(/images/website/home/start-conversation/folded-accent-wide.svg)] bg-size-[237px_69px] bg-position-[right_-0.33px_center] bg-no-repeat px-4 py-[18px] font-inter text-base leading-[normal] font-bold tracking-[-0.4px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_0_rgba(131,80,49,0.09)] transition-[scale] duration-150 active:scale-[0.99] disabled:cursor-wait disabled:brightness-95 disabled:active:scale-100 data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#e05a47] data-flipped:shadow-[inset_0_0_0_1.5px_#e05a47] sm:px-[29px] sm:text-xl"
+                  chunkColors={["#d16a42", "var(--color-paper-cream)", "#b95534"]}
+                  className="h-[60px] w-full cursor-pointer overflow-clip rounded-lg bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)] px-4 py-[18px] font-inter text-base leading-[normal] font-bold tracking-[-0.4px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_0_rgba(131,80,49,0.09)] transition-[scale] duration-150 active:scale-[0.99] disabled:cursor-wait disabled:brightness-95 disabled:active:scale-100 data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#d16a42] data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42] sm:px-[29px] sm:text-xl"
                 >
                   {status === "sending" ? (
                     <>

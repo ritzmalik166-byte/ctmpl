@@ -54,12 +54,12 @@ export function MenuContactForm() {
           <span className={label}>{navigationCopy.messageLabel}</span>
           <textarea name="message" rows={3} placeholder={navigationCopy.messagePlaceholder} className={`${field} resize-none`} />
         </label>
-        {/* paper crumple on hover, like the site's other buttons: red → paper cream */}
+        {/* paper crumple on hover, like the site's other buttons: two-tone burnt orange (as "View all projects") → paper cream */}
         <CrumpleButton
           type="submit"
           aria-busy={status === "sending"}
-          chunkColors={["#e05a47", "var(--color-paper-cream)", "#b8462f"]}
-          className="mt-1 h-12 w-full cursor-pointer rounded-md bg-[#e05a47] font-inter text-base font-bold tracking-[-0.3px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_rgba(131,80,49,0.12)] transition-[scale] active:scale-[0.99] disabled:cursor-wait data-flipped:bg-paper-cream data-flipped:text-[#e05a47] data-flipped:shadow-[inset_0_0_0_1.5px_#e05a47]"
+          chunkColors={["#d16a42", "var(--color-paper-cream)", "#b95534"]}
+          className="mt-1 h-12 w-full cursor-pointer rounded-md bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)] font-inter text-base font-bold tracking-[-0.3px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_rgba(131,80,49,0.12)] transition-[scale] active:scale-[0.99] disabled:cursor-wait data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#d16a42] data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42]"
         >
           {status === "sending" ? (
             <>

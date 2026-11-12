@@ -15,7 +15,7 @@ const UNFOLD = 1.4;
  *  1. until the section scrolls into view the paper lies folded in half;
  *  2. then (ScrollTrigger) it opens from the fold: the right half lifts toward
  *     us, turns over and lies flat, casting a shadow by the fold as it goes,
- *     while the paper slides into place; a soft crease stays down the middle;
+ *     while the paper slides into place, opening perfectly flat (no crease);
  *  3. once it's open the desk things arrive: the CTM mug (steam rising off
  *     its coffee) with its coffee ring, the reading glasses and the pen;
  *  4. then the mug, glasses and pen keep gently rising and falling, and the
@@ -32,7 +32,7 @@ export function useNewspaperUnfold() {
       const root = ref.current;
       if (!root || !contextSafe) return;
       const q = (name: string) => root.querySelector<HTMLElement>(`[data-anim="${name}"]`)!;
-      const [paper, page, flap, flapShade, foldShadow, crease] = ["paper", "page", "flap", "flap-shade", "fold-shadow", "crease"].map(q);
+      const [paper, page, flap, flapShade, foldShadow] = ["paper", "page", "flap", "flap-shade", "fold-shadow"].map(q);
       const [mug, ring, glasses, pen] = ["mug", "ring", "glasses", "pen"].map(q);
       const wisps = gsap.utils.toArray<SVGPathElement>('[data-anim="wisp"]', root);
 
@@ -46,7 +46,6 @@ export function useNewspaperUnfold() {
       const hidden = root.getClientRects().length === 0;
       if (hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         showOpen();
-        gsap.set(crease, { opacity: 1 });
         gsap.set(wisps, { opacity: 0.5 });
         return;
       }
@@ -84,7 +83,6 @@ export function useNewspaperUnfold() {
         .to(flapShade, { opacity: 0, duration: UNFOLD / 2, ease: "sine.out" }, 0.1 + UNFOLD / 2)
         .to(foldShadow, { opacity: 0.5, duration: UNFOLD / 2, ease: "sine.in" }, 0.1)
         .to(foldShadow, { opacity: 0, duration: UNFOLD / 2, ease: "sine.out" }, 0.1 + UNFOLD / 2)
-        .to(crease, { opacity: 1, duration: 0.4 }, UNFOLD - 0.1)
         .add(showOpen, UNFOLD + 0.1)
         // then the desk things
         .fromTo(mug, { autoAlpha: 0, y: -60 }, { autoAlpha: 1, y: 0, duration: 0.7, ease: "back.out(1.7)" }, UNFOLD + 0.15)

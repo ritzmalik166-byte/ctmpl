@@ -10,8 +10,7 @@ import { cn } from "@/lib/utils/cn";
  *  - `tilt`: the sheet's turn (deg); `shift`: how far right (% of the box) the
  *    folded half sits so it lies centred;
  *  - `back`: the half of the sheet that folds over (the back page shows there, flipped);
- *  - `shadow` / `crease`: the strip by the fold that darkens as the flap lifts,
- *    and the crease left down the middle.
+ *  - `shadow`: the strip by the fold that darkens as the flap lifts.
  */
 export type FoldGeometry = {
   axis: "x" | "y";
@@ -21,7 +20,6 @@ export type FoldGeometry = {
   shift: number;
   back: CSSProperties;
   shadow: CSSProperties;
-  crease: CSSProperties;
 };
 
 /** Desktop: the sheet as Figma places it in the 1440 section (centre 720.83, 750.33; 1202.92 × 891.52; -3°). */
@@ -33,7 +31,6 @@ export const desktopFold: FoldGeometry = {
   shift: 20.83, // 300px of the 1440 frame
   back: { left: 720.83, top: 304.57, width: 601.46, height: 891.52 },
   shadow: { left: 500.83, top: 304.57, width: 220, height: 891.52 },
-  crease: { left: 717.83, top: 304.57, height: 891.52 },
 };
 
 /** Smaller screens: the sheet is the box itself (tall), folded across the middle. */
@@ -45,7 +42,6 @@ export const compactFold: FoldGeometry = {
   shift: 0,
   back: { left: 0, top: "50%", width: "100%", height: "50%" },
   shadow: { left: 0, top: "30%", width: "100%", height: "20%" },
-  crease: { left: 0, top: "calc(50% - 3px)", width: "100%" },
 };
 
 /** The back of the folded paper: plain newsprint with faint columns of type. */
@@ -88,7 +84,7 @@ function BackPage({ small }: { small: boolean }) {
  *    fixed-size frame (desktop).
  */
 export function PaperFold({ geometry, flow = false, page }: { geometry: FoldGeometry; flow?: boolean; page: () => ReactNode }) {
-  const { axis, hinge, origin, tilt, shift, back, shadow, crease } = geometry;
+  const { axis, hinge, origin, tilt, shift, back, shadow } = geometry;
   const box = flow ? "relative" : "absolute inset-0";
   const across = axis === "x";
   const clip = across
@@ -117,16 +113,6 @@ export function PaperFold({ geometry, flow = false, page }: { geometry: FoldGeom
           </div>
         </div>
 
-        {/* the crease left down the middle once it's open */}
-        <span
-          data-anim="crease"
-          aria-hidden="true"
-          className={cn(
-            "pointer-events-none absolute from-black/[0.05] via-white/70 to-black/[0.06] opacity-0",
-            across ? "h-1.5 bg-linear-to-b" : "w-1.5 bg-linear-to-r"
-          )}
-          style={crease}
-        />
       </div>
     </div>
   );

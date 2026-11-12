@@ -309,7 +309,7 @@ export function drawInk(cssW: number, cssH: number, s: number, logo: HTMLImageEl
   ctx.drawImage(logo, cx - logoW / 2, y, logoW, logoH);
   y += logoH + gaps.logo;
 
-  // Label with the paper-fold accent used across the site
+  // Label with the paper-plane accent used across the site
   ctx.font = `600 ${labelSize}px ${fonts.ui}`;
   const label = gatewayCopy.label.toUpperCase();
   const tracking = labelSize * 0.24;
@@ -317,7 +317,7 @@ export function drawInk(cssW: number, cssH: number, s: number, logo: HTMLImageEl
   const accent = labelSize * 1.15;
   const rowW = accent + labelSize * 0.7 + labelW;
   let x = cx - rowW / 2;
-  drawFoldAccent(ctx, x, y - labelSize * 0.05, accent);
+  drawPlaneAccent(ctx, x, y - labelSize * 0.05, accent);
   x += accent + labelSize * 0.7;
   ctx.fillStyle = P.inkLabel;
   fillTracked(ctx, label, x, y + labelSize * 0.88, tracking);
@@ -357,21 +357,34 @@ export function drawInk(cssW: number, cssH: number, s: number, logo: HTMLImageEl
 }
 
 /** The small folded-paper triangle that marks section labels in the design. */
-function drawFoldAccent(ctx: CanvasRenderingContext2D, x: number, y: number, size: number) {
-  ctx.fillStyle = P.foldAccent;
+/** The little paper plane beside a label (as public/icons/paper-plane-accent.svg, drawn in a size × size box). */
+function drawPlaneAccent(ctx: CanvasRenderingContext2D, x: number, y: number, size: number) {
+  const k = size / 27;
+  const shape = (fill: string | CanvasGradient, points: number[][]) => {
+    ctx.fillStyle = fill;
+    ctx.beginPath();
+    points.forEach(([px, py], i) => (i ? ctx.lineTo(x + px * k, y + py * k) : ctx.moveTo(x + px * k, y + py * k)));
+    ctx.closePath();
+    ctx.fill();
+  };
+  const gradient = (stops: string[]) => {
+    const g = ctx.createLinearGradient(x + 26 * k, y + 1.5 * k, x + 9 * k, y + 22 * k);
+    g.addColorStop(0, stops[0]);
+    g.addColorStop(1, stops[1]);
+    return g;
+  };
+  // the keel (the folded underside, in shadow), the near wing, the far wing
+  shape("#B95534", [[26, 1.5], [9, 15.5], [10, 23.5], [13.8, 19.3]]);
+  shape(gradient(["#E35F5F", "#E7855E"]), [[26, 1.5], [1, 11], [9, 15.5]]);
+  shape(gradient(["#E7855E", "#D16A42"]), [[26, 1.5], [9, 15.5], [17.6, 24.6]]);
+  // the centre fold catching the light
+  ctx.strokeStyle = "rgba(255, 244, 232, 0.55)";
+  ctx.lineWidth = 0.6 * k;
+  ctx.lineCap = "round";
   ctx.beginPath();
-  ctx.moveTo(x, y);
-  ctx.lineTo(x + size, y);
-  ctx.lineTo(x, y + size);
-  ctx.closePath();
-  ctx.fill();
-  ctx.fillStyle = "rgba(120, 30, 10, 0.35)";
-  ctx.beginPath();
-  ctx.moveTo(x + size, y);
-  ctx.lineTo(x + size * 0.45, y + size * 0.55);
-  ctx.lineTo(x + size * 0.55, y + size * 0.2);
-  ctx.closePath();
-  ctx.fill();
+  ctx.moveTo(x + 26 * k, y + 1.5 * k);
+  ctx.lineTo(x + 9 * k, y + 15.5 * k);
+  ctx.stroke();
 }
 
 function measureTracked(ctx: CanvasRenderingContext2D, text: string, tracking: number) {

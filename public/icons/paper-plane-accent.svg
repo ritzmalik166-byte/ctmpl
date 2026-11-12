@@ -1,0 +1,20 @@
+<svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- the keel: the folded underside, in shadow -->
+<path d="M26 1.5L9 15.5L10 23.5L13.8 19.3Z" fill="#B95534"/>
+<!-- the near wing -->
+<path d="M26 1.5L1 11L9 15.5Z" fill="url(#plane_wing)"/>
+<!-- the far wing, a touch darker -->
+<path d="M26 1.5L9 15.5L17.6 24.6Z" fill="url(#plane_far)"/>
+<!-- the centre fold catching the light -->
+<path d="M26 1.5L9 15.5" stroke="#FFF4E8" stroke-opacity="0.55" stroke-width="0.6" stroke-linecap="round"/>
+<defs>
+<radialGradient id="plane_wing" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(26 1.5) rotate(160) scale(26)">
+<stop stop-color="#E35F5F"/>
+<stop offset="1" stop-color="#E7855E"/>
+</radialGradient>
+<linearGradient id="plane_far" x1="26" y1="1.5" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+<stop stop-color="#E7855E"/>
+<stop offset="1" stop-color="#D16A42"/>
+</linearGradient>
+</defs>
+</svg>

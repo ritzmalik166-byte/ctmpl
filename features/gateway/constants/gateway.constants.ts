@@ -21,7 +21,6 @@ export const paperPalette = {
   ink: "#333333",
   inkAccent: "#e53926",
   inkLabel: "#c2603e",
-  foldAccent: "#e2603f",
 } as const;
 
 /** Timeline, in seconds. */

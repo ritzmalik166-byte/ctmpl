@@ -6,6 +6,12 @@ import { cn } from "@/lib/utils/cn";
 import { useCrumpleHover } from "@/lib/animations/crumpleHover";
 import { CrumpleLayers } from "./CrumpleLayers";
 
+/**
+ * The two-tone fill of "View all projects": burnt orange with a darker folded half,
+ * split down the middle at the fold's slant (as its folded-accent artwork).
+ */
+const FOLDED_FILL = "bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)]";
+
 const base =
   "relative inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full capitalize transition-[scale] duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-royal-blue";
 
@@ -20,11 +26,12 @@ type Variant = {
  * attribute at the moment the paper is most crushed, so colours change mid-crumple.
  */
 const variants = {
-  /** Blue pill: header "Start a project" → paper cream with blue text */
+  /** Two-tone burnt-orange pill (as "View all projects"): header "Start a project" → paper cream with orange text */
   primary: {
     className:
-      "bg-royal-blue px-10 py-2.5 font-inter text-sm leading-[19.5px] font-bold tracking-[-0.325px] text-white shadow-lg data-flipped:bg-paper-cream data-flipped:text-royal-blue",
-    crumple: ["var(--color-royal-blue)", "var(--color-paper-cream)", "#ffffff"],
+      FOLDED_FILL +
+      " px-10 py-2.5 font-inter text-sm leading-[19.5px] font-bold tracking-[-0.325px] text-white shadow-lg data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#d16a42]",
+    crumple: ["#d16a42", "var(--color-paper-cream)", "#b95534"],
   },
   /** Plain icon + label: header "WhatsApp" → a white pill */
   whatsapp: {
@@ -38,11 +45,12 @@ const variants = {
       "bg-[radial-gradient(closest-side,var(--color-blush),var(--color-paper))] px-[21px] py-3 text-[15px] leading-[normal] font-bold text-ink data-flipped:bg-clay data-flipped:bg-none data-flipped:text-white",
     crumple: ["var(--color-ivory)", "var(--color-clay)", "var(--color-blush)"],
   },
-  /** Terracotta pill: hero "See our work" → cream with dark text */
+  /** Two-tone burnt-orange pill (as "View all projects"): hero "See our work" → cream with dark text */
   brand: {
     className:
-      "bg-terracotta px-[33px] py-3 text-[15px] leading-[normal] font-bold text-white data-flipped:bg-paper-cream data-flipped:text-ink-soft",
-    crumple: ["var(--color-terracotta)", "var(--color-paper-cream)", "var(--color-clay)"],
+      FOLDED_FILL +
+      " px-[33px] py-3 text-[15px] leading-[normal] font-bold text-white data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
+    crumple: ["#d16a42", "var(--color-paper-cream)", "#b95534"],
   },
   /** Orange pill with a folded corner: filing room "View all projects" → cream with dark text */
   folded: {

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
-import paperFoldAccent from "@/public/icons/paper-fold-accent.svg";
+import paperPlaneAccent from "@/public/icons/paper-plane-accent.svg";
 
 type SectionLabelProps = {
   children: React.ReactNode;
@@ -9,7 +9,7 @@ type SectionLabelProps = {
   className?: string;
 };
 
-/** Small uppercase eyebrow with the folded-paper corner, e.g. "WHO WE ARE". */
+/** Small uppercase eyebrow with a little paper plane, e.g. "WHO WE ARE". */
 function SectionLabel({ children, tone = "dark", className }: SectionLabelProps) {
   return (
     <p
@@ -19,7 +19,7 @@ function SectionLabel({ children, tone = "dark", className }: SectionLabelProps)
         className
       )}
     >
-      <Image src={paperFoldAccent} alt="" width={27} height={27} unoptimized className="shrink-0" />
+      <Image src={paperPlaneAccent} alt="" width={27} height={27} unoptimized className="shrink-0" />
       {children}
     </p>
   );
