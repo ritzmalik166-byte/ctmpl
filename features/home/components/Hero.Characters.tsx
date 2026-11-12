@@ -51,15 +51,9 @@ export function ReadingWoman({ style }: { style: Placement }) {
     <div ref={ref} className="absolute aspect-[213/523]" style={style}>
       <div data-part="figure" className="absolute inset-0 origin-[49.8%_99.4%]">
         <Layer src={womanBody} sizes={WOMAN_SIZES} />
-        {/* book + hands move together; a page turns between the two */}
+        {/* book + hands move together */}
         <div data-part="book" className="absolute inset-0 origin-[48.83%_36.33%]">
           <Layer src={womanBook} sizes={WOMAN_SIZES} />
-          <div className="absolute perspective-[90px]" style={{ left: "49.3%", top: "31.6%", width: "16.4%", height: "9%" }}>
-            <span
-              data-part="page"
-              className="absolute inset-0 origin-left bg-[repeating-linear-gradient(to_bottom,#f4e7cf_0_18%,#a99c86_18%_21%)] opacity-0 [clip-path:polygon(0_17%,100%_2%,100%_86%,0_100%)]"
-            />
-          </div>
           <Layer src={womanHands} sizes={WOMAN_SIZES} />
         </div>
         <div data-part="head" className="absolute inset-0 origin-[47.89%_17.21%]">

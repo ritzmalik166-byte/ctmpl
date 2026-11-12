@@ -90,6 +90,11 @@
   margin-inline: auto;
 }
 
+/* Welcome gateway: already seen this session (see GatewaySessionScript): never drawn */
+html[data-gateway="done"] .gateway-failsafe {
+  display: none;
+}
+
 /* Welcome gateway: if its script never takes over, fade it out on its own */
 @keyframes gateway-failsafe {
   to {
@@ -185,4 +190,30 @@ html {
 html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
+}
+
+/* Hero headline: the writing caret blinks */
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Who we are: the board's line about the hovered stat wipes in like fresh marker */
+@keyframes board-story-in {
+  from {
+    opacity: 0;
+    clip-path: inset(-20% 100% -20% 0);
+    transform: translateY(0.15em);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(-20% -2% -20% 0);
+    transform: none;
+  }
 }

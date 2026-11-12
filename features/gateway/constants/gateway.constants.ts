@@ -51,3 +51,10 @@ export const GATEWAY_FLOOR_ATTR = "data-gateway-floor";
 
 /** Fired on window when the gateway has finished (or was skipped). */
 export { INTRO_COMPLETE_EVENT as GATEWAY_COMPLETE_EVENT } from "@/lib/constants/events";
+
+/**
+ * Once the welcome gateway has played (or been skipped), this key is saved in
+ * sessionStorage: it then doesn't show again for the rest of the browser
+ * session, however often the page is reloaded (see GatewaySessionScript).
+ */
+export const GATEWAY_SEEN_KEY = "ctm:gateway-seen";

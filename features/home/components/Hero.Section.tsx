@@ -1,10 +1,11 @@
 import Image from "next/image";
 import Container from "@/components/ui/Container";
 import ButtonLink from "@/components/ui/ButtonLink";
-import { heroActions, heroScene } from "../constants/hero.constants";
+import { heroActions, heroHeadline, heroScene } from "../constants/hero.constants";
 import officeBackground from "@/public/images/website/home/hero/office-background.png";
 import HeroClock from "./Hero.Clock";
 import { ReadingWoman, WelcomingMan } from "./Hero.Characters";
+import { HeroRotatingLine } from "./Hero.RotatingLine";
 
 /**
  * "Come in." The reception of the CTM office.
@@ -29,20 +30,10 @@ function HeroSection() {
         <div className="lg:-translate-x-[max(0px,calc(9.097vw-131.5px))]">
           <h1 className="text-ink capitalize lg:w-[36.25vw] lg:max-w-[522px]">
             <span className="block h-[1.0575em] text-hero-xl leading-[1.382] font-semibold lg:text-hero-xl-scene">
-              Come in.
+              {heroHeadline.lead}
             </span>
-            <span className="block text-[0px] leading-[0]">
-              <span className="text-hero-lg leading-[1.382] font-semibold lg:text-hero-lg-scene">
-                {"The "}
-              </span>
-              {/* Tighter leading on the large word keeps the line box at Figma's height */}
-              <span className="text-hero-xl leading-[1.3] font-semibold text-brand-red lg:text-hero-xl-scene">
-                ideas
-              </span>
-              <span className="text-hero-lg leading-[1.382] font-semibold lg:text-hero-lg-scene">
-                {" are already at work."}
-              </span>
-            </span>
+            {/* the line after it changes every few seconds, written out (see HeroRotatingLine) */}
+            <HeroRotatingLine />
           </h1>
 
           {/* Phones: full-width stacked buttons. From 400px: inline, as in Figma */}

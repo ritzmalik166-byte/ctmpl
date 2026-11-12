@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils/cn";
 import { useCrumpleHover } from "@/lib/animations/crumpleHover";
+import { CrumpleLayers } from "./CrumpleLayers";
 
 const base =
   "relative inline-flex shrink-0 items-center justify-center whitespace-nowrap rounded-full capitalize transition-[scale] duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-royal-blue";
@@ -19,10 +20,17 @@ type Variant = {
  * attribute at the moment the paper is most crushed, so colours change mid-crumple.
  */
 const variants = {
-  /** Blue pill: header "Start a project" */
+  /** Blue pill: header "Start a project" → paper cream with blue text */
   primary: {
     className:
-      "bg-royal-blue px-10 py-2.5 font-inter text-sm leading-[19.5px] font-bold tracking-[-0.325px] text-white shadow-lg transition-[scale,filter] hover:brightness-110",
+      "bg-royal-blue px-10 py-2.5 font-inter text-sm leading-[19.5px] font-bold tracking-[-0.325px] text-white shadow-lg data-flipped:bg-paper-cream data-flipped:text-royal-blue",
+    crumple: ["var(--color-royal-blue)", "var(--color-paper-cream)", "#ffffff"],
+  },
+  /** Plain icon + label: header "WhatsApp" → a white pill */
+  whatsapp: {
+    className:
+      "gap-2 px-3 py-2 font-inter text-sm leading-[19.5px] font-semibold text-ink-strong data-flipped:bg-white data-flipped:shadow-[0_3px_10px_rgba(60,40,20,0.14)]",
+    crumple: ["#ffffff", "#25d366", "var(--color-paper-cream)"],
   },
   /** Soft paper pill: hero "Take the office tour" → clay with white text */
   soft: {
@@ -58,23 +66,7 @@ function ButtonLink({ variant = "primary", className, children, ...props }: Butt
 
   return (
     <Link ref={ref} className={cn(base, style.className, className)} {...props}>
-      {hasCrumple && (
-        <>
-          {/* Edge-buckling filter, applied only while the crumple plays */}
-          <svg aria-hidden="true" className="absolute size-0">
-            <filter id={filterId} x="-10%" y="-50%" width="120%" height="200%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="2" seed="7" />
-              <feDisplacementMap in="SourceGraphic" scale="0" xChannelSelector="R" yChannelSelector="G" />
-            </filter>
-          </svg>
-          {/* Crease facets: invisible at rest, flash on crumple, faint while hovered */}
-          <span
-            data-crumple-creases
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[url(/textures/paper-crumple.svg)] bg-size-[100%_100%] opacity-0 mix-blend-soft-light"
-          />
-        </>
-      )}
+      {hasCrumple && <CrumpleLayers filterId={filterId} />}
       <span className="relative">{children}</span>
     </Link>
   );

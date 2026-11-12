@@ -3,7 +3,7 @@
 import { useEffect, type RefObject } from "react";
 import gsap from "gsap";
 import ctmLogo from "@/public/images/website/brand/ctm-logo.png";
-import { GATEWAY_COMPLETE_EVENT, GATEWAY_FLOOR_ATTR, gatewayTiming as T } from "../constants/gateway.constants";
+import { GATEWAY_COMPLETE_EVENT, GATEWAY_FLOOR_ATTR, GATEWAY_SEEN_KEY, gatewayTiming as T } from "../constants/gateway.constants";
 import type { PaperScene, PaperState } from "../scene/createPaperScene";
 
 type GatewayRefs = {
@@ -81,11 +81,23 @@ export function useGatewayAnimation({ rootRef, backdropRef, canvasRef, onComplet
       // but stays mounted, so this effect's cleanup does not run.
       unlockScroll();
       html.dataset.gateway = "done";
+      try {
+        sessionStorage.setItem(GATEWAY_SEEN_KEY, "1"); // not again this session
+      } catch {
+        // storage blocked: it just shows again next time
+      }
       window.dispatchEvent(new Event(GATEWAY_COMPLETE_EVENT));
       onComplete();
     };
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // already seen this session (or reduced motion): straight through
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(GATEWAY_SEEN_KEY) !== null;
+    } catch {
+      // storage blocked: treat as not seen
+    }
+    if (seen || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       finish();
       return;
     }

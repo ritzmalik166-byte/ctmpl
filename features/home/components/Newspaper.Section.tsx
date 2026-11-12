@@ -11,6 +11,7 @@ import { FrontPage } from "./Newspaper.FrontPage";
 import { CompactPage } from "./Newspaper.CompactPage";
 import { CompactDeskItems, DeskItems } from "./Newspaper.DeskItems";
 import { NewspaperStage } from "./Newspaper.Stage";
+import { useScrollReveal } from "@/lib/animations/scrollReveal";
 import paperWall from "@/public/images/website/home/who-we-are/paper-wall.jpg";
 
 /** The desktop page is printed at the sheet's -3° turn; inside the turned fold, undo it. */
@@ -26,8 +27,10 @@ function UprightFrontPage() {
 function Heading({ className }: { className?: string }) {
   return (
     <div className={cn("flex flex-col items-center gap-4", className)}>
-      <SectionLabel>{newspaperCopy.label}</SectionLabel>
-      <h2 className="text-center leading-tight font-bold text-ink-soft capitalize xl:text-5xl xl:leading-[normal]">{newspaperCopy.heading}</h2>
+      <div data-sr="label">
+        <SectionLabel>{newspaperCopy.label}</SectionLabel>
+      </div>
+      <h2 data-sr="words" className="text-center leading-tight font-bold text-ink-soft capitalize xl:text-5xl xl:leading-[normal]">{newspaperCopy.heading}</h2>
     </div>
   );
 }
@@ -44,8 +47,9 @@ function Heading({ className }: { className?: string }) {
 function NewspaperSection() {
   const desktopRef = useNewspaperUnfold();
   const compactRef = useNewspaperUnfold();
+  const revealRef = useScrollReveal();
   return (
-    <section id="fresh-from-our-minds" className="relative isolate overflow-hidden">
+    <section ref={revealRef} id="fresh-from-our-minds" className="relative isolate overflow-hidden">
       {/* paper desk, washed warm */}
       <Image src={paperWall} alt="" fill sizes="100vw" className="-z-10 object-cover" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(201,176,142,0.4)]" />

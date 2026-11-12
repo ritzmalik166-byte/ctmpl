@@ -1,7 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import SectionLabel from "@/components/website/shared/SectionLabel";
 import { companyWeKeepCopy } from "../constants/companyWeKeep.constants";
 import { PassBoard } from "./CompanyWeKeep.PassBoard";
+import { useCompanyWeKeepReveal } from "../animations/CompanyWeKeep.Reveal";
 import paperWall from "@/public/images/website/home/who-we-are/paper-wall.jpg";
 import paperAirplane from "@/public/images/website/home/who-we-are/paper-airplane.png";
 
@@ -16,23 +19,26 @@ import paperAirplane from "@/public/images/website/home/who-we-are/paper-airplan
  *    and drag), the passes at full size.
  */
 function CompanyWeKeepSection() {
+  const ref = useCompanyWeKeepReveal();
   return (
     // -mt-[3px]: in Figma this section starts 3px into the filing room's paper wall
-    <section id="company-we-keep" className="relative isolate -mt-[3px] overflow-hidden pt-12 pb-10 md:pt-16 md:pb-14 xl:h-[1298px] xl:pt-[37px] xl:pb-0">
+    <section ref={ref} id="company-we-keep" className="relative isolate -mt-[3px] overflow-hidden pt-12 pb-10 md:pt-16 md:pb-14 xl:h-[1298px] xl:pt-[37px] xl:pb-0">
       {/* plain paper wall */}
       <Image src={paperWall} alt="" fill sizes="100vw" className="-z-10 object-cover object-[50%_85%]" />
 
       {/* heading + intro (side by side on desktop, as in Figma) */}
       <div className="site-container flex flex-col gap-5 xl:h-[220px] xl:flex-row xl:items-center xl:gap-[49px]">
         <div className="flex flex-col gap-4 xl:w-[613px] xl:shrink-0">
-          <SectionLabel className="font-bold!">{companyWeKeepCopy.label}</SectionLabel>
-          <h2 className="text-[clamp(2rem,1.45rem+2.35vw,3rem)] leading-tight font-bold text-ink-soft xl:leading-[normal]">{companyWeKeepCopy.heading}</h2>
+          <div data-cwk="label">
+            <SectionLabel className="font-bold!">{companyWeKeepCopy.label}</SectionLabel>
+          </div>
+          <h2 data-cwk="heading" className="text-[clamp(2rem,1.45rem+2.35vw,3rem)] leading-tight font-bold text-ink-soft xl:leading-[normal]">{companyWeKeepCopy.heading}</h2>
         </div>
-        <p className="max-w-[575px] font-inter text-lg leading-8 tracking-[-0.3px] text-stone md:text-xl md:leading-9 xl:w-[575px] xl:shrink-0 xl:pt-[100px] xl:text-2xl xl:leading-10">
+        <p data-cwk="intro" className="max-w-[575px] font-inter text-lg leading-8 tracking-[-0.3px] text-stone md:text-xl md:leading-9 xl:w-[575px] xl:shrink-0 xl:pt-[100px] xl:text-2xl xl:leading-10">
           {companyWeKeepCopy.intro}
         </p>
         {/* the paper airplane (on desktop it sits under the heading, beside the board) */}
-        <Image src={paperAirplane} alt="" width={154} height={90} className="pointer-events-none -my-1 w-[110px] sm:w-[130px] xl:hidden" />
+        <Image data-cwk="plane" src={paperAirplane} alt="" width={154} height={90} className="pointer-events-none -my-1 w-[110px] sm:w-[130px] xl:hidden" />
       </div>
 
       {/* the two rails of visitor passes */}

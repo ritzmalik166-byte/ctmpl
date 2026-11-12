@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { footerContent } from "@/config/footer";
 import { siteConfig } from "@/config/site";
 import { FooterSkyline } from "./FooterSkyline";
+import { useScrollReveal } from "@/lib/animations/scrollReveal";
 import ctmLogoLight from "@/public/images/website/brand/ctm-logo-light.png";
 
 /**
@@ -12,11 +15,14 @@ import ctmLogoLight from "@/public/images/website/brand/ctm-logo-light.png";
  * logo, a line about the studio and social links on the left; Company,
  * Services and Read-and-listen links on the right; the legal line below.
  * Desktop as in Figma (88px sides); on smaller screens the columns stack.
+ * Its columns rise in as it scrolls into view (see useScrollReveal).
  */
 function Footer() {
   const { about, social, columns, copyright, privacy } = footerContent;
+  const ref = useScrollReveal();
   return (
-    <footer>
+    // overflow-hidden: while its rows rise in they sit a little low; never let that hang below the page
+    <footer ref={ref} className="overflow-hidden">
       {/* the office, night turning to day and back: always its full picture (height grows with
           the width, 507 at 1440), except on narrow screens where it keeps 240px and trims the sides */}
       <FooterSkyline />
@@ -25,7 +31,7 @@ function Footer() {
         <div className="mx-auto max-w-[1440px] px-5 sm:px-8 xl:px-[88px]">
           <div className="flex flex-col gap-12 py-12 lg:flex-row lg:items-center lg:justify-between xl:py-14">
             {/* the studio */}
-            <div className="flex max-w-[316px] flex-col items-start gap-6 lg:w-[316px] lg:shrink-0">
+            <div data-sr="rise" className="flex max-w-[316px] flex-col items-start gap-6 lg:w-[316px] lg:shrink-0">
               <Link href="/" aria-label={siteConfig.name}>
                 <Image src={ctmLogoLight} alt={siteConfig.name} sizes="170px" className="h-auto w-[170px]" />
               </Link>
@@ -46,7 +52,7 @@ function Footer() {
             </div>
 
             {/* links */}
-            <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 xl:flex xl:justify-end xl:gap-[43px]">
+            <nav data-sr="stagger" aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-10 sm:grid-cols-3 xl:flex xl:justify-end xl:gap-[43px]">
               {columns.map(({ heading, links }) => (
                 <div key={heading} className="flex flex-col items-start gap-4 xl:w-[240px]">
                   <h2 className="font-inter text-base leading-[normal] font-semibold whitespace-nowrap text-[#f8c316] uppercase">{heading}</h2>
@@ -65,7 +71,7 @@ function Footer() {
           </div>
 
           {/* legal */}
-          <div className="flex flex-col gap-3 border-t border-[#3d3f4e] pt-6 pb-[39px] font-inter text-[13px] leading-[18px] text-[#cbcde0] sm:flex-row sm:items-center sm:justify-between">
+          <div data-sr="rise" className="flex flex-col gap-3 border-t border-[#3d3f4e] pt-6 pb-[39px] font-inter text-[13px] leading-[18px] text-[#cbcde0] sm:flex-row sm:items-center sm:justify-between">
             <p>{copyright}</p>
             <Link href="#" className="underline transition-colors hover:text-white">
               {privacy}

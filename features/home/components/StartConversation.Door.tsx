@@ -19,7 +19,7 @@ import doorLeaf from "@/public/images/website/home/start-conversation/door-leaf.
  */
 export function MeetingRoomDoor({ children }: { children?: ReactNode }) {
   return (
-    <div className="absolute top-[9.5px] left-0 z-10 hidden h-[674px] w-[495px] origin-top-left scale-65 lg:block xl:top-[390px] xl:left-[161px] xl:scale-100">
+    <div data-sr="slide-left" className="absolute top-[9.5px] left-0 z-10 hidden h-[674px] w-[495px] origin-top-left scale-65 lg:block xl:top-[390px] xl:left-[161px] xl:scale-100">
       {/* the room beyond: dark, a little warm light from inside */}
       <div
         aria-hidden="true"

@@ -43,7 +43,13 @@ export default function SmoothScroll() {
       ScrollTrigger.refresh();
     });
 
+    // once every image has loaded, the page's final size is known: re-measure the scroll animations' positions
+    const onLoad = () => ScrollTrigger.refresh();
+    if (document.readyState === "complete") onLoad();
+    else window.addEventListener("load", onLoad, { once: true });
+
     return () => {
+      window.removeEventListener("load", onLoad);
       stopWaiting();
       gsap.ticker.remove(tick);
       lenis.destroy();

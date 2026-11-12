@@ -29,7 +29,7 @@ type PuppetProps = { className?: string; style?: CSSProperties; sizes: string };
 export function PresentingMeera({ activeStat, className, style, sizes }: PuppetProps & { activeStat?: number }) {
   const ref = usePresentingMeera(activeStat);
   return (
-    <div ref={ref} className={cn("absolute aspect-[830/1100]", className)} style={style}>
+    <div ref={ref} data-reveal="character" className={cn("absolute aspect-[830/1100]", className)} style={style}>
       <Joint part="figure" pivot="62.65% 99.1%">
         {/* pointing arm, pinned at the shoulder, behind the jacket */}
         <Joint part="arm-aim" pivot="53.61% 19.55%">
@@ -52,7 +52,7 @@ export function PresentingMeera({ activeStat, className, style, sizes }: PuppetP
 export function CheeringMan({ className, style, sizes }: PuppetProps) {
   const ref = useCheeringMan();
   return (
-    <div ref={ref} className={cn("absolute aspect-[457/1292]", className)} style={style}>
+    <div ref={ref} data-reveal="character" className={cn("absolute aspect-[457/1292]", className)} style={style}>
       <Joint part="figure" pivot="49.23% 99.46%">
         {/* legs and arms sit behind the jacket, pinned at hips and shoulders */}
         <Joint part="legs" pivot="49.23% 61.92%">

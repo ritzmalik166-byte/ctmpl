@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { navigationCopy } from "@/config/navigation";
 import { PaperLoader } from "@/components/ui/PaperLoader";
+import { CrumpleButton } from "@/components/ui/CrumpleButton";
 
 /** How long sending takes (s; stands in for the real request for now). */
 const SENDING_SECONDS = 1.6;
@@ -53,10 +54,12 @@ export function MenuContactForm() {
           <span className={label}>{navigationCopy.messageLabel}</span>
           <textarea name="message" rows={3} placeholder={navigationCopy.messagePlaceholder} className={`${field} resize-none`} />
         </label>
-        <button
+        {/* paper crumple on hover, like the site's other buttons: red → paper cream */}
+        <CrumpleButton
           type="submit"
           aria-busy={status === "sending"}
-          className="mt-1 flex h-12 w-full cursor-pointer items-center justify-center gap-3 rounded-md bg-[#e05a47] font-inter text-base font-bold tracking-[-0.3px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_rgba(131,80,49,0.12)] transition-[filter,scale] hover:brightness-105 active:scale-[0.99] disabled:cursor-wait disabled:brightness-95"
+          chunkColors={["#e05a47", "var(--color-paper-cream)", "#b8462f"]}
+          className="mt-1 h-12 w-full cursor-pointer rounded-md bg-[#e05a47] font-inter text-base font-bold tracking-[-0.3px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_rgba(131,80,49,0.12)] transition-[scale] active:scale-[0.99] disabled:cursor-wait data-flipped:bg-paper-cream data-flipped:text-[#e05a47] data-flipped:shadow-[inset_0_0_0_1.5px_#e05a47]"
         >
           {status === "sending" ? (
             <>
@@ -66,7 +69,7 @@ export function MenuContactForm() {
           ) : (
             navigationCopy.send
           )}
-        </button>
+        </CrumpleButton>
       </fieldset>
     </form>
   );

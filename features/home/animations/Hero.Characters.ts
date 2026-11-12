@@ -37,23 +37,18 @@ export function useWelcomingMan() {
 }
 
 /**
- * Woman: reads a line from her book (head dips, a page turns), then looks up
+ * Woman: reads a line from her book (head dips into it), then looks up
  * and tells you about it, the book moving gently in her hands.
  */
 export function useReadingWoman() {
   return usePuppet((q) => {
-    const [head, book, page, figure, mouth] = [q("head"), q("book"), q("page"), q("figure"), q("mouth")];
+    const [head, book, figure, mouth] = [q("head"), q("book"), q("figure"), q("mouth")];
 
     const story = gsap
       .timeline({ repeat: -1, repeatDelay: 0.6, delay: 0.8 })
       // read: lean into the book
       .to(head, { rotation: 2, yPercent: 0.3, duration: 0.7, ease: "power2.inOut" }, 0)
       .to(book, { rotation: 0.8, yPercent: -0.25, duration: 0.7, ease: "power2.inOut" }, 0)
-      // turn the page: it lifts off the right side and lands on the left
-      .set(page, { rotationY: 0, opacity: 0 }, 1.1)
-      .to(page, { opacity: 1, duration: 0.12 }, 1.1)
-      .to(page, { rotationY: -180, duration: 0.85, ease: "power2.inOut" }, 1.1)
-      .to(page, { opacity: 0, duration: 0.15 }, 1.85)
       // look up and tell us about it
       .to(head, { rotation: -2, yPercent: 0, duration: 0.6, ease: "power2.inOut" }, 2.3)
       .to(book, { rotation: -0.5, yPercent: 0.2, duration: 0.6, ease: "power2.inOut" }, 2.3);

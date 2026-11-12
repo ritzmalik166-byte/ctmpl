@@ -5,6 +5,7 @@ import { useState, type CSSProperties } from "react";
 import { cn } from "@/lib/utils/cn";
 import { boardLayout, boardMagnets, boardStats, whoWeAreCopy } from "../constants/whoWeAre.constants";
 import { useMarkerCircles } from "../animations/WhoWeAre.Markers";
+import { useWhiteboardReveal } from "../animations/WhoWeAre.Reveal";
 import { CheeringMan, PresentingMeera } from "./WhoWeAre.Characters";
 import whiteboardRoom from "@/public/images/website/home/who-we-are/whiteboard-room.png";
 import whiteboardBoard from "@/public/images/website/home/who-we-are/whiteboard-board.png";
@@ -29,7 +30,7 @@ function Magnets({ active, onActivate, className, style }: ActiveStat & { classN
       {boardMagnets.map((magnet, i) => {
         const lit = active === i;
         return (
-          <li key={magnet.label} className="relative h-[3.353em] w-[3.294em]">
+          <li key={magnet.label} data-reveal="magnet" className="relative h-[3.353em] w-[3.294em]">
             <button
               type="button"
               aria-pressed={lit}
@@ -69,7 +70,7 @@ function Magnets({ active, onActivate, className, style }: ActiveStat & { classN
 
 function BoardTitle({ className, style }: { className?: string; style?: CSSProperties }) {
   return (
-    <p className={cn("leading-[1.1] font-bold whitespace-nowrap", className)} style={style}>
+    <p data-reveal="write" className={cn("leading-[1.1] font-bold whitespace-nowrap", className)} style={style}>
       <span className="text-marker-navy">{whoWeAreCopy.boardTitle.lead}</span>
       <span className="text-marker-red">{whoWeAreCopy.boardTitle.accent}</span>
     </p>
@@ -147,10 +148,25 @@ function Stat({ stat, index, active, onActivate, className, style }: StatProps) 
       style={style}
     >
       <MarkerCircle index={index} />
-      <span className="relative top-[-0.125em] block leading-[1.05]">{stat.value}</span>
+      <span data-reveal="stat" className="relative top-[-0.125em] block leading-[1.05]">{stat.value}</span>
       {/* caption: 26px, 66px below the stat's top (2.538 of its own em) */}
-      <span className="absolute top-[2.538em] left-0 text-[0.406em] leading-[1.1] text-marker-black">{stat.caption}</span>
+      <span data-reveal="caption" className="absolute top-[2.538em] left-0 text-[0.406em] leading-[1.1] text-marker-black">{stat.caption}</span>
     </button>
+  );
+}
+
+/**
+ * The line along the bottom of the board, about the stat being pointed at:
+ * it changes when another stat (or its magnet) is hovered or tapped, the new
+ * line wiping in like fresh marker. Announced politely to screen readers.
+ */
+function BoardStory({ active, className, style }: { active: number; className?: string; style?: CSSProperties }) {
+  return (
+    <p data-reveal="write" aria-live="polite" className={cn("font-bold text-marker-navy", className)} style={style}>
+      <span key={active} className="block animate-[board-story-in_0.6s_ease-out] motion-reduce:animate-none">
+        {whoWeAreCopy.stories[active]}
+      </span>
+    </p>
   );
 }
 
@@ -202,17 +218,16 @@ function BoardStats({ layout, active, onActivate }: ActiveStat & { layout: "boar
  */
 export function WhiteboardScene() {
   const activeStat = useActiveStat();
+  const reveal = useWhiteboardReveal();
   return (
-    <div className="relative hidden aspect-[1200/732] w-full md:block lg:aspect-[1440/732]">
+    <div ref={reveal} className="relative hidden aspect-[1200/732] w-full md:block lg:aspect-[1440/732]">
       <div className="@container absolute inset-y-0 left-[-8.333%] w-[120%] font-caveat lg:left-0 lg:w-full">
-        <Image src={whiteboardRoom} alt="" fill sizes="(min-width: 1024px) 100vw, 120vw" className="object-cover" />
+        <Image data-reveal="room" src={whiteboardRoom} alt="" fill sizes="(min-width: 1024px) 100vw, 120vw" className="object-cover" />
 
         <Magnets {...activeStat} className="absolute text-[1.181cqw]" style={boardLayout.magnets} />
         <BoardTitle className="absolute text-[2.639cqw]" style={boardLayout.title} />
         <BoardStats {...activeStat} layout="board" />
-        <p className="absolute text-[1.667cqw] leading-[1.2] font-bold whitespace-nowrap text-marker-navy" style={boardLayout.story}>
-          {whoWeAreCopy.story}
-        </p>
+        <BoardStory active={activeStat.active} className="absolute text-[1.667cqw] leading-[1.2] whitespace-nowrap" style={boardLayout.story} />
 
         {/* Meera points at the board; her colleague cheers beside her */}
         <PresentingMeera activeStat={activeStat.active} sizes="27vw" style={boardLayout.meera} />
@@ -235,9 +250,11 @@ const boardFrame: CSSProperties = {
 
 export function WhiteboardMobile() {
   const activeStat = useActiveStat();
+  const reveal = useWhiteboardReveal();
   return (
     // wallpaper tiles upward from the floor corner (both cut from the room art)
     <div
+      ref={reveal}
       className="relative bg-size-[100%_auto] bg-repeat-y md:hidden"
       style={{ backgroundImage: `url(${roomWallTile.src})` }}
     >
@@ -249,12 +266,12 @@ export function WhiteboardMobile() {
 
       {/* bottom padding leaves floor space for the two characters (% of width, like them) */}
       <div className="relative px-(--gutter) pt-10 pb-[56%]">
-        <div className="font-caveat" style={boardFrame}>
+        <div data-reveal="room" className="font-caveat" style={boardFrame}>
           <div className="flex flex-col px-4 pt-4 pb-6">
             <Magnets {...activeStat} className="self-end text-[13px]" />
             <BoardTitle className="mt-4 text-[28px]" />
             <BoardStats {...activeStat} layout="list" />
-            <p className="mt-10 text-[19px] leading-[1.25] font-bold text-marker-navy">{whoWeAreCopy.story}</p>
+            <BoardStory active={activeStat.active} className="mt-10 text-[19px] leading-[1.25]" />
           </div>
         </div>
       </div>

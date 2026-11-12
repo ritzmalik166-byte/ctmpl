@@ -41,9 +41,11 @@ export function SiteMenu() {
     const tl = gsap
       .timeline()
       .fromTo(q("backdrop"), { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power1.out" })
-      .fromTo(q("paper"), { y: -60, rotation: -2.5, scale: 0.96, autoAlpha: 0 }, { y: 0, rotation: -0.4, scale: 1, autoAlpha: 1, duration: 0.6, ease: "back.out(1.3)" }, 0.05)
+      .fromTo(q("paper"), { y: -60, rotation: -2.5, scale: 0.96, autoAlpha: 0 }, { y: 0, rotation: 0, scale: 1, autoAlpha: 1, duration: 0.6, ease: "back.out(1.3)" }, 0.05)
       .fromTo(q("part"), { y: 14, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.4, stagger: 0.07, ease: "power2.out" }, 0.3)
-      .add(focusClose, 0.35); // once the masthead (with Close) is showing
+      .add(focusClose, 0.35) // once the masthead (with Close) is showing
+      // settled: no transforms left on the paper, so its text stays sharp (focus, hover, typing)
+      .set([...q("paper"), ...q("part")], { clearProps: "transform" });
     return () => void tl.kill();
   }, [open]);
 

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils/cn";
 import { bookingFields, startConversationCopy } from "../constants/startConversation.constants";
 import { TORN_STUB } from "../animations/StartConversation.Booking";
 import { PaperLoader } from "@/components/ui/PaperLoader";
+import { CrumpleButton } from "@/components/ui/CrumpleButton";
 
 export type BookingStatus = "idle" | "sending" | "taking" | "booked";
 
@@ -72,6 +73,7 @@ export function BookingForm({
 
   return (
     <div
+      data-sr="drop"
       className={cn(
         "h-[532px] rounded-xl bg-[#c49b66] shadow-[0_16px_36px_-6px_rgba(45,35,25,0.18),0_4px_12px_-2px_rgba(45,35,25,0.08)] drop-shadow-[2px_5px_6px_rgba(50,40,30,0.15)]",
         className
@@ -99,10 +101,13 @@ export function BookingForm({
               ))}
 
               <div className="pt-4">
-                <button
+                {/* paper crumple on hover, like the site's other buttons (not while sending) */}
+                <CrumpleButton
                   type="submit"
                   aria-busy={status === "sending"}
-                  className="relative flex h-[60px] w-full cursor-pointer items-center justify-center gap-3 overflow-clip rounded-lg bg-[#e05a47] bg-[url(/images/website/home/start-conversation/folded-accent-wide.svg)] bg-size-[237px_69px] bg-position-[right_-0.33px_center] bg-no-repeat px-4 py-[18px] font-inter text-base leading-[normal] font-bold whitespace-nowrap sm:px-[29px] sm:text-xl tracking-[-0.4px] text-[#faf6ef] shadow-[0_3px_5px_0_rgba(131,80,49,0.09)] transition-[filter,scale] duration-150 hover:brightness-105 active:scale-[0.99] disabled:cursor-wait disabled:brightness-95 disabled:active:scale-100"
+                  crumple={!busy}
+                  chunkColors={["#e05a47", "var(--color-paper-cream)", "#ef6f5d"]}
+                  className="h-[60px] w-full cursor-pointer overflow-clip rounded-lg bg-[#e05a47] bg-[url(/images/website/home/start-conversation/folded-accent-wide.svg)] bg-size-[237px_69px] bg-position-[right_-0.33px_center] bg-no-repeat px-4 py-[18px] font-inter text-base leading-[normal] font-bold tracking-[-0.4px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_0_rgba(131,80,49,0.09)] transition-[scale] duration-150 active:scale-[0.99] disabled:cursor-wait disabled:brightness-95 disabled:active:scale-100 data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#e05a47] data-flipped:shadow-[inset_0_0_0_1.5px_#e05a47] sm:px-[29px] sm:text-xl"
                 >
                   {status === "sending" ? (
                     <>
@@ -112,7 +117,7 @@ export function BookingForm({
                   ) : (
                     startConversationCopy.submit
                   )}
-                </button>
+                </CrumpleButton>
               </div>
             </fieldset>
           </form>

@@ -87,7 +87,8 @@ export function useCrumpleHover<T extends HTMLElement>({ enabled = true, chunkCo
         bursts.forEach((burst) => burst.remove());
       };
     },
-    { scope: ref, dependencies: [enabled, filterId, chunkColors] }
+    // revertOnUpdate: switching the effect off (or changing it) removes the old hover listeners first
+    { scope: ref, dependencies: [enabled, filterId, chunkColors], revertOnUpdate: true }
   );
 
   return { ref, filterId };

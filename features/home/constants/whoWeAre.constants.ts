@@ -9,12 +9,22 @@ import magnetShadowClients from "@/public/images/website/home/who-we-are/magnet-
 
 export const whoWeAreCopy = {
   label: "Who we are",
-  // Title Case written out (not CSS `capitalize`): the writing animation splits it into letters
+  // Title Case written out (not CSS `capitalize`): the reveal animation splits it into words
   heading: "Every Monday Starts At The Whiteboard.",
   intro:
     "We plan and make work for brands in print, radio, film, events and digital. Tap a magnet and Meera will walk you through the numbers.",
   boardTitle: { lead: "CTM, ", accent: "by the numbers" },
-  story: "Started in Noida with print and radio. Eighteen years on, still the same curiosity.",
+  /**
+   * The line written along the bottom of the board, one per stat (same order
+   * as `boardStats`): it changes to match the stat being pointed at.
+   * Placeholders for now, apart from the first.
+   */
+  stories: [
+    "Started in Noida with print and radio. Eighteen years on, still the same curiosity.",
+    "From product launches to stage shows, every event planned down to the last cue.",
+    "Campaigns, films and identities: every project made by hand, under one roof.",
+    "Brands that came for one ad and stayed for years. We still know them by name.",
+  ],
 } as const;
 
 /**

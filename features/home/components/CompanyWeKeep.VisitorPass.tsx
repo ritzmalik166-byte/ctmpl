@@ -44,6 +44,7 @@ export function HangingPass({
     // the slot stays put (it is where hover is felt); the pass inside swings from the top of its lanyard
     <div
       data-pass-slot
+      data-cwk="pass"
       className="absolute top-[28px] w-[208px] cursor-grab"
       style={{ left, height: top + 188 }}
     >
@@ -99,6 +100,7 @@ export function HangingPass({
 export function RailBar({ className }: { className?: string }) {
   return (
     <div
+      data-cwk="bar"
       aria-hidden="true"
       className={cn(
         "pointer-events-none absolute top-0 h-[33px] overflow-clip rounded-[4px] bg-[#a17b57] shadow-[0_9px_10px_0_rgba(59,48,46,0.25)]",

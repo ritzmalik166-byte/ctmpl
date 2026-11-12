@@ -30,16 +30,19 @@ function Navbar() {
 
         <div className="flex items-center gap-3 sm:gap-6 lg:gap-[46px]">
           <nav aria-label="Quick actions" className="flex items-center gap-4">
-            <a
+            {/* paper crumple on hover, turning into a white pill */}
+            <ButtonLink
               href={siteConfig.contact.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Chat with us on WhatsApp"
-              className="flex shrink-0 items-center gap-2 font-inter text-sm leading-[19.5px] font-semibold text-ink-strong capitalize transition-opacity hover:opacity-75"
+              variant="whatsapp"
             >
-              <Image src={whatsappIcon} alt="" width={24} height={24} unoptimized />
-              <span className="hidden md:inline">WhatsApp</span>
-            </a>
+              <span className="flex items-center gap-2">
+                <Image src={whatsappIcon} alt="" width={24} height={24} unoptimized />
+                <span className="hidden md:inline">WhatsApp</span>
+              </span>
+            </ButtonLink>
 
             <div className="hidden sm:block">
               <ButtonLink href="#contact" variant="primary">

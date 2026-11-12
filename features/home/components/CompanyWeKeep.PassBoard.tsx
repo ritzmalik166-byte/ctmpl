@@ -21,10 +21,10 @@ export function PassBoard() {
   return (
     <div ref={ref} className="relative mx-auto mt-8 w-full md:mt-10 xl:mt-[177px] xl:w-[1440px]">
       {/* a paper airplane, landed under the heading (desktop; y 278 of the section) */}
-      <Image src={paperAirplane} alt="" width={154} height={90} className="pointer-events-none absolute top-[-156px] left-[58px] hidden xl:block" />
+      <Image data-cwk="plane" src={paperAirplane} alt="" width={154} height={90} className="pointer-events-none absolute top-[-156px] left-[58px] hidden xl:block" />
 
       {lanyardRails.map(({ left }, i) => (
-        <div key={left} className={cn("relative", i ? "mt-2 xl:mt-[35px]" : undefined)}>
+        <div key={left} data-cwk="rail" className={cn("relative", i ? "mt-2 xl:mt-[35px]" : undefined)}>
           {/* smaller screens: the wooden bar stays still behind the slider, 110% wide so its ends
               never show; only the passes slide (on desktop the bar is part of the rail) */}
           <RailBar className="left-[-5%] w-[110%] xl:hidden" />

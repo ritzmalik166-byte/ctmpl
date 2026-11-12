@@ -10,6 +10,19 @@ export const heroActions: ReadonlyArray<{
 ];
 
 /**
+ * The headline: "Come in." stays; the line after it changes every few seconds
+ * (written out, see HeroRotatingLine). Each line: a lead-in, the big red word, the rest.
+ */
+export const heroHeadline = {
+  lead: "Come in.",
+  lines: [
+    { before: "The ", word: "ideas", after: " are already at work." },
+    { before: "The ", word: "stories", after: " are already on paper." },
+    { before: "The ", word: "magic", after: " is already in the making." },
+  ],
+} as const;
+
+/**
  * Positions of the scene layers, as % of the 1440×809 Figma frame.
  * Keeping them as percentages lets the whole scene scale as one picture.
  */

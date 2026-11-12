@@ -22,8 +22,9 @@ const today = () => new Date().toLocaleDateString("en-IN", { weekday: "long", da
 
 /**
  * Desktop: fit the whole page on screen. If its contents are taller than the
- * paper (short laptop screens), they're scaled down to fit, and widened as
- * they shrink so they still fill the paper's width. Elsewhere: left as is.
+ * paper (short laptop screens), they're zoomed down to fit (CSS zoom, so the
+ * text is laid out at the smaller size and stays sharp; the columns keep the
+ * paper's width). Elsewhere: left as is.
  */
 function useFitToPaper() {
   const paper = useRef<HTMLDivElement>(null);
@@ -33,23 +34,20 @@ function useFitToPaper() {
     const inner = content.current;
     if (!box || !inner) return;
     const fit = () => {
-      inner.style.transform = "";
-      inner.style.width = "";
+      inner.style.zoom = "";
       if (!window.matchMedia(DESKTOP).matches) return;
       const style = getComputedStyle(box);
-      const room = box.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-      const room98 = room * 0.98; // a little breathing room at the bottom
-      let scale = Math.min(1, room98 / inner.offsetHeight);
-      if (scale < 1) {
-        // widen as it shrinks and measure again (columns reflow), until it settles
-        for (let i = 0; i < 6; i++) {
-          inner.style.width = `${100 / scale}%`;
-          const next = Math.min(scale, room98 / inner.offsetHeight); // only ever shrinks, so it always ends up fitting
-          if (Math.abs(next - scale) < 0.002) break;
-          scale = next;
-        }
-        inner.style.width = `${100 / scale}%`;
-        inner.style.transform = `scale(${scale})`;
+      const room = (box.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom)) * 0.98; // a little breathing room
+      const height = () => inner.getBoundingClientRect().height; // as drawn, zoom included
+      if (height() <= room) return;
+      // zoomed out, the columns get relatively wider and wrap into fewer lines,
+      // so zoom and measure again until it settles (only ever shrinking, so it always fits)
+      let zoom = room / height();
+      for (let i = 0; i < 6; i++) {
+        inner.style.zoom = String(zoom);
+        const drawn = height();
+        if (drawn <= room) break;
+        zoom *= room / drawn;
       }
     };
     fit();

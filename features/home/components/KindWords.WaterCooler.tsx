@@ -37,7 +37,7 @@ export function WaterCooler() {
         <SpeechBubble ref={bubble} testimonial={testimonials[shown]} className="w-full max-w-[600px] md:ml-[12%] xl:top-[336px] xl:left-[462px] xl:z-10 xl:ml-0 xl:max-w-none" />
       </div>
 
-      <RoomStage>
+      <RoomStage sr="rise">
         <Image src={waterCoolerRoom} alt="" fill sizes="(min-width: 1280px) 1440px, 100vw" className="object-cover" />
         <Image src={noticeBoard} alt="" fill sizes="(min-width: 1280px) 1440px, 100vw" className="pointer-events-none object-cover" />
         <WaterBubbles />
@@ -45,7 +45,7 @@ export function WaterCooler() {
         <ArjunPuppet speechSignal={told} speechSeconds={TESTIMONIAL_SECONDS - 0.5} label={kindWordsCopy.askArjun} onClick={next} />
       </RoomStage>
 
-      <div className="max-xl:site-container mt-8 flex justify-center md:mt-12 xl:absolute xl:top-[1170px] xl:left-1/2 xl:mt-0 xl:-translate-x-1/2">
+      <div data-sr="rise" className="max-xl:site-container mt-8 flex justify-center md:mt-12 xl:absolute xl:top-[1170px] xl:left-1/2 xl:mt-0 xl:-translate-x-1/2">
         <ProjectControls clients={testimonialClients} active={selected} onSelect={(i) => i !== selected && goTo(i)} labels={kindWordsCopy} />
       </div>
     </div>

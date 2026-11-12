@@ -25,7 +25,7 @@ type FloorRowProps = { floor: Floor; current: boolean; pending: boolean; onSelec
 
 function FloorRow({ floor, current, pending, onSelect }: FloorRowProps) {
   return (
-    <li className="border-b border-dashed border-[rgba(116,96,68,0.33)] last:border-b-0">
+    <li data-wwm="floor" className="border-b border-dashed border-[rgba(116,96,68,0.33)] last:border-b-0">
       <button
         type="button"
         onClick={() => onSelect(floor.number)}
@@ -59,6 +59,7 @@ type DirectoryProps = {
 export function BuildingDirectory({ current, requested, onSelect }: DirectoryProps) {
   return (
     <nav
+      data-wwm="directory"
       aria-label={whatWeMakeCopy.directoryTitle}
       className="relative flex h-[478px] w-full flex-col gap-[11px] overflow-clip rounded-[5px] border-[1.5px] border-brass bg-linear-to-b from-[#2d2a2c] to-[#252325] px-3 pt-[18px] pb-[22px] sm:px-[21px]"
     >

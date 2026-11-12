@@ -23,7 +23,7 @@ function cropFor(width: number) {
  * (showing the part of it set by `cropFor`), and every animation stays as
  * designed. From xl up the room is drawn 1:1 at its Figma place (y 377).
  */
-export function RoomStage({ children }: { children: ReactNode }) {
+export function RoomStage({ children, sr }: { children: ReactNode; sr?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(375);
 
@@ -47,6 +47,7 @@ export function RoomStage({ children }: { children: ReactNode }) {
   return (
     <div
       ref={ref}
+      data-sr={sr}
       style={vars}
       className="relative h-(--room-h) w-full overflow-hidden xl:absolute xl:top-[377px] xl:left-0 xl:h-[731px] xl:w-[1440px] xl:overflow-visible"
     >

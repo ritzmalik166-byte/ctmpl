@@ -37,12 +37,12 @@ export function WhatWeMakeLobby() {
       <div className="flex w-full max-w-[498px] flex-col gap-5 md:min-w-0 md:flex-1 xl:w-[498px] xl:flex-none xl:gap-[21px]">
         <BuildingDirectory current={current} requested={requested} onSelect={select} />
         {/* phones: the card sits right under the lift, above the directory */}
-        <div className="max-md:order-first">
+        <div data-wwm="card" className="max-md:order-first">
           <SelectedService floor={current} />
         </div>
       </div>
       <FloorArtworkPreloader />
-      <div ref={liftRef} className="w-full max-w-[360px] shrink-0 max-md:order-first sm:max-w-[400px] md:w-[290px] lg:w-[400px] xl:w-[428px] xl:max-w-none">
+      <div ref={liftRef} data-wwm="lift" className="w-full max-w-[360px] shrink-0 max-md:order-first sm:max-w-[400px] md:w-[290px] lg:w-[400px] xl:w-[428px] xl:max-w-none">
         <Lift target={requested} initialFloor={INITIAL_FLOOR} sceneFloor={scene} onSceneChange={setScene} onArrive={setCurrent} />
       </div>
     </>

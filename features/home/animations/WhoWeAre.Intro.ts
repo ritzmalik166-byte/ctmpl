@@ -4,23 +4,22 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { SplitText } from "gsap/SplitText";
-import { MotionPathPlugin } from "gsap/MotionPathPlugin";
 import { afterIntro } from "@/lib/helpers/afterIntro";
+import { waveRevealWords } from "@/lib/animations/waveReveal";
 
-gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText, MotionPathPlugin);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/** Seconds per letter: the heading is written slowly, the intro a little faster. */
-const PACE = { heading: 0.045, intro: 0.016 };
+/** Where the header starts its entrance (all of it at once). */
+const START = "top 78%";
 
 /**
- * "Who we are" scroll intro:
- *  1. the label slides in
- *  2. heading and intro are written out letter by letter, an ink caret
- *     following the pen
- *  3. the paper airplane glides in on a curved path and lands in its place,
- *     then hovers gently
- * Plays once when the section scrolls into view (after the welcome gateway).
+ * "Who we are" scroll entrance, once, when the header scrolls into view (no
+ * scrub, no timeline: a few tweens on the same trigger, all starting together):
+ *  - the label, heading and intro rise up from below their lines, word after
+ *    word in a quick wave (each line masked, so words appear from under it);
+ *  - the paper airplane glides in from the bottom left into its spot, then
+ *    floats on the air.
+ * Waits for fonts (so lines split where they'll stay) and the welcome gateway.
  */
 export function useWhoWeAreIntro() {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,31 +31,22 @@ export function useWhoWeAreIntro() {
 
       const q = (name: string) => root.querySelector<HTMLElement>(`[data-anim="${name}"]`)!;
       const [label, heading, intro, plane] = [q("label"), q("heading"), q("intro"), q("plane")];
+      const trigger = { trigger: root, start: START, once: true };
 
-      // Hide before first paint (the section starts below the fold).
+      // hidden until it's seen (the section starts below the fold)
       gsap.set([label, heading, intro, plane], { autoAlpha: 0 });
 
       let stopWaiting = () => {};
       const build = contextSafe(() => {
-        // Split after fonts load so letter widths are final; words stay whole when wrapping.
-        const split = (el: HTMLElement) => SplitText.create(el, { type: "words,chars", aria: "auto" }).chars;
-        const headingChars = split(heading);
-        const introChars = split(intro);
-        gsap.set([heading, intro], { autoAlpha: 1 });
-        gsap.set([...headingChars, ...introChars], { autoAlpha: 0 });
+        gsap.fromTo(label, { autoAlpha: 0, yPercent: 60 }, { autoAlpha: 1, yPercent: 0, duration: 0.8, ease: "power3.out", scrollTrigger: trigger });
 
-        const timeline = gsap.timeline({
-          scrollTrigger: { trigger: root, start: "top 75%", once: true },
-          defaults: { ease: "power2.out" },
-        });
+        // words rise from under their line, in a wave
+        [heading, intro].forEach((block) => waveRevealWords(block, trigger));
 
-        timeline.fromTo(label, { autoAlpha: 0, x: -24 }, { autoAlpha: 1, x: 0, duration: 0.6 }, 0);
-        write(timeline, heading, headingChars, PACE.heading, 0.35);
-        write(timeline, intro, introChars, PACE.intro, 0.35 + headingChars.length * PACE.heading + 0.2);
-        flyIn(timeline, plane, 0.2);
+        flyIn(plane, trigger);
       });
 
-      // Fonts first, then wait for the gateway so it never plays behind it.
+      // fonts first, then wait for the gateway so it never plays behind it
       document.fonts.ready.then(() => {
         if (ref.current) stopWaiting = afterIntro(build);
       });
@@ -70,77 +60,17 @@ export function useWhoWeAreIntro() {
 }
 
 /**
- * Letters appear one after another, each settling into place like fresh ink,
- * while the caret jumps to the end of the letter just written.
+ * The paper airplane glides in from the bottom left, rising into its spot as
+ * it fades in, then floats gently on the air.
  */
-function write(timeline: gsap.core.Timeline, block: HTMLElement, chars: Element[], pace: number, at: number) {
-  const caret = block.querySelector<HTMLElement>('[data-anim="caret"]');
-  const blockBox = () => block.getBoundingClientRect();
-
-  const moveCaret = (char: Element) => {
-    if (!caret) return;
-    const box = char.getBoundingClientRect();
-    const origin = blockBox();
-    gsap.set(caret, { x: box.right - origin.left + 1, y: box.top - origin.top + box.height * 0.06 });
-  };
-
-  timeline
-    .set(caret, { autoAlpha: 1 }, at)
+function flyIn(plane: HTMLElement, scrollTrigger: ScrollTrigger.Vars) {
+  gsap.set(plane, { autoAlpha: 0 });
+  gsap
+    .timeline({ scrollTrigger, delay: 0.15 })
     .fromTo(
-      chars,
-      { autoAlpha: 0, yPercent: 35, rotation: -6 },
-      {
-        autoAlpha: 1,
-        yPercent: 0,
-        rotation: 0,
-        duration: 0.22,
-        stagger: {
-          each: pace,
-          onStart(this: gsap.core.Tween) {
-            moveCaret(this.targets()[0] as Element);
-          },
-        },
-      },
-      at
-    )
-    // caret blinks twice at the end of the line, then lifts away
-    .to(caret, { autoAlpha: 0, duration: 0.12, repeat: 3, yoyo: true, ease: "steps(1)" })
-    .to(caret, { autoAlpha: 0, duration: 0.2 });
-}
-
-/**
- * The airplane enters from the lower left, swoops up and round, then glides
- * up-and-right into its spot: the direction its nose already points, so it
- * arrives at exactly its resting angle. Then it bobs as if on air.
- */
-function flyIn(timeline: gsap.core.Timeline, plane: HTMLElement, at: number) {
-  const NOSE_ANGLE = -25; // the artwork's nose points up-right by ~25°
-
-  timeline
-    .set(plane, { autoAlpha: 1 }, at)
-    .from(
       plane,
-      {
-        duration: 2.2,
-        ease: "power1.inOut",
-        motionPath: {
-          path: [
-            { x: -520, y: 260 },
-            { x: -300, y: 40 },
-            { x: -120, y: -110 },
-            { x: 60, y: -40 },
-            { x: -40, y: 70 },
-            { x: 0, y: 0 },
-          ],
-          curviness: 1.4,
-          autoRotate: -NOSE_ANGLE,
-        },
-        scale: 0.6,
-      },
-      at
+      { autoAlpha: 0, x: -260, y: 160, rotation: 8 },
+      { autoAlpha: 1, x: 0, y: 0, rotation: 0, duration: 1.4, ease: "power3.out" }
     )
-    // the motion path can leave a few degrees of bank; level out exactly
-    .to(plane, { rotation: 0, duration: 0.35, ease: "power2.out" })
-    // then float on the air
     .to(plane, { y: -6, rotation: -2, duration: 1.8, ease: "sine.inOut", yoyo: true, repeat: -1 });
 }
