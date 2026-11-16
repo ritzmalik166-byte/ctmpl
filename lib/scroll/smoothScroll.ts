@@ -31,3 +31,16 @@ export function scrollToElement(target: HTMLElement, { block = "start" }: { bloc
   }
   target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block });
 }
+
+/**
+ * Smoothly scroll so the part of the page between `top` and `bottom` (px from
+ * the top of the page) is centred on screen, or, if it's taller than the
+ * screen less `headerSpace`, starts just under the site header.
+ */
+export function scrollToRange(top: number, bottom: number, headerSpace = 90) {
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const room = window.innerHeight - headerSpace;
+  const target = Math.max(0, bottom - top > room ? top - headerSpace : top - headerSpace - (room - (bottom - top)) / 2);
+  if (lenis) lenis.scrollTo(target, { immediate: reduced });
+  else window.scrollTo({ top: target, behavior: reduced ? "auto" : "smooth" });
+}

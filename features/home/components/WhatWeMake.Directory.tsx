@@ -85,19 +85,47 @@ export function BuildingDirectory({ current, requested, onSelect }: DirectoryPro
 export function SelectedService({ floor: floorNumber }: { floor: number }) {
   const floor = floorByNumber(floorNumber);
   return (
-    <div className="flex min-h-[127px] w-full flex-col gap-[9px] overflow-clip rounded-[5px] bg-card-cream py-5 pr-[22px] pl-[23px]">
+    <div className="flex min-h-[104px] w-full flex-col gap-[9px] overflow-clip rounded-[5px] bg-card-cream px-4 py-3.5 sm:min-h-[127px] sm:py-5 sm:pr-[22px] sm:pl-[23px] md:min-h-[127px]">
       {/* key: re-mounts on each floor, so the new text fades in */}
-      <div key={floorNumber} className="flex animate-[service-in_0.45s_ease-out] flex-col gap-[9px] motion-reduce:animate-none">
+      <div key={floorNumber} className="flex animate-[service-in_0.45s_ease-out] flex-col gap-1.5 motion-reduce:animate-none sm:gap-[9px]">
         <div className="flex items-center gap-2.5">
-          <h3 className="font-inter text-xl leading-[normal] font-bold whitespace-nowrap text-ink sm:text-2xl">{floor.name}</h3>
+          <h3 className="font-inter text-lg leading-[normal] font-bold whitespace-nowrap text-ink sm:text-2xl">{floor.name}</h3>
           {floor.aiPowered && (
             <span className="rounded-[3px] bg-signal-strong px-[9px] py-1 font-inter text-[10px] leading-[normal] font-bold tracking-[1.2px] whitespace-nowrap text-white uppercase">
               {whatWeMakeCopy.aiTag}
             </span>
           )}
         </div>
-        {floor.description && <p className="font-inter text-[15px] leading-6 text-ink sm:text-base sm:leading-[25px]">{floor.description}</p>}
+        {floor.description && <p className="font-inter text-sm leading-[22px] text-ink sm:text-base sm:leading-[25px]">{floor.description}</p>}
       </div>
     </div>
+  );
+}
+
+/**
+ * Phones: the building directory as one brass dropdown above the lift (the
+ * full list of floors needs more room than a phone has). Picking a floor sends
+ * the lift there, like pressing its button.
+ */
+export function FloorSelect({ requested, onSelect, className }: { requested: number; onSelect: (floor: number) => void; className?: string }) {
+  return (
+    <label className={cn("relative block w-full", className)}>
+      <span className="sr-only">{whatWeMakeCopy.directoryTitle}</span>
+      <select
+        value={requested}
+        onChange={(e) => onSelect(Number(e.target.value))}
+        className="h-11 w-full cursor-pointer appearance-none rounded-[5px] border-[1.5px] border-brass bg-linear-to-b from-[#2d2a2c] to-[#252325] pr-11 pl-4 font-inter text-[15px] font-medium text-chalk outline-none focus-visible:ring-2 focus-visible:ring-brass [&>option]:bg-[#252325] [&>option]:text-chalk"
+      >
+        {floors.map((floor) => (
+          <option key={floor.number} value={floor.number}>
+            {`${floor.number} · ${floor.name}${floor.aiPowered ? ` (${whatWeMakeCopy.aiTag})` : ""}`}
+          </option>
+        ))}
+      </select>
+      {/* brass chevron */}
+      <svg aria-hidden="true" viewBox="0 0 12 8" className="pointer-events-none absolute top-1/2 right-4 h-2 w-3 -translate-y-1/2 text-brass">
+        <path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </label>
   );
 }

@@ -8,16 +8,6 @@ import { useCompanyWeKeepReveal } from "../animations/CompanyWeKeep.Reveal";
 import paperWall from "@/public/images/website/home/who-we-are/paper-wall.jpg";
 import paperAirplane from "@/public/images/website/home/who-we-are/paper-airplane.png";
 
-/**
- * "The company we keep": reception's board of visitor passes. Every client
- * brand hangs on a lanyard from one of two wooden rails; the passes swing
- * (CompanyWeKeep.Passes).
- *
- *  - xl (1280+): the Figma desktop layout (node 75:385, rails 75:453 / 75:774),
- *    1298 tall (its paper wall runs on to where Kind Words begins): heading and intro side by side, both rails in full.
- *  - smaller screens: heading, intro, then each rail as a slider (swipe, or grab
- *    and drag), the passes at full size.
- */
 function CompanyWeKeepSection() {
   const ref = useCompanyWeKeepReveal();
   return (

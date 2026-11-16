@@ -47,7 +47,7 @@ export function Lift({ target, initialFloor, sceneFloor, onSceneChange, onArrive
   const { car, dial, label } = LIFT;
 
   return (
-    <div ref={ref} className="@container relative aspect-[428/619] w-full overflow-clip" aria-live="polite">
+    <div ref={ref} className="@container relative aspect-[428/619] w-full overflow-clip max-md:w-[min(100%,calc(min(100svh_-_270px,56svh)*428/619))]" aria-live="polite">
       <div data-lift="cabin" className="absolute inset-0">
         {/* car: the floor's studio, and the doors in front of it */}
         <div className="absolute" style={{ left: pctX(car.x), top: pctY(car.y), width: pctX(car.width), height: pctY(car.height) }}>

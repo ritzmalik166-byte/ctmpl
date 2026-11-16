@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import { Tilted } from "./Newspaper.Tilted";
-import ctmMug from "@/public/images/website/home/newspaper/ctm-mug.png";
-import readingGlasses from "@/public/images/website/home/newspaper/reading-glasses.png";
-import pen from "@/public/images/website/home/newspaper/pen.png";
+import ctmMug from "@/public/images/website/home/newspaper/ctm-mug-flat.png";
+import readingGlasses from "@/public/images/website/home/newspaper/reading-glasses-flat.png";
+import pen from "@/public/images/website/home/newspaper/pen-flat.png";
 
 /** Three wisps of steam rising off the coffee (sized to the mug; animated by useNewspaperUnfold). */
 function Steam() {

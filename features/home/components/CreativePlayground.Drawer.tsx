@@ -12,9 +12,9 @@ type CabinetDrawerProps = {
   onOpen: (index: number) => void;
 };
 
-/** The look of an open drawer: pulled out a touch towards us, casting a shadow. */
-export const OPEN_DRAWER = { scale: 1.025, y: 3, boxShadow: "0 10px 16px rgba(60, 52, 36, 0.28)" };
-export const CLOSED_DRAWER = { scale: 1, y: 0, boxShadow: "0 0 0 rgba(60, 52, 36, 0)" };
+/** The look of an open drawer: pulled well out towards us (larger, a little lower), over its neighbours, casting a deep shadow. */
+export const OPEN_DRAWER = { scale: 1.08, y: 5, zIndex: 2, boxShadow: "0 18px 26px rgba(60, 52, 36, 0.42)" };
+export const CLOSED_DRAWER = { scale: 1, y: 0, zIndex: 1, boxShadow: "0 0 0 rgba(60, 52, 36, 0)" };
 
 /**
  * One paper drawer of the filing cabinet (300 × 121): sage paper face, a cream
@@ -30,9 +30,9 @@ export function CabinetDrawer({ index, top, client, initiallyOpen, open, onOpen 
       aria-pressed={open}
       aria-label={`Open the ${client} case file`}
       onClick={() => onOpen(index)}
-      className="absolute left-[115px] h-[121px] w-[300px] cursor-pointer overflow-clip bg-[#a4af95] transition-[filter] duration-200 outline-none hover:brightness-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2c2826]"
+      className="absolute left-[115px] h-[121px] w-[300px] cursor-pointer overflow-clip bg-[#a4af95] transition-[filter] duration-200 will-change-transform outline-none hover:brightness-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2c2826]"
       // starting look only: GSAP animates these from here
-      style={{ top, transform: `translateY(${start.y}px) scale(${start.scale})`, boxShadow: start.boxShadow }}
+      style={{ top, zIndex: start.zIndex, transform: `translateY(${start.y}px) scale(${start.scale})`, boxShadow: start.boxShadow }}
     >
       {/* paper face */}
       <span className="absolute top-0 left-0 h-[121px] w-[302px] bg-linear-to-r from-[#adb69d] via-[#a5b096] via-50% to-[#99a78a]" />

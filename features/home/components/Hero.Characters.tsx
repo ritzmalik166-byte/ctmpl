@@ -17,7 +17,7 @@ import womanHands from "@/public/images/website/home/hero/rig/woman-hands.png";
 
 /* --- Man (302 × 541): welcomes visitors with a sweep of his arm ------------ */
 
-const MAN_SIZES = "(min-width: 1024px) 21vw, 34vw";
+const MAN_SIZES = "(min-width: 768px) 21vw, 34vw";
 
 export function WelcomingMan({ style }: { style: Placement }) {
   const ref = useWelcomingMan();
@@ -43,7 +43,7 @@ export function WelcomingMan({ style }: { style: Placement }) {
 
 /* --- Woman (213 × 523): reads from her book, then tells you about it ------- */
 
-const WOMAN_SIZES = "(min-width: 1024px) 15vw, 24vw";
+const WOMAN_SIZES = "(min-width: 768px) 15vw, 24vw";
 
 export function ReadingWoman({ style }: { style: Placement }) {
   const ref = useReadingWoman();

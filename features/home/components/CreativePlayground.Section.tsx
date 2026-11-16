@@ -13,7 +13,9 @@ import paperWall from "@/public/images/website/home/who-we-are/paper-wall.jpg";
  * case file on the desk and stamps it.
  *
  *  - xl (1280+): the Figma desktop layout (node 75:1109): heading and intro side
- *    by side, the room 1:1 from 1440 (scaled down just a touch below that).
+ *    by side, the room scaled to the screen's width (1:1 at 1440, larger on wider
+ *    screens, so it always runs edge to edge); the heading stays in the container.
+ * The almirah, the case file and Neha are drawn at 92% of their Figma size.
  *  - smaller screens: heading, then intro, then the room scaled to the screen's
  *    width as one piece, then the client selector.
  * The room keeps its 1440 layout on every screen, so its animations are unchanged.

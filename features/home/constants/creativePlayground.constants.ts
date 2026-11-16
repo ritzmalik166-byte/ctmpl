@@ -10,6 +10,8 @@ export const creativePlaygroundCopy = {
   heading: "Every Campaign Gets Its Own Case File.",
   intro: "The filing room is where finished work lives. Pull out a drawer and Neha will open the file and stamp it for you.",
   caseFileTab: "Case File",
+  /** Phones: under the case file you flip through. */
+  swipeHint: "Tap or swipe the file to turn the page",
   viewAll: "View all projects",
   previous: "Previous project",
   next: "Next project",

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useSkylineCycle } from "@/lib/animations/footerSkyline";
 import { skylineAspect, skylineWindows, windowLight } from "@/config/footerSkyline";
-import skylineBuildings from "@/public/images/website/footer/skyline-buildings.png";
+import skylineBuildings from "@/public/images/website/footer/skyline-buildings-v2.png";
 
 /** A tiny seeded random, so the stars are the same on the server and in the browser. */
 function seeded(seed: number) {
@@ -126,13 +126,14 @@ export function FooterSkyline() {
         />
         <div
           data-sky="daylight"
-          className="absolute inset-0 bg-[#9cc4ee] opacity-0 mix-blend-screen [mask-image:url(/images/website/footer/skyline-buildings.png)] [mask-size:100%_100%]"
+          className="absolute inset-0 bg-[#9cc4ee] opacity-0 mix-blend-screen [mask-image:url(/images/website/footer/skyline-buildings-v2.png)] [mask-size:100%_100%]"
         />
-        {skylineWindows.map(([left, top, width, height, lit], i) => (
+        {skylineWindows.map(([left, top, width, height, lit, steady], i) => (
           <span
             key={i}
             data-sky="window"
             data-lit={lit}
+            data-steady={steady ? "" : undefined}
             className="absolute"
             style={{ left: `${left}%`, top: `${top}%`, width: `${width}%`, height: `${height}%`, backgroundColor: windowLight, opacity: lit }}
           />

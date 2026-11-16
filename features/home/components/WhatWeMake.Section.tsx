@@ -12,7 +12,9 @@ import { useWhatWeMakeReveal } from "../animations/WhatWeMake.Reveal";
  *
  *  - xl (1280+): the Figma desktop layout (1440 frame, 1063 tall), to its coordinates.
  *  - md–lg: heading, then the lobby panel with the directory and the lift side by side.
- *  - phones: heading, then the lift, the floor's card and the directory, stacked.
+ *  - phones: heading, then a panel as tall as its content: a dropdown of the
+ *    floors, the lift (at most about half the screen tall, so it all fits on one
+ *    screen) and the floor's card.
  * The lift scales as one piece (everything in it is placed in % of its artwork).
  * It all makes an entrance as it scrolls into view (see useWhatWeMakeReveal).
  */
@@ -30,7 +32,7 @@ function WhatWeMakeSection() {
         </h2>
       </div>
 
-      <div data-wwm="panel" className="site-container mt-10 flex flex-col items-center gap-8 bg-night-panel px-3 py-8 sm:px-8 md:mt-14 md:flex-row md:items-center md:justify-center md:gap-6 md:px-6 md:py-12 lg:gap-16 lg:px-12 xl:absolute xl:bottom-0 xl:left-[calc(50%-5.5px)] xl:mt-0 xl:h-[771px] xl:w-[1259px] xl:-translate-x-1/2 xl:gap-[122px] xl:px-[88px] xl:py-0">
+      <div data-wwm="panel" className="site-container mt-10 flex flex-col items-center gap-8 bg-night-panel px-3 py-8 max-md:gap-3 max-md:py-4 sm:px-8 md:mt-14 md:flex-row md:items-center md:justify-center md:gap-6 md:px-6 md:py-12 lg:gap-16 lg:px-12 xl:absolute xl:bottom-0 xl:left-[calc(50%-5.5px)] xl:mt-0 xl:h-[771px] xl:w-[1259px] xl:-translate-x-1/2 xl:gap-[122px] xl:px-[88px] xl:py-0">
         <WhatWeMakeLobby />
       </div>
     </section>

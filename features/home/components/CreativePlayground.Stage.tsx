@@ -8,9 +8,9 @@ export const STAGE = { width: 1440, top: 339, height: 844 } as const;
 /**
  * The filing room's stage. Everything in the room (cabinet, case file, Neha)
  * is placed in px of the 1440 Figma frame and animated in those px; the stage
- * scales that whole frame down to the screen's width as one piece (never up),
- * so the layout and every animation stay exactly as designed on any screen.
- * From 1440 up it is drawn 1:1, centred.
+ * scales that whole frame to the screen's width as one piece (down on smaller
+ * screens, up on wider ones, so the room always runs edge to edge), and the
+ * layout and every animation stay exactly as designed on any screen.
  */
 export function PlaygroundStage({ children }: { children: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -26,14 +26,13 @@ export function PlaygroundStage({ children }: { children: ReactNode }) {
     return () => observer.disconnect();
   }, []);
 
-  const scale = Math.min(1, width / STAGE.width);
-  const left = Math.max(0, (width - STAGE.width) / 2);
+  const scale = width / STAGE.width;
 
   return (
     <div ref={ref} className="relative w-full overflow-hidden" style={{ height: STAGE.height * scale }}>
       <div
         className="absolute top-0 w-[1440px] origin-top-left"
-        style={{ left, height: STAGE.top + STAGE.height, transform: `scale(${scale}) translateY(${-STAGE.top}px)` }}
+        style={{ left: 0, height: STAGE.top + STAGE.height, transform: `scale(${scale}) translateY(${-STAGE.top}px)` }}
       >
         {children}
       </div>

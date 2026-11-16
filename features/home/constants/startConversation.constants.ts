@@ -20,7 +20,7 @@ export const startConversationCopy = {
 export type BookingField = {
   name: string;
   label: string;
-  type: "text" | "email";
+  type: "text" | "email" | "tel";
   placeholder: string;
   required: boolean;
   autoComplete?: string;
@@ -28,10 +28,10 @@ export type BookingField = {
 
 /** The meeting request's fields, in order. */
 export const bookingFields: BookingField[] = [
-  { name: "name", label: "Your name", type: "text", placeholder: "e.g. Vikram Sharma", required: true, autoComplete: "name" },
+  { name: "name", label: "Name", type: "text", placeholder: "e.g. Vikram Sharma", required: true, autoComplete: "name" },
   { name: "email", label: "Email", type: "email", placeholder: "e.g. vikram@company.com", required: true, autoComplete: "email" },
-  { name: "project", label: "What are we making? (optional)", type: "text", placeholder: "e.g. A launch film, a rebrand, a campaign", required: false },
-  { name: "idea", label: "Your idea", type: "text", placeholder: "Tell us a little about it", required: true },
+  { name: "phone", label: "Phone", type: "tel", placeholder: "e.g. +91 98765 43210", required: true, autoComplete: "tel" },
+  { name: "message", label: "Message", type: "text", placeholder: "Tell us a little about your project", required: true },
 ];
 
 export type ContactCard = {

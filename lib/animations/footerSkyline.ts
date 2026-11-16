@@ -127,11 +127,12 @@ export function useSkylineCycle() {
         gsap.to(bird, { scaleY: 0.35, duration: random(0.16, 0.24), ease: "sine.inOut", yoyo: true, repeat: -1, transformOrigin: "50% 70%", delay: random(0, 0.3) })
       );
 
-      // through the night, a window here and there goes out or comes on
+      // through the night, a window here and there goes out or comes on (never the steady ones, e.g. over the CTM entrance)
+      const flickering = windows.filter((w) => !("steady" in w.dataset));
       const flicker = gsap.delayedCall(random(0.6, 1.4), function toggle() {
         const night = cycle.time() < dawnAt - 1 || cycle.time() > duskAt + TURN + 1;
         if (night) {
-          const w = windows[Math.floor(random(0, windows.length))];
+          const w = flickering[Math.floor(random(0, flickering.length))];
           gsap.to(w, { opacity: Number(gsap.getProperty(w, "opacity")) > 0.5 ? 0 : 1, duration: 0.2 });
         }
         flicker.restart(true).delay(random(0.5, 1.4));

@@ -41,7 +41,7 @@ function Field({ top, label, value }: { top: number; label: string; value: strin
 function CaseSheet({ index, file }: { index: number; file: PlaygroundCase["file"] }) {
   return (
     <div data-sheet={index} className="absolute" style={{ ...box(caseFileSheet), opacity: index === INITIAL_CASE ? 1 : 0 }}>
-      <Image src={paperBlank} alt="" fill sizes="320px" className="pointer-events-none" />
+      <Image src={paperBlank} alt="" fill sizes="22.3vw" className="pointer-events-none" />
       <p className="absolute top-[28px] left-[27px] font-typewriter text-[9.5px] leading-none font-bold tracking-[1.9px] whitespace-nowrap text-[#a17351] uppercase">
         {caseFileLabels.title} · {file.number}
       </p>
@@ -60,17 +60,17 @@ function CaseSheet({ index, file }: { index: number; file: PlaygroundCase["file"
 export function CaseFile() {
   return (
     <div data-file="folder" className="absolute top-[474px] left-[513px] h-[413px] w-[670px]">
-      <Image src={caseFolder} alt="" fill sizes="670px" className="pointer-events-none" />
+      <Image src={caseFolder} alt="" fill sizes="46.6vw" className="pointer-events-none" />
 
       {/* the photo, in the polaroid */}
       <div className="absolute overflow-hidden" style={{ ...box(caseFilePhoto), rotate: `${caseFilePhoto.rotate}deg` }}>
         {playgroundCases.map(({ client, cover }, i) => (
           <div key={client} data-cover={i} className="absolute inset-0" style={{ opacity: i === INITIAL_CASE ? 1 : 0 }}>
-            <Image src={cover} alt={`${client} campaign artwork`} fill sizes="270px" className="pointer-events-none object-cover" />
+            <Image src={cover} alt={`${client} campaign artwork`} fill sizes="18.8vw" className="pointer-events-none object-cover" />
           </div>
         ))}
       </div>
-      <Image src={paperclip} alt="" fill sizes="670px" className="pointer-events-none" />
+      <Image src={paperclip} alt="" fill sizes="46.6vw" className="pointer-events-none" />
 
       {/* the typed sheet */}
       {playgroundCases.map(({ client, file }, i) => (
@@ -79,7 +79,7 @@ export function CaseFile() {
 
       {/* APPROVED, stamped on each new file */}
       <div data-file="stamp" className="absolute" style={box(caseFileStamp)}>
-        <Image src={stampApproved} alt="Approved" fill sizes="214px" className="pointer-events-none" />
+        <Image src={stampApproved} alt="Approved" fill sizes="14.9vw" className="pointer-events-none" />
       </div>
     </div>
   );
