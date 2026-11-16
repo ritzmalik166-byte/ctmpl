@@ -1,5 +1,6 @@
 "use client";
 
+import { useLayoutEffect } from "react";
 import Image from "next/image";
 import SectionLabel from "@/components/website/shared/SectionLabel";
 import { kindWordsCopy } from "../constants/kindWords.constants";
@@ -12,13 +13,39 @@ import paperWall from "@/public/images/website/home/who-we-are/paper-wall.jpg";
  *  - xl (1280+): the Figma layout (node 75:286, 1440 × 1308), the 1440 frame
  *    centred: heading and intro side by side, the water cooler corner, then
  *    the client selector;
+ *    wider than 1440 the heading stays in place (centred like the page's
+ *    content) while everything under it grows with the screen, so the room
+ *    always runs edge to edge (see useWideScale);
  *  - smaller screens: heading, intro, Arjun's speech bubble, the room scaled to
  *    the screen, then the client selector.
  */
+
+/**
+ * Wider than 1440: sets `--kw-s` on the section to the screen width / 1440,
+ * which scales the scene under the heading (about its top centre: y 316 of the
+ * 1440 × 1308 frame, just above the speech bubble) and grows the section to
+ * match (316 + 992 × scale). 1 up to 1440.
+ */
+function useWideScale(ref: React.RefObject<HTMLElement | null>) {
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => el.style.setProperty("--kw-s", String(Math.max(1, document.documentElement.clientWidth / 1440)));
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [ref]);
+}
+
 function KindWordsSection() {
   const ref = useScrollReveal();
+  useWideScale(ref);
   return (
-    <section ref={ref} id="kind-words" className="relative isolate overflow-hidden pt-12 pb-14 md:pt-16 md:pb-20 xl:h-[1308px] xl:p-0">
+    <section
+      ref={ref}
+      id="kind-words"
+      className="relative isolate overflow-hidden pt-12 pb-14 [--kw-s:1] md:pt-16 md:pb-20 xl:h-[calc(316px_+_992px*var(--kw-s))] xl:p-0"
+    >
       {/* paper wall, washed cool grey-blue */}
       <Image src={paperWall} alt="" fill sizes="100vw" className="-z-10 object-cover object-[50%_92%]" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(217,226,230,0.6)]" />
@@ -37,7 +64,10 @@ function KindWordsSection() {
           </p>
         </div>
 
-        <WaterCooler />
+        {/* the scene under the heading: wider than 1440 it grows with the screen (from its top, y 316) */}
+        <div className="xl:absolute xl:inset-0 xl:origin-[50%_316px] xl:scale-(--kw-s)">
+          <WaterCooler />
+        </div>
       </div>
     </section>
   );

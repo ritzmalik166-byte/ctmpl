@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import ButtonLink from "@/components/ui/ButtonLink";
+import { CrumpleButton } from "@/components/ui/CrumpleButton";
 import { cn } from "@/lib/utils/cn";
 import { creativePlaygroundCopy } from "../constants/creativePlayground.constants";
 import { ClientSlider } from "./CreativePlayground.ClientSlider";
@@ -16,63 +17,81 @@ type ProjectControlsProps = {
   onSelect: (index: number) => void;
   /** Button labels (default: the creative playground's). */
   labels?: { previous: string; next: string; viewAll: string };
+  /** Give the arrows and client names the paper crumple hover of "View all projects". */
+  crumple?: boolean;
 };
 
-const arrowClass = "size-9 shrink-0 cursor-pointer rounded-full sm:size-11 lg:size-[52px] xl:size-[65px]";
+/** Paper bits shed by the crumpling selector buttons: ink, cream and the outline's tan. */
+const CHUNKS = ["#2c2826", "#faf6ef", "#aa9986"] as const;
+
+const arrowClass = "size-9 shrink-0 cursor-pointer rounded-full sm:size-10 lg:size-11 xl:size-[50px]";
 
 /**
  * Project selector under the filing room: round previous / next arrows round
  * the client names, and "View all projects" (used by the creative playground
- * and Kind Words).
+ * and Kind Words, the same size in both).
  * Phones get an endless sliding strip of names (see ClientSlider); from md up
- * the names are one plain row. The arrows wrap round: after the last, the first.
+ * the names are one row sharing a fixed width equally (640 / 760, and 1000
+ * with "View all projects" beside them from xl), so the selector is the same
+ * size however many clients there are. The arrows wrap round: after the last,
+ * the first.
+ * With `crumple`, hovering an arrow or a name crumples it like "View all
+ * projects": an outlined name turns dark at peak crush (the chosen one stays dark).
  */
-export function ProjectControls({ clients, active, onSelect, labels = creativePlaygroundCopy }: ProjectControlsProps) {
+export function ProjectControls({ clients, active, onSelect, labels = creativePlaygroundCopy, crumple = false }: ProjectControlsProps) {
   const count = clients.length;
   const step = (by: number) => onSelect((active + by + count) % count);
 
   return (
-    <div className="flex w-full flex-col items-center gap-5 md:w-auto md:gap-6 xl:flex-row xl:gap-7">
-      <div className="flex w-full items-center gap-2 sm:gap-2.5 md:w-auto lg:gap-[15px] xl:h-[69px]">
-        <button type="button" aria-label={labels.previous} onClick={() => step(-1)} className={arrowClass}>
+    <div className="flex w-full flex-col items-center gap-5 md:w-[640px] md:gap-6 lg:w-[760px] xl:w-[1000px] xl:flex-row xl:gap-5">
+      <div className="flex w-full min-w-0 items-center gap-2 sm:gap-2.5 lg:gap-3 xl:flex-1">
+        <CrumpleButton type="button" aria-label={labels.previous} onClick={() => step(-1)} crumple={crumple} chunkColors={CHUNKS} className={cn(arrowClass, "[&>span:last-child]:size-full")}>
           <Image src={arrowPrevious} alt="" width={65} height={65} className="size-full" />
-        </button>
+        </CrumpleButton>
 
         {/* phones: the endless slider */}
         <div className="flex min-w-0 flex-1 md:hidden">
           <ClientSlider clients={clients} active={active} onSelect={onSelect} />
         </div>
 
-        {/* md up: one plain row of names */}
-        <div className="hidden gap-2 md:flex lg:gap-[15px]">
+        {/* md up: one row of names, sharing the width equally */}
+        <div className="hidden min-w-0 flex-1 gap-2 md:flex lg:gap-3">
           {clients.map((client, i) => {
             const isActive = i === active;
             return (
-              <button
+              <CrumpleButton
                 key={client}
                 type="button"
                 aria-pressed={isActive}
                 onClick={() => onSelect(i)}
+                crumple={crumple}
+                chunkColors={CHUNKS}
                 className={cn(
-                  "flex h-11 shrink-0 cursor-pointer items-center justify-center rounded-[5px] font-inter text-base leading-[normal] tracking-[-0.35px] whitespace-nowrap transition-colors duration-300 lg:h-[52px] lg:text-lg xl:h-[58px] xl:text-xl",
+                  "flex h-10 min-w-0 flex-1 cursor-pointer items-center justify-center rounded-[5px] px-2 font-inter text-sm leading-[normal] tracking-[-0.35px] whitespace-nowrap transition-colors duration-300 lg:h-11 lg:text-base xl:h-[46px] xl:text-[17px]",
                   isActive
-                    ? "bg-[#2c2826] px-3 font-bold text-[#faf6ef] lg:px-4 xl:px-[19.5px]"
-                    : "border border-[#aa9986] px-2 font-medium text-[#2c2826] hover:bg-[#2c2826]/5 lg:px-2.5"
+                    ? "bg-[#2c2826] font-bold text-[#faf6ef]"
+                    : cn("border border-[#aa9986] font-medium text-[#2c2826]", !crumple && "hover:bg-[#2c2826]/5"),
+                  // crumpled (hovered): an outlined name turns dark, so clicking it lands straight on the chosen look
+                  !isActive && "data-flipped:border-[#2c2826] data-flipped:bg-[#2c2826] data-flipped:text-[#faf6ef]"
                 )}
               >
                 {client}
-              </button>
+              </CrumpleButton>
             );
           })}
         </div>
 
-        <button type="button" aria-label={labels.next} onClick={() => step(1)} className={arrowClass}>
+        <CrumpleButton type="button" aria-label={labels.next} onClick={() => step(1)} crumple={crumple} chunkColors={CHUNKS} className={cn(arrowClass, "[&>span:last-child]:size-full")}>
           <Image src={arrowNext} alt="" width={65} height={65} className="size-full" />
-        </button>
+        </CrumpleButton>
       </div>
 
       {/* paper crumple on hover, like the hero buttons */}
-      <ButtonLink href="#" variant="folded" className="max-md:px-5 max-md:py-3 max-md:text-base md:max-xl:px-6 md:max-xl:py-3.5 md:max-xl:text-lg">
+      <ButtonLink
+        href="#"
+        variant="folded"
+        className="shrink-0 max-md:px-5 max-md:py-3 max-md:text-base md:max-xl:px-6 md:max-xl:py-3 md:max-xl:text-base xl:px-6 xl:py-3.5 xl:text-lg"
+      >
         {/* the button capitalises words; this label stays in sentence case */}
         <span className="normal-case">{labels.viewAll}</span>
       </ButtonLink>

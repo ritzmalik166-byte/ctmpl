@@ -29,7 +29,8 @@ function Barcode() {
 /**
  * One visitor pass hanging from the rail: its coloured lanyard, the paper pass
  * (VISITOR header, the brand, the pass number and a barcode), slightly tilted,
- * and the metal clip that holds it.
+ * and the metal clip that holds it. The paper pass is drawn at 92% of its
+ * Figma 208 × 188, shrunk toward its top centre so it stays on its clip.
  */
 export function HangingPass({
   pass,
@@ -63,7 +64,7 @@ export function HangingPass({
         />
 
         <div
-          className="absolute left-0 h-[188px] w-[208px] overflow-clip rounded-lg bg-[#faf7f0] shadow-[1px_12px_14px_0_rgba(51,43,37,0.22)]"
+          className="absolute left-0 h-[188px] w-[208px] origin-top scale-[0.92] overflow-clip rounded-lg bg-[#faf7f0] shadow-[1px_12px_14px_0_rgba(51,43,37,0.22)]"
           style={{ top, rotate: `${tilt}deg` }}
         >
           <span
@@ -96,18 +97,18 @@ export function HangingPass({
   );
 }
 
-/** The wooden bar the lanyards hang from (33 tall; width and position set by the caller). */
+/** The wooden bar the lanyards hang from (30 tall, 8% under Figma's 33; width and position set by the caller). */
 export function RailBar({ className }: { className?: string }) {
   return (
     <div
       data-cwk="bar"
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute top-0 h-[33px] overflow-clip rounded-[4px] bg-[#a17b57] shadow-[0_9px_10px_0_rgba(59,48,46,0.25)]",
+        "pointer-events-none absolute top-0 h-[30px] overflow-clip rounded-[4px] bg-[#a17b57] shadow-[0_9px_10px_0_rgba(59,48,46,0.25)]",
         className
       )}
     >
-      <span className="absolute top-[15px] left-0 h-[18px] w-full bg-[#795739]" />
+      <span className="absolute top-[14px] left-0 h-[16px] w-full bg-[#795739]" />
     </div>
   );
 }

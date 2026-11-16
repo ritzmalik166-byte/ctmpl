@@ -19,7 +19,7 @@ import nehaMouthWide from "@/public/images/website/home/creative-playground/neha
 export function NehaPuppet({ stampSignal }: { stampSignal: number }) {
   const ref = useNehaPuppet();
   const pressRef = useNehaStamp(stampSignal);
-  const sizes = "310px";
+  const sizes = "21.6vw"; // 310 of the 1440 stage
   return (
     <div ref={ref} className="pointer-events-none absolute right-0 w-[310px]" style={{ top: 572.35 }}>
       <div data-part="neha" className="relative aspect-[613/1102] w-full" style={{ transformOrigin: "44.05% 98%" }}>

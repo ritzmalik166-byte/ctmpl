@@ -14,8 +14,9 @@ export const STAMP_LANDS_AT = 0.95;
 
 /**
  * Opening another case in the filing room:
- *  1. the open drawer's file tabs sink back inside and it closes,
- *  2. the picked drawer pulls out and its file tabs rise up out of it,
+ *  1. the open drawer's file tabs sink back inside and it glides shut,
+ *  2. the picked drawer glides well out towards us (larger, a deep shadow,
+ *     over its neighbours) and its file tabs rise up out of it,
  *  3. on the desk the case file's photo and typed sheet are swapped for that
  *     client's, and
  *  4. a fresh APPROVED seal is stamped on the file (Neha brings her stamp down).
@@ -53,12 +54,15 @@ export function useFilingRoom(active: number) {
       const tl = gsap.timeline();
       running.current = tl;
       tl
-        // 1. close the open drawer: tabs sink inside, the drawer slides home
-        .to(oldTabs, { y: TABS_HIDDEN_Y, duration: 0.3, ease: "power2.in" }, 0)
-        .to(oldDrawer, { ...CLOSED_DRAWER, duration: 0.35, ease: "power2.inOut" }, 0.15)
-        // 2. open the picked drawer, then its tabs come up out of it
-        .to(newDrawer, { ...OPEN_DRAWER, duration: 0.4, ease: "power2.out" }, 0.3)
-        .fromTo(newTabs, { y: TABS_HIDDEN_Y }, { y: 0, duration: 0.5, ease: "back.out(1.7)", immediateRender: false }, 0.5)
+        // 1. close the open drawer: tabs sink inside, then it glides shut in one smooth push
+        .to(oldTabs, { y: TABS_HIDDEN_Y, duration: 0.25, ease: "power2.in" }, 0)
+        .to(oldDrawer, { scale: CLOSED_DRAWER.scale, y: CLOSED_DRAWER.y, boxShadow: CLOSED_DRAWER.boxShadow, duration: 0.42, ease: "power2.inOut", force3D: true }, 0.08)
+        // 2. only once it's shut (flush, so the two never overlap while moving and the layering change
+        //    can't be seen), the picked drawer glides right out in one smooth pull; then its tabs rise
+        .set(oldDrawer, { zIndex: CLOSED_DRAWER.zIndex }, 0.5)
+        .set(newDrawer, { zIndex: OPEN_DRAWER.zIndex }, 0.5)
+        .to(newDrawer, { scale: OPEN_DRAWER.scale, y: OPEN_DRAWER.y, boxShadow: OPEN_DRAWER.boxShadow, duration: 0.6, ease: "power3.out", force3D: true }, 0.5)
+        .fromTo(newTabs, { y: TABS_HIDDEN_Y }, { y: 0, duration: 0.45, ease: "power2.out", immediateRender: false }, 0.8)
         // 3. the photo on the file changes: the old one slides away, the new one drops in
         .to(stamp, { opacity: 0, duration: 0.15, ease: "power1.out" }, 0)
         .to(oldCover, { opacity: 0, y: 14, rotation: -2, duration: 0.3, ease: "power2.in" }, 0.05)

@@ -15,8 +15,11 @@ import { CaseFile } from "./CreativePlayground.CaseFile";
 import { NehaPuppet } from "./CreativePlayground.Neha";
 import { ProjectControls } from "./CreativePlayground.ProjectControls";
 import { PlaygroundStage } from "./CreativePlayground.Stage";
+import { CaseBook } from "./CreativePlayground.CaseBook";
+import { scrollToElement } from "@/lib/scroll/smoothScroll";
 import drawerTanishq from "@/public/images/website/home/creative-playground/drawer-tanishq.png";
-import filingRoom from "@/public/images/website/home/creative-playground/filing-room.png";
+import filingRoom from "@/public/images/website/home/creative-playground/filing-room-empty.png";
+import almirah from "@/public/images/website/home/creative-playground/almirah.png";
 
 const playgroundClients = playgroundCases.map(({ client }) => client);
 
@@ -24,7 +27,14 @@ const playgroundClients = playgroundCases.map(({ client }) => client);
  * The interactive part of the filing room: the room itself (cabinet, case file
  * on the desk, Neha) on its scaling stage, and the client selector below it. Press a drawer (or a client below) and
  * that drawer opens, its file goes on the desk and Neha stamps it APPROVED.
+ * Picking from the selector while the case file is off screen first glides the
+ * page back up to it, so the change is seen.
  */
+
+/** Room kept clear at the top for the site header when checking that the file shows (px). */
+const HEADER_SPACE = 90;
+/** After the page starts gliding up to the file, how long before the drawers move (ms). */
+const CHANGE_DELAY = 450;
 export function FilingRoom() {
   const [active, setActive] = useState(INITIAL_CASE);
   const [stampSignal, setStampSignal] = useState(0);
@@ -36,19 +46,42 @@ export function FilingRoom() {
     setStampSignal((n) => n + 1);
   };
 
+  // from the client selector: bring the case file into view first if it isn't, then change it
+  const pick = (index: number) => {
+    if (index === active) return;
+    // the file on show: the one on the desk (md up) or the flip-through file (phones)
+    const file = [...(ref.current?.querySelectorAll<HTMLElement>('[data-file="folder"], [data-case-book]') ?? [])].find((el) => el.getBoundingClientRect().width > 0);
+    const box = file?.getBoundingClientRect();
+    if (!file || !box || (box.top >= HEADER_SPACE && box.bottom <= window.innerHeight)) return open(index);
+    scrollToElement(file, { block: "center" });
+    window.setTimeout(() => open(index), CHANGE_DELAY);
+  };
+
   return (
     <div ref={ref}>
-      {/* the room, scaled as one piece to the screen (see PlaygroundStage) */}
-      <div data-cp="room">
+      {/* phones: no room, just the case file to flip through (same selection as everywhere) */}
+      <div className="site-container md:hidden">
+        <CaseBook active={active} onSelect={open} />
+      </div>
+
+      {/* md up: the room, scaled as one piece to the screen (see PlaygroundStage) */}
+      <div data-cp="room" className="max-md:hidden">
         <PlaygroundStage>
           <div className="pointer-events-none absolute top-[339px] left-0 h-[844px] w-[1440px]">
             <Image
               src={filingRoom}
               alt=""
               fill
-              sizes="(min-width: 1440px) 1440px, 100vw"
+              sizes="100vw"
               className="object-cover"
             />
+          </div>
+
+          {/* the almirah (cut from the room picture with its trophies, plant and certificates), its
+              drawers and file tabs: drawn at 92%, shrunk toward its foot so it still stands on the floor */}
+          <div className="pointer-events-none absolute inset-0 origin-[288px_1095px] scale-[0.92] [&_button]:pointer-events-auto">
+          <div className="absolute top-[347.09px] left-[78.82px] h-[761.12px] w-[418.36px]">
+            <Image src={almirah} alt="" fill sizes="29.1vw" className="object-fill" />
           </div>
 
           {/* cabinet: the four drawers, top to bottom */}
@@ -57,7 +90,7 @@ export function FilingRoom() {
               src={drawerTanishq}
               alt=""
               fill
-              sizes="302px"
+              sizes="21vw"
               className="object-cover"
             />
           </div>
@@ -77,7 +110,7 @@ export function FilingRoom() {
             <div
               key={top}
               aria-hidden="true"
-              className="pointer-events-none absolute left-0 h-5 w-[420px] overflow-hidden"
+              className="pointer-events-none absolute left-0 z-[3] h-5 w-[420px] overflow-hidden"
               style={{ top: top - 20 }}
             >
               <div
@@ -97,12 +130,12 @@ export function FilingRoom() {
               </div>
             </div>
           ))}
+          </div>
 
           {/* the case file on the desk, with its tab (it drops onto the desk as the section scrolls in) */}
-          <div
-            data-cp="file"
-            className="pointer-events-none absolute inset-0 *:pointer-events-auto"
-          >
+          <div data-cp="file" className="pointer-events-none absolute inset-0">
+            {/* drawn at 92%, shrunk toward the middle of its lower edge (where it rests) */}
+            <div className="absolute inset-0 origin-[848px_887px] scale-[0.92] *:pointer-events-auto">
             <div className="absolute top-[436px] left-[539px] h-[41px] w-[129px]">
               <span className="absolute top-0 left-0 h-10 w-[129px] rounded-t-lg bg-[#e2be82]" />
               <p className="absolute top-[5px] left-[18px] flex w-[93px] flex-col gap-0.5 text-center font-inter text-xs leading-[normal] font-bold text-[#5b4520] uppercase">
@@ -113,11 +146,15 @@ export function FilingRoom() {
               </p>
             </div>
             <CaseFile />
+            </div>
           </div>
 
           {/* Neha, ready with her stamp (blinks, talks, gestures; stamps each new file); she steps in as the section scrolls in */}
           <div data-cp="neha" className="pointer-events-none absolute inset-0">
-            <NehaPuppet stampSignal={stampSignal} />
+            {/* drawn at 92%, shrunk toward her feet */}
+            <div className="absolute inset-0 origin-[1266px_1120px] scale-[0.92]">
+              <NehaPuppet stampSignal={stampSignal} />
+            </div>
           </div>
         </PlaygroundStage>
       </div>
@@ -130,7 +167,8 @@ export function FilingRoom() {
         <ProjectControls
           clients={playgroundClients}
           active={active}
-          onSelect={open}
+          onSelect={pick}
+          crumple
         />
       </div>
     </div>
