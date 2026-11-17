@@ -217,3 +217,9 @@ body::-webkit-scrollbar {
     transform: none;
   }
 }
+
+/* the café barista's blink: her closed-eye frame shows for a moment now and then */
+@keyframes cafe-blink {
+  0%, 93%, 100% { opacity: 0; }
+  94.5%, 97% { opacity: 1; }
+}

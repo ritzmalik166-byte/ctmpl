@@ -24,6 +24,8 @@ export function RobotPuppet({ signal, seconds }: { signal: number; seconds: numb
   const reactionRef = useRobotReaction(signal, seconds);
   return (
     <div aria-hidden="true" className="pointer-events-none absolute top-[329px] left-[967px] h-[244px] w-[119px]">
+      {/* knocked over by the cat (it tips back about its right foot) and back up again, cross (see useKindWordsCat) */}
+      <div data-robot-fall className="absolute inset-0" style={{ transformOrigin: "78% 98%" }}>
       <div ref={idleRef} className="absolute inset-0">
         <div ref={reactionRef} data-part="robot" className="absolute inset-0" style={{ transformOrigin: "49.7% 98.4%" }}>
           <Layer src={body} sizes={sizes} />
@@ -33,6 +35,11 @@ export function RobotPuppet({ signal, seconds }: { signal: number; seconds: numb
             <div data-part="pupils" className="absolute inset-0" style={{ transformOrigin: "50% 16.19%" }}>
               <Layer src={pupils} sizes={sizes} />
             </div>
+            {/* cross brows, frowning (only when the cat has knocked it over) */}
+            <span data-robot-brows className="absolute inset-0 opacity-0">
+              <span className="absolute h-[1.8%] w-[14%] rotate-[22deg] rounded-[1px] bg-[#4a2f18]" style={{ left: "31.5%", top: "12.6%" }} />
+              <span className="absolute h-[1.8%] w-[14%] -rotate-[22deg] rounded-[1px] bg-[#4a2f18]" style={{ left: "51.5%", top: "12.6%" }} />
+            </span>
             {/* the mouth opening over the drawn line (shut until it talks) */}
             <span
               data-part="mouth"
@@ -45,6 +52,7 @@ export function RobotPuppet({ signal, seconds }: { signal: number; seconds: numb
             <Layer src={arms} sizes={sizes} />
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

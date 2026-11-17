@@ -5,6 +5,7 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils/cn";
 import { useCrumpleHover } from "@/lib/animations/crumpleHover";
 import { CrumpleLayers } from "./CrumpleLayers";
+import { BUTTON_HEIGHT, BUTTON_SIZE } from "./buttonSize";
 
 /**
  * The two-tone fill of "View all projects": burnt orange with a darker folded half,
@@ -19,6 +20,8 @@ type Variant = {
   className: string;
   /** Paper crumple hover: colours of the chunks it sheds (omit = no crumple). */
   crumple?: readonly string[];
+  /** Its size (default BUTTON_SIZE, the header "Start a project"'s). */
+  size?: string;
 };
 
 /**
@@ -26,36 +29,37 @@ type Variant = {
  * attribute at the moment the paper is most crushed, so colours change mid-crumple.
  */
 const variants = {
-  /** Two-tone burnt-orange pill (as "View all projects"): header "Start a project" → paper cream with orange text */
+  /** Two-tone burnt-orange pill (as "View all projects"): header "Start a project" → paper cream with dark text */
   primary: {
     className:
       FOLDED_FILL +
-      " px-10 py-2.5 font-inter text-sm leading-[19.5px] font-bold tracking-[-0.325px] text-white shadow-lg data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#d16a42]",
+      " text-white shadow-lg data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
     crumple: ["#d16a42", "var(--color-paper-cream)", "#b95534"],
   },
-  /** Plain icon + label: header "WhatsApp" → a white pill */
+  /** Plain icon + label: header "WhatsApp" → a white pill (the same height; narrower sides, as on phones it's just the icon) */
   whatsapp: {
     className:
-      "gap-2 px-3 py-2 font-inter text-sm leading-[19.5px] font-semibold text-ink-strong data-flipped:bg-white data-flipped:shadow-[0_3px_10px_rgba(60,40,20,0.14)]",
+      "gap-2 px-3 font-semibold text-ink-strong data-flipped:bg-white data-flipped:shadow-[0_3px_10px_rgba(60,40,20,0.14)]",
     crumple: ["#ffffff", "#25d366", "var(--color-paper-cream)"],
+    size: BUTTON_HEIGHT,
   },
-  /** Soft paper pill: hero "Take the office tour" → clay with white text */
+  /** Soft paper pill: hero "Take the office tour" → paper cream with dark text */
   soft: {
     className:
-      "bg-[radial-gradient(closest-side,var(--color-blush),var(--color-paper))] px-[21px] py-3 text-[15px] leading-[normal] font-bold text-ink data-flipped:bg-clay data-flipped:bg-none data-flipped:text-white",
+      "bg-[radial-gradient(closest-side,var(--color-blush),var(--color-paper))] text-ink data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
     crumple: ["var(--color-ivory)", "var(--color-clay)", "var(--color-blush)"],
   },
   /** Two-tone burnt-orange pill (as "View all projects"): hero "See our work" → cream with dark text */
   brand: {
     className:
       FOLDED_FILL +
-      " px-[33px] py-3 text-[15px] leading-[normal] font-bold text-white data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
+      " text-white data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
     crumple: ["#d16a42", "var(--color-paper-cream)", "#b95534"],
   },
   /** Orange pill with a folded corner: filing room "View all projects" → cream with dark text */
   folded: {
     className:
-      "bg-[#d16a42] bg-[url(/images/website/home/creative-playground/folded-accent.svg)] bg-size-[119px_69px] bg-position-[112.6%_0] bg-no-repeat px-[29px] py-[18px] font-inter text-xl leading-[normal] font-bold tracking-[-0.4px] text-[#faf6ef] shadow-[0_3px_5px_0_rgba(131,80,49,0.09)] data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
+      "bg-[#d16a42] bg-[url(/images/website/home/creative-playground/folded-accent.svg)] bg-size-[119px_69px] bg-position-[112.6%_0] bg-no-repeat text-[#faf6ef] shadow-[0_3px_5px_0_rgba(131,80,49,0.09)] data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
     crumple: ["#d16a42", "var(--color-paper-cream)", "#b95534"],
   },
 } satisfies Record<string, Variant>;
@@ -73,7 +77,7 @@ function ButtonLink({ variant = "primary", className, children, ...props }: Butt
   const { ref, filterId } = useCrumpleHover<HTMLAnchorElement>({ enabled: hasCrumple, chunkColors: style.crumple });
 
   return (
-    <Link ref={ref} className={cn(base, style.className, className)} {...props}>
+    <Link ref={ref} className={cn(base, style.size ?? BUTTON_SIZE, style.className, className)} {...props}>
       {hasCrumple && <CrumpleLayers filterId={filterId} />}
       <span className="relative">{children}</span>
     </Link>

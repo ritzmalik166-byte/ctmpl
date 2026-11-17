@@ -6,13 +6,15 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { afterIntro } from "@/lib/helpers/afterIntro";
 import { waveRevealWords } from "@/lib/animations/waveReveal";
+import { FLIGHT_FROM_TOP_LEFT, flyLabelPlane } from "@/lib/animations/labelPlaneFlight";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /**
  * "What we make" scroll entrance, once (no scrub, no timeline: tweens on two
  * triggers, each starting as its part comes into view):
- *  - the label rises in and the heading's words rise up in a wave;
+ *  - the label rises in, its little red plane flying in on a curve from the
+ *    top left, and the heading's words rise up in a wave;
  *  - the lobby panel rises in;
  *  - the lift slides up into place;
  *  - the brass directory fades up and its floors slide in one by one, the
@@ -50,6 +52,8 @@ export function useWhatWeMakeReveal() {
         const lobby = { trigger: panel, start: "top 75%", once: true };
 
         gsap.fromTo(label, { autoAlpha: 0, yPercent: 60 }, { autoAlpha: 1, yPercent: 0, duration: 0.8, ease: "power3.out", scrollTrigger: head, onComplete: () => void gsap.set(label, settle) });
+        const labelPlane = label.querySelector("img");
+        if (labelPlane) flyLabelPlane(labelPlane, FLIGHT_FROM_TOP_LEFT, head);
         waveRevealWords(heading, head);
 
         gsap.to(panel, { autoAlpha: 1, y: 0, duration: 1.1, ease: "power2.out", scrollTrigger: lobby, onComplete: () => void gsap.set(panel, settle) });

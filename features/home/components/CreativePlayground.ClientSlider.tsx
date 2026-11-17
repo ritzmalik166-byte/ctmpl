@@ -15,7 +15,8 @@ type ClientSliderProps = {
 };
 
 /**
- * Phones: the client names as an endless sliding strip. The chosen client is
+ * Phones (and, from md, any selector with too many names for one row): the
+ * client names as an endless sliding strip. The chosen client is
  * always slid to the centre (never cut off); going past the last client carries
  * on into the first one (… 3, 4, 1, 2 …) and the same backwards. The strip is
  * three copies of the list: after each slide it hops, unseen, back to the
@@ -114,7 +115,8 @@ export function ClientSlider({ clients, active, onSelect }: ClientSliderProps) {
                 onSelect(i);
               }}
               className={cn(
-                "flex h-9 shrink-0 cursor-pointer items-center justify-center rounded-[5px] px-3 font-inter text-sm leading-[normal] tracking-[-0.3px] whitespace-nowrap transition-colors duration-300",
+                // from md (when there are too many names for a row) the same size as the row's names
+                "flex h-9 shrink-0 cursor-pointer items-center justify-center rounded-[5px] px-3 font-inter text-sm leading-[normal] tracking-[-0.3px] whitespace-nowrap transition-colors duration-300 md:h-10 lg:h-11 lg:px-4 lg:text-base xl:h-[46px] xl:text-[17px]",
                 isActive ? "bg-[#2c2826] font-bold text-[#faf6ef]" : "border border-[#aa9986] font-medium text-[#2c2826]"
               )}
             >

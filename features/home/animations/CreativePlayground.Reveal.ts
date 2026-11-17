@@ -6,13 +6,15 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { afterIntro } from "@/lib/helpers/afterIntro";
 import { waveRevealWords } from "@/lib/animations/waveReveal";
+import { FLIGHT_FROM_TOP_RIGHT, flyLabelPlane } from "@/lib/animations/labelPlaneFlight";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /**
  * "Our creative playground" scroll entrance, once (no scrub, no timeline:
  * tweens on three triggers, each starting as its part comes into view):
- *  - the label rises in, and the heading's and intro's words rise up in a wave;
+ *  - the label rises in, its little red plane flying in on a curve from the
+ *    top right, and the heading's and intro's words rise up in a wave;
  *  - the filing room rises in softly; the case file drops onto the desk with a
  *    little tilt; Neha steps in from the right;
  *  - the client selector rises in.
@@ -47,6 +49,8 @@ export function useCreativePlaygroundReveal() {
         const selector = { trigger: controls, start: "top 92%", once: true };
 
         gsap.fromTo(label, { autoAlpha: 0, yPercent: 60 }, { autoAlpha: 1, yPercent: 0, duration: 0.8, ease: "power3.out", scrollTrigger: head, onComplete: settle(label) });
+        const labelPlane = label.querySelector("img");
+        if (labelPlane) flyLabelPlane(labelPlane, FLIGHT_FROM_TOP_RIGHT, head);
         waveRevealWords(heading, head);
         waveRevealWords(intro, { ...head, trigger: intro, start: "top 88%" });
 

@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { afterIntro } from "@/lib/helpers/afterIntro";
 import { waveRevealWords } from "@/lib/animations/waveReveal";
+import { FLIGHT_FROM_TOP_RIGHT, flyLabelPlane } from "@/lib/animations/labelPlaneFlight";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -17,6 +18,8 @@ const START = "top 78%";
  * scrub, no timeline: a few tweens on the same trigger, all starting together):
  *  - the label, heading and intro rise up from below their lines, word after
  *    word in a quick wave (each line masked, so words appear from under it);
+ *  - the little red paper plane by the label flies in from the top right on a
+ *    curving flight and lands in its place beside "Who we are";
  *  - the paper airplane glides in from the bottom left into its spot, then
  *    floats on the air.
  * Waits for fonts (so lines split where they'll stay) and the welcome gateway.
@@ -39,6 +42,8 @@ export function useWhoWeAreIntro() {
       let stopWaiting = () => {};
       const build = contextSafe(() => {
         gsap.fromTo(label, { autoAlpha: 0, yPercent: 60 }, { autoAlpha: 1, yPercent: 0, duration: 0.8, ease: "power3.out", scrollTrigger: trigger });
+        const labelPlane = label.querySelector("img");
+        if (labelPlane) flyLabelPlane(labelPlane, FLIGHT_FROM_TOP_RIGHT, trigger);
 
         // words rise from under their line, in a wave
         [heading, intro].forEach((block) => waveRevealWords(block, trigger));

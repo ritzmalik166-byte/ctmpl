@@ -4,7 +4,7 @@ import WhatWeMakeSection from "../components/WhatWeMake.Section"
 import CreativePlaygroundSection from "../components/CreativePlayground.Section"
 import CompanyWeKeepSection from "../components/CompanyWeKeep.Section"
 import KindWordsSection from "../components/KindWords.Section"
-import NewspaperSection from "../components/Newspaper.Section"
+import PinboardSection from "../components/Pinboard.Section"
 import StartConversationSection from "../components/StartConversation.Section"
 
 function HomePage() {
@@ -16,7 +16,7 @@ function HomePage() {
             <CreativePlaygroundSection />
             <CompanyWeKeepSection />
             <KindWordsSection />
-            <NewspaperSection />
+            <PinboardSection />
             <StartConversationSection />
         </>
     )

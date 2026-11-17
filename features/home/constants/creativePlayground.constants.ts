@@ -3,6 +3,9 @@ import client1File from "@/public/images/website/home/creative-playground/files/
 import client2File from "@/public/images/website/home/creative-playground/files/client2_file.webp";
 import client3File from "@/public/images/website/home/creative-playground/files/client3_file.webp";
 import client4File from "@/public/images/website/home/creative-playground/files/client4_file.webp";
+import client5File from "@/public/images/website/home/creative-playground/files/client5_file.webp";
+import client6File from "@/public/images/website/home/creative-playground/files/client6_file.webp";
+import client7File from "@/public/images/website/home/creative-playground/files/client7_file.webp";
 
 export const creativePlaygroundCopy = {
   label: "Our creative playground",
@@ -26,15 +29,24 @@ export type PlaygroundCase = {
 };
 
 /**
- * The case files, top drawer first: drawer 1 holds file 1, and so on down the
- * cabinet. The selector under the room lists the same clients in the same order.
+ * The case files. Files 1–4 are in the cabinet, top drawer first (drawer 1
+ * holds file 1, and so on down); files 5–7 are in the desk's three drawers,
+ * left to right (see CABINET_CASES / DESK_CASES). The selector under the room
+ * lists all of them in this order.
  */
 export const playgroundCases: PlaygroundCase[] = [
   { client: "Sanskar", cover: client1File, file: { number: "CTM/2026/01", client: "Sanskar Realty", campaign: "Lotus Heights", filedBy: "The CTM team, Noida" } },
   { client: "Client_Two", cover: client2File, file: { number: "CTM/2026/02", client: "Client Two", campaign: "Coastal Catch", filedBy: "The CTM team, Noida" } },
   { client: "Client_Three", cover: client3File, file: { number: "CTM/2026/03", client: "Client Three", campaign: "Paisley Threads", filedBy: "The CTM team, Delhi" } },
   { client: "Client_Four", cover: client4File, file: { number: "CTM/2026/04", client: "Client Four", campaign: "Rangoli Sweets", filedBy: "The CTM team, Noida" } },
+  { client: "Client_Five", cover: client5File, file: { number: "CTM/2026/05", client: "Client Five", campaign: "Kite Festival", filedBy: "The CTM team, Noida" } },
+  { client: "Client_Six", cover: client6File, file: { number: "CTM/2026/06", client: "Client Six", campaign: "Peacock Silk", filedBy: "The CTM team, Delhi" } },
+  { client: "Client_Seven", cover: client7File, file: { number: "CTM/2026/07", client: "Client Seven", campaign: "Monsoon Chai", filedBy: "The CTM team, Noida" } },
 ];
+
+/** Which files are in the cabinet (its drawers, top to bottom) and which in the desk (its drawers, left to right). */
+export const CABINET_CASES = [0, 1, 2, 3] as const;
+export const DESK_CASES = [4, 5, 6] as const;
 
 /** Labels typed on every case-file sheet. */
 export const caseFileLabels = { title: "Case file", client: "Client", campaign: "Campaign", filedBy: "Filed by" } as const;

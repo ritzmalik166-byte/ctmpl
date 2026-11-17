@@ -15,6 +15,21 @@ export const startConversationCopy = {
     stamp: "Booked",
     another: "Send another request",
   },
+  /** The café counter under the meeting room: the chalkboard lists the studio's social handles. */
+  cafe: {
+    boardTitle: "Find us online",
+    follow: "follow us",
+    baristaAlt: "Our barista behind the café counter, holding a cup",
+    /** The notes pinned to the front of the counter. */
+    call: { label: "Call us on", numbers: [{ text: "+91 72900 02168", href: "tel:+917290002168" }, { text: "+91 98119 65550", href: "tel:+919811965550" }] },
+    mail: { label: "Mail us on", email: "ritz@creativethinksmedia.com" },
+    visit: {
+      label: "Visit",
+      hint: "hover for map",
+      address: "402–404, 4th Floor, Corporate Park, Tower A1, Sector 142, Noida 201305",
+      openMap: "Open in Google Maps",
+    },
+  },
 };
 
 export type BookingField = {
@@ -32,26 +47,4 @@ export const bookingFields: BookingField[] = [
   { name: "email", label: "Email", type: "email", placeholder: "e.g. vikram@company.com", required: true, autoComplete: "email" },
   { name: "phone", label: "Phone", type: "tel", placeholder: "e.g. +91 98765 43210", required: true, autoComplete: "tel" },
   { name: "message", label: "Message", type: "text", placeholder: "Tell us a little about your project", required: true },
-];
-
-export type ContactCard = {
-  label: string;
-  lines: { text: string; href: string }[];
-  /** Colour of its lines (Figma: the email in red, WhatsApp in green). */
-  tone: "ink" | "brand" | "whatsapp";
-};
-
-/** The quick contact cards under the meeting room. */
-export const contactCards: ContactCard[] = [
-  {
-    label: "Call",
-    tone: "ink",
-    lines: [
-      { text: "+91 72900 02168", href: "tel:+917290002168" },
-      { text: "+91 98118 69950", href: "tel:+919811869950" },
-    ],
-  },
-  { label: "Write", tone: "brand", lines: [{ text: "info@creativethinksmedia.com", href: "mailto:info@creativethinksmedia.com" }] },
-  { label: "Chat", tone: "whatsapp", lines: [{ text: "WhatsApp Us", href: "#" }] },
-  { label: "Visit", tone: "ink", lines: [{ text: "Sector 142, Noida, UP", href: "#" }] },
 ];

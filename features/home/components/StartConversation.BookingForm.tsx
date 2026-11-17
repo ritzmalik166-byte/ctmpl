@@ -6,6 +6,7 @@ import { bookingFields, startConversationCopy } from "../constants/startConversa
 import { TORN_STUB } from "../animations/StartConversation.Booking";
 import { PaperLoader } from "@/components/ui/PaperLoader";
 import { CrumpleButton } from "@/components/ui/CrumpleButton";
+import { BUTTON_SIZE } from "@/components/ui/buttonSize";
 
 export type BookingStatus = "idle" | "sending" | "taking" | "booked";
 
@@ -36,7 +37,7 @@ function BookedNote({ onAnother }: { onAnother: () => void }) {
         type="button"
         onClick={onAnother}
         chunkColors={["#d16a42", "var(--color-paper-cream)", "#b95534"]}
-        className="mt-auto h-[52px] w-full cursor-pointer overflow-clip rounded-lg bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)] font-inter text-lg font-bold tracking-[-0.3px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_rgba(131,80,49,0.12)] transition-[scale] duration-150 active:scale-[0.99] data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#d16a42] data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42]"
+        className={cn(BUTTON_SIZE, "mt-auto w-full cursor-pointer overflow-clip rounded-lg bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_rgba(131,80,49,0.12)] transition-[scale] duration-150 active:scale-[0.99] data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42]")}
       >
         {booked.another}
       </CrumpleButton>
@@ -109,7 +110,7 @@ export function BookingForm({
                   aria-busy={status === "sending"}
                   crumple={!busy}
                   chunkColors={["#d16a42", "var(--color-paper-cream)", "#b95534"]}
-                  className="h-[60px] w-full cursor-pointer overflow-clip rounded-lg bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)] px-4 py-[18px] font-inter text-base leading-[normal] font-bold tracking-[-0.4px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_0_rgba(131,80,49,0.09)] transition-[scale] duration-150 active:scale-[0.99] disabled:cursor-wait disabled:brightness-95 disabled:active:scale-100 data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#d16a42] data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42] sm:px-[29px] sm:text-xl"
+                  className={cn(BUTTON_SIZE, "w-full cursor-pointer overflow-clip rounded-lg bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_0_rgba(131,80,49,0.09)] transition-[scale] duration-150 active:scale-[0.99] disabled:cursor-wait disabled:brightness-95 disabled:active:scale-100 data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42]")}
                 >
                   {status === "sending" ? (
                     <>

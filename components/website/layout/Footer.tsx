@@ -4,14 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { footerContent } from "@/config/footer";
 import { siteConfig } from "@/config/site";
-import { FooterSkyline } from "./FooterSkyline";
 import { useScrollReveal } from "@/lib/animations/scrollReveal";
 import ctmLogoLight from "@/public/images/website/brand/ctm-logo-light.png";
 
 /**
- * The site footer (Figma 75:1250 + 75:1251): the office at night (the CTM
- * building among the city's lit windows, 1440 × 507; the sky goes round from
- * night to day and back, see FooterSkyline), then the dark footer:
+ * The site footer (Figma 75:1251), dark:
  * logo, a line about the studio and social links on the left; Company,
  * Services and Read-and-listen links on the right; the legal line below.
  * Desktop as in Figma (88px sides); on smaller screens the columns stack.
@@ -23,9 +20,6 @@ function Footer() {
   return (
     // overflow-hidden: while its rows rise in they sit a little low; never let that hang below the page
     <footer ref={ref} className="overflow-hidden">
-      {/* the office, night turning to day and back: always its full picture (height grows with
-          the width, 507 at 1440), except on narrow screens where it keeps 240px and trims the sides */}
-      <FooterSkyline />
 
       <div className="bg-[#181a27]">
         <div className="mx-auto max-w-[1440px] px-5 sm:px-8 xl:px-[88px]">

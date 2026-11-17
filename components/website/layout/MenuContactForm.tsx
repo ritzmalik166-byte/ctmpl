@@ -2,8 +2,10 @@
 
 import { useState, type FormEvent } from "react";
 import { navigationCopy } from "@/config/navigation";
+import { cn } from "@/lib/utils/cn";
 import { PaperLoader } from "@/components/ui/PaperLoader";
 import { CrumpleButton } from "@/components/ui/CrumpleButton";
+import { BUTTON_SIZE } from "@/components/ui/buttonSize";
 
 /** How long sending takes (s; stands in for the real request for now). */
 const SENDING_SECONDS = 1.6;
@@ -59,7 +61,7 @@ export function MenuContactForm() {
           type="submit"
           aria-busy={status === "sending"}
           chunkColors={["#d16a42", "var(--color-paper-cream)", "#b95534"]}
-          className="mt-1 h-12 w-full cursor-pointer rounded-md bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)] font-inter text-base font-bold tracking-[-0.3px] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_rgba(131,80,49,0.12)] transition-[scale] active:scale-[0.99] disabled:cursor-wait data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-[#d16a42] data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42]"
+          className={cn(BUTTON_SIZE, "mt-1 w-full cursor-pointer rounded-md bg-[linear-gradient(100deg,#d16a42_50%,#b95534_50.3%)] whitespace-nowrap text-[#faf6ef] shadow-[0_3px_5px_rgba(131,80,49,0.12)] transition-[scale] active:scale-[0.99] disabled:cursor-wait data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42]")}
         >
           {status === "sending" ? (
             <>

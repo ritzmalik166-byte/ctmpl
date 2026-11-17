@@ -5,6 +5,7 @@ import Image from "next/image";
 import {
   cabinetDrawerTops,
   cabinetTabs,
+  CABINET_CASES,
   creativePlaygroundCopy,
   INITIAL_CASE,
   playgroundCases,
@@ -16,6 +17,8 @@ import { NehaPuppet } from "./CreativePlayground.Neha";
 import { ProjectControls } from "./CreativePlayground.ProjectControls";
 import { PlaygroundStage } from "./CreativePlayground.Stage";
 import { CaseBook } from "./CreativePlayground.CaseBook";
+import { DeskDrawers } from "./CreativePlayground.DeskDrawers";
+import { PlaygroundCat } from "./CreativePlayground.Cat";
 import { scrollToElement } from "@/lib/scroll/smoothScroll";
 import drawerTanishq from "@/public/images/website/home/creative-playground/drawer-tanishq.png";
 import filingRoom from "@/public/images/website/home/creative-playground/filing-room-empty.png";
@@ -25,8 +28,8 @@ const playgroundClients = playgroundCases.map(({ client }) => client);
 
 /**
  * The interactive part of the filing room: the room itself (cabinet, case file
- * on the desk, Neha) on its scaling stage, and the client selector below it. Press a drawer (or a client below) and
- * that drawer opens, its file goes on the desk and Neha stamps it APPROVED.
+ * on the desk, Neha) on its scaling stage, and the client selector below it. Press a drawer (the cabinet's,
+ * or one of the desk's three) or a client below and that drawer opens, its file goes on the desk and Neha stamps it APPROVED.
  * Picking from the selector while the case file is off screen first glides the
  * page back up to it, so the change is seen.
  */
@@ -99,7 +102,7 @@ export function FilingRoom() {
               key={top}
               index={i}
               top={top}
-              client={playgroundCases[i].client}
+              client={playgroundCases[CABINET_CASES[i]].client}
               initiallyOpen={i === INITIAL_CASE}
               open={i === active}
               onOpen={open}
@@ -132,6 +135,9 @@ export function FilingRoom() {
           ))}
           </div>
 
+          {/* the desk's three drawers: press one and it slides out, and its file goes on the desk */}
+          <DeskDrawers active={active} onOpen={open} />
+
           {/* the case file on the desk, with its tab (it drops onto the desk as the section scrolls in) */}
           <div data-cp="file" className="pointer-events-none absolute inset-0">
             {/* drawn at 92%, shrunk toward the middle of its lower edge (where it rests) */}
@@ -156,6 +162,9 @@ export function FilingRoom() {
               <NehaPuppet stampSignal={stampSignal} />
             </div>
           </div>
+
+          {/* the paper cat, who comes through with its ball (and later a paper plane) once a drawer is opened */}
+          <PlaygroundCat active={active} />
         </PlaygroundStage>
       </div>
 

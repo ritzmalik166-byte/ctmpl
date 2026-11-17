@@ -6,7 +6,7 @@ import { companyWeKeepCopy } from "../constants/companyWeKeep.constants";
 import { PassBoard } from "./CompanyWeKeep.PassBoard";
 import { useCompanyWeKeepReveal } from "../animations/CompanyWeKeep.Reveal";
 import paperWall from "@/public/images/website/home/who-we-are/paper-wall.jpg";
-import paperAirplane from "@/public/images/website/home/who-we-are/paper-airplane.png";
+import paperAirplane from "@/public/images/website/home/who-we-are/paper-airplane-clean.png";
 
 function CompanyWeKeepSection() {
   const ref = useCompanyWeKeepReveal();
