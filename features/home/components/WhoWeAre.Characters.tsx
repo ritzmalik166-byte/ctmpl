@@ -19,7 +19,8 @@ import manBody from "@/public/images/website/home/who-we-are/rig/man2-body.png";
 import manArmLeft from "@/public/images/website/home/who-we-are/rig/man2-arm-left.png";
 import manArmRight from "@/public/images/website/home/who-we-are/rig/man2-arm-right.png";
 import manHead from "@/public/images/website/home/who-we-are/rig/man2-head.png";
-import manLegs from "@/public/images/website/home/who-we-are/rig/man2-legs.png";
+// (his left leg, drawn lifted mid-dance, planted on the floor beside his right)
+import manLegs from "@/public/images/website/home/who-we-are/rig/man2-legs-planted.png";
 import manEyesOpen from "@/public/images/website/home/who-we-are/rig/man2-eyes-open.png";
 
 /**
@@ -64,7 +65,7 @@ export function PresentingMeera({ activeStat, className, style, sizes }: PuppetP
   );
 }
 
-/** The cheering colleague (316 × 604): dances along, fists up. */
+/** The cheering colleague (316 × 604): fists up, cheering with his arms; feet planted on the floor. */
 export function CheeringMan({ className, style, sizes }: PuppetProps) {
   const ref = useCheeringMan();
   return (

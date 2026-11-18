@@ -29,7 +29,8 @@ function Navbar() {
         </Link>
 
         <div className="flex items-center gap-3 sm:gap-6 lg:gap-[46px]">
-          <nav aria-label="Quick actions" className="flex items-center gap-4">
+          {/* (WhatsApp sits close to "Start a project": the pill's own padding is most of the gap) */}
+          <nav aria-label="Quick actions" className="flex items-center gap-1">
             {/*
               Just the icon; hovered, the button opens out smoothly to show "WhatsApp" beside it (and the paper still
               crumples into a white pill). The button keeps one size throughout and only its visible part grows,
@@ -47,7 +48,15 @@ function Navbar() {
             >
               {/* icon on the left, the word on its right: at rest slid over so the icon sits in the visible end, gliding back as it opens */}
               <span className="flex translate-x-[calc(100%-24px)] items-center transition-[translate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0">
-                <Image src={whatsappIcon} alt="" width={24} height={24} unoptimized />
+                {/* bigger at rest (always, scrolled or not); back to its usual size in the open pill, on hover */}
+                <Image
+                  src={whatsappIcon}
+                  alt=""
+                  width={24}
+                  height={24}
+                  unoptimized
+                  className="origin-right scale-[1.34] transition-[scale] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-100 group-focus-visible:scale-100"
+                />
                 <span className="pl-2 whitespace-nowrap opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-hover:delay-100 group-hover:duration-300 group-focus-visible:opacity-100">WhatsApp</span>
               </span>
             </ButtonLink>

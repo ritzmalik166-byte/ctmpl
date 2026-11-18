@@ -12,13 +12,14 @@ export const heroActions: ReadonlyArray<{
 /**
  * The headline: "Come in." stays; the line after it changes every few seconds
  * (written out, see HeroRotatingLine). Each line: a lead-in, the big red word, the rest.
+ * Every line is the same length (30 characters), so each one fills the same space.
  */
 export const heroHeadline = {
   lead: "Come in.",
   lines: [
     { before: "The ", word: "ideas", after: " are already at work." },
-    { before: "The ", word: "stories", after: " are already on paper." },
-    { before: "The ", word: "magic", after: " is already in the making." },
+    { before: "The ", word: "stories", after: " are already alive." },
+    { before: "The ", word: "magic", after: " is already sparking." },
   ],
 } as const;
 
@@ -31,6 +32,6 @@ export const heroScene = {
   clock: { left: "42.188%", top: "11.805%", width: "5.556%" },
   clockLabelPatch: { left: "44.236%", top: "18.665%", width: "1.389%", height: "0.865%" },
   clockLabel: { left: "45.069%", top: "18.665%" },
-  woman: { left: "40.903%", top: "29.79%", width: "14.792%" },
-  man: { left: "70.903%", top: "27.565%", width: "20.972%" },
+  /** the reception (woman, desk and receptionist, man): 904 px wide, the woman's feet on the floor where they were */
+  reception: { left: "31.4%", top: "21.26%", width: "62.8%" },
 } as const;

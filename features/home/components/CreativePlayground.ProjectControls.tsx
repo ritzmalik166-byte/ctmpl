@@ -27,7 +27,7 @@ const CHUNKS = ["#2c2826", "#faf6ef", "#aa9986"] as const;
 /** The most client names that share one row from md up (more and they slide, as on phones). */
 const MAX_ROW = 6;
 
-const arrowClass = "size-9 shrink-0 cursor-pointer rounded-full sm:size-10 lg:size-11 xl:size-[50px]";
+const arrowClass = "size-8 shrink-0 cursor-pointer rounded-full sm:size-9 lg:size-[38px] xl:size-10";
 
 /**
  * Project selector under the filing room: round previous / next arrows round
@@ -72,7 +72,7 @@ export function ProjectControls({ clients, active, onSelect, labels = creativePl
                 crumple={crumple}
                 chunkColors={CHUNKS}
                 className={cn(
-                  "flex h-10 min-w-0 flex-1 cursor-pointer items-center justify-center rounded-[5px] px-2 font-inter text-sm leading-[normal] tracking-[-0.35px] whitespace-nowrap transition-colors duration-300 lg:h-11 lg:text-base xl:h-[46px] xl:text-[17px]",
+                  "flex h-9 min-w-0 flex-1 cursor-pointer items-center justify-center rounded-[5px] px-2 font-inter text-[13px] leading-[normal] tracking-[-0.3px] whitespace-nowrap transition-colors duration-300 lg:h-[38px] lg:text-sm xl:h-10 xl:text-[15px]",
                   isActive
                     ? "bg-[#2c2826] font-bold text-[#faf6ef]"
                     : cn("border border-[#aa9986] font-medium text-[#2c2826]", !crumple && "hover:bg-[#2c2826]/5"),
