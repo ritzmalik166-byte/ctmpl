@@ -230,8 +230,13 @@ export function WhiteboardScene() {
         <BoardStory active={activeStat.active} className="absolute text-[1.667cqw] leading-[1.2] whitespace-nowrap" style={boardLayout.story} />
 
         {/* Meera points at the board; her colleague cheers beside her */}
-        <PresentingMeera activeStat={activeStat.active} sizes="27vw" style={boardLayout.meera} />
-        <CheeringMan sizes="14vw" style={boardLayout.cheeringMan} />
+        <PresentingMeera
+          activeStat={activeStat.active}
+          sizes="20vw"
+          className="left-(--x) [--x:52%] lg:[--x:53%]"
+          style={boardLayout.meera}
+        />
+        <CheeringMan sizes="20vw" className="left-(--x) [--x:69.5%] lg:[--x:74.5%]" style={boardLayout.cheeringMan} />
       </div>
     </div>
   );
@@ -261,8 +266,8 @@ export function WhiteboardMobile() {
       <Image src={roomFloorCorner} alt="" sizes="100vw" className="absolute bottom-0 left-0 h-auto w-full" />
 
       {/* Meera and her colleague stand on the floor below the board, sized to the screen width */}
-      <PresentingMeera sizes="44vw" className="bottom-3 left-[3%] z-10 w-[44%]" />
-      <CheeringMan sizes="22vw" className="bottom-3 left-[49%] z-10 w-[21%]" />
+      <PresentingMeera sizes="33vw" className="bottom-3 left-[8.6%] z-10 w-[32.8%]" />
+      <CheeringMan sizes="31vw" className="bottom-3 left-[44%] z-10 w-[31%]" />
 
       {/* bottom padding leaves floor space for the two characters (% of width, like them) */}
       <div className="relative px-(--gutter) pt-10 pb-[56%]">

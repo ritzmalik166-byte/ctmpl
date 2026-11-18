@@ -12,29 +12,54 @@ gsap.registerPlugin(useGSAP);
  */
 const AIM_AT_STAT = [-7, 0, -16, -22];
 
-/** One spoken phrase: the mouth opens and closes on syllables, ending on a closed smile. */
-function speak(timeline: gsap.core.Timeline, closedMouth: Element[], at: number, syllables: number) {
+/** Her mouth shapes over her open smile ("open" is the smile as drawn: none of them shown), and how often each comes up in speech ("closed" for an m, b or p). */
+const LAYERS = ["closed", "parted", "half", "wide", "round"] as const;
+type Mouth = (typeof LAYERS)[number] | "open";
+const SYLLABLE_MOUTHS: Mouth[] = ["parted", "parted", "half", "half", "half", "open", "open", "round", "round", "closed"];
+
+/**
+ * One spoken phrase: syllable by syllable her mouth goes through the shapes
+ * speech makes (mostly parted and half open, open or wider on a stressed
+ * syllable, a round "o" now and then, lips together for an m / b / p), each
+ * crossfading softly into the next; a beat with lips just parted between
+ * words; back to her closed smile at the end. Returns when the phrase ends.
+ */
+function speak(timeline: gsap.core.Timeline, mouths: Record<(typeof LAYERS)[number], Element[]>, at: number, syllables: number) {
+  const r = gsap.utils.random;
+  const show = (shape: Mouth, t: number) => {
+    LAYERS.forEach((m) => timeline.to(mouths[m], { opacity: m === shape ? 1 : 0, duration: 0.05, ease: "none" }, t));
+  };
   let t = at;
+  let last: Mouth = "closed";
   for (let i = 0; i < syllables; i++) {
-    const open = gsap.utils.random(0.1, 0.18);
-    const shut = gsap.utils.random(0.06, 0.11);
-    timeline.set(closedMouth, { opacity: 0 }, t).set(closedMouth, { opacity: 1 }, t + open);
-    t += open + shut;
+    let shape: Mouth = i % 4 === 1 ? (i % 8 === 1 ? "wide" : "open") : SYLLABLE_MOUTHS[Math.floor(r(0, SYLLABLE_MOUTHS.length - 0.001))];
+    if (shape === last) shape = shape === "half" ? "parted" : "half"; // no shape twice running
+    show(shape, t);
+    last = shape;
+    t += r(0.11, 0.17);
+    if (i % 5 === 4 && i < syllables - 1) {
+      show("parted", t); // between words
+      last = "parted";
+      t += r(0.08, 0.14);
+    }
   }
-  return t;
+  show("closed", t);
+  return t + 0.1;
 }
 
 /**
- * Meera presents the whiteboard: she talks in phrases (head nodding, the
+ * Meera presents the whiteboard: she talks in phrases (her mouth shaping the
+ * syllables, head nodding, the
  * pointing arm giving little beats of emphasis), smiles between them, blinks,
  * and turns her arm to point at whichever stat is active.
  */
 export function usePresentingMeera(activeStat?: number) {
   const ref = usePuppet((q) => {
-    const [head, arm, mouth, eyes, figure] = [q("head"), q("arm"), q("mouth-closed"), q("eyes"), q("figure")];
+    const [head, arm, eyes, figure] = [q("head"), q("arm"), q("eyes"), q("figure")];
+    const mouths = Object.fromEntries(LAYERS.map((m) => [m, q(`mouth-${m}`)])) as Record<(typeof LAYERS)[number], Element[]>;
 
-    const presenting = gsap.timeline({ repeat: -1, repeatDelay: 1.1, delay: 0.4 }).set(mouth, { opacity: 1 }, 0);
-    const end = speak(presenting, mouth, 0.2, 14);
+    const presenting = gsap.timeline({ repeat: -1, repeatDelay: 1.1, delay: 0.4 });
+    const end = speak(presenting, mouths, 0.2, 14);
     presenting
       // nod along while speaking
       .to(head, { rotation: 2.5, duration: 0.45, ease: "sine.inOut" }, 0.2)

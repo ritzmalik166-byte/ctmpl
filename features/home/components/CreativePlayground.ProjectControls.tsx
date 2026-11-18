@@ -56,7 +56,7 @@ export function ProjectControls({ clients, active, onSelect, labels = creativePl
 
         {/* phones (and any screen with too many names for a row): the endless slider */}
         <div className={cn("flex min-w-0 flex-1", !slide && "md:hidden")}>
-          <ClientSlider clients={clients} active={active} onSelect={onSelect} />
+          <ClientSlider clients={clients} active={active} onSelect={onSelect} crumple={crumple} />
         </div>
 
         {/* md up: one row of names, sharing the width equally */}

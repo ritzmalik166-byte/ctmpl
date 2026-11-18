@@ -1,4 +1,14 @@
+import type { StaticImageData } from "next/image";
 import { navigationBlogs } from "@/config/navigation";
+// placeholder photos (stock, from Lorem Picsum) until the blog's own images exist: swap these files for the real ones
+import blog1 from "@/public/images/website/home/pinboard/blogs/dummy-1.jpg";
+import blog2 from "@/public/images/website/home/pinboard/blogs/dummy-2.jpg";
+import blog3 from "@/public/images/website/home/pinboard/blogs/dummy-3.jpg";
+import blog4 from "@/public/images/website/home/pinboard/blogs/dummy-4.jpg";
+import blog5 from "@/public/images/website/home/pinboard/blogs/dummy-5.jpg";
+import blog6 from "@/public/images/website/home/pinboard/blogs/dummy-6.jpg";
+import blog7 from "@/public/images/website/home/pinboard/blogs/dummy-7.jpg";
+import blog8 from "@/public/images/website/home/pinboard/blogs/dummy-8.jpg";
 
 export const pinboardCopy = {
   label: "Fresh from our minds",
@@ -27,5 +37,8 @@ const noteLooks = [
   { paper: "#d8e3ea", tilt: -1.2, pin: "#d9533f" },
 ] as const;
 
+/** Each article's image, shown when its note's paper peels back (in the order of the notes). */
+const noteImages: StaticImageData[] = [blog1, blog2, blog3, blog4, blog5, blog6, blog7, blog8];
+
 /** The eight latest articles (the menu's five, then three more), each as a pinned note. */
-export const pinboardNotes = [...navigationBlogs, ...moreNotes].slice(0, 8).map((blog, i) => ({ ...blog, ...noteLooks[i] }));
+export const pinboardNotes = [...navigationBlogs, ...moreNotes].slice(0, 8).map((blog, i) => ({ ...blog, ...noteLooks[i], image: noteImages[i] }));

@@ -55,6 +55,12 @@ export const boardLayout = {
   magnets: { left: "39.167%", top: "4.645%" },
   story: { left: "12.708%", top: "68.169%" },
   /** Paper-art people standing in front of the board (page-level layers in Figma). */
-  meera: { left: "49.583%", top: "27.596%", width: "26.319%" },
-  cheeringMan: { left: "74.792%", top: "21.858%", width: "13.333%" },
+  /**
+   * (the new art is narrower / wider than Figma's: sized so each stands as tall as before.) Meera stands
+   * clear of the board's writing (it ends about 50% across), her marker still on the board (to 61%), her
+   * colleague beside her. Their `left` is given per screen in WhiteboardScene (`--x`): on tablets the
+   * scene's sides are cropped (8.3%-91.7% shows), so they stand a little closer together there.
+   */
+  meera: { top: "27.596%", width: "19.6%" },
+  cheeringMan: { top: "21.858%", width: "19.72%" },
 } as const;

@@ -219,6 +219,19 @@ body::-webkit-scrollbar {
 }
 
 /* the café barista's blink: her closed-eye frame shows for a moment now and then */
+/* an award's note opening beside its frames (see StartConversation.AwardsWall) */
+/* (it moves the note with `transform`, not `translate`: the note's own centring uses `translate`, and must not be overridden) */
+@keyframes award-note {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @keyframes cafe-blink {
   0%, 93%, 100% { opacity: 0; }
   94.5%, 97% { opacity: 1; }

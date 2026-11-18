@@ -4,11 +4,13 @@ import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import { footerContent } from "@/config/footer";
 import { startConversationCopy } from "../constants/startConversation.constants";
-// the café without its painted light cones: the lights draw their own beams, only while they're on
-import counter from "@/public/images/website/home/start-conversation/cafe/counter-unlit.webp";
+// the café without its painted light cones (the lights draw their own beams, only while they're on), and
+// without the cup shelves on the right: that wall is where the awards hang
+import counter from "@/public/images/website/home/start-conversation/cafe/counter-unlit-awards.webp";
 import { useCafeBarista, useCafeLights } from "../animations/StartConversation.Cafe";
 import { Layer, Overlay } from "./Puppet";
 import { CounterNotes } from "./StartConversation.CounterNotes";
+import { AwardsGrid, AwardsOnWall } from "./StartConversation.AwardsWall";
 import baristaBody from "@/public/images/website/home/start-conversation/cafe/barista-body.png";
 import baristaHead from "@/public/images/website/home/start-conversation/cafe/barista-head.png";
 import baristaHands from "@/public/images/website/home/start-conversation/cafe/barista-hands.png";
@@ -19,13 +21,13 @@ import paperPlane from "@/public/icons/paper-plane-accent.svg";
 function SocialMenu({ className }: { className?: string }) {
   return (
     <div className={cn("flex flex-col font-caveat text-[#f4eedd]", className)}>
-      <h3 className="text-center text-[clamp(26px,2.4cqw,38px)] leading-none font-bold">{startConversationCopy.cafe.boardTitle}</h3>
-      <ul className="mt-[clamp(8px,1cqw,16px)] flex flex-col">
+      <h3 className="text-center text-[clamp(20px,2.4cqw,38px)] leading-none font-bold">{startConversationCopy.cafe.boardTitle}</h3>
+      <ul className="mt-[clamp(4px,1cqw,16px)] flex flex-col">
         {footerContent.social.map(({ label, href }) => (
           <li key={label} className="border-b-[1.5px] border-dashed border-[rgba(244,238,221,0.35)] last:border-b-0">
             <a
               href={href}
-              className="group flex items-baseline justify-between gap-3 py-[clamp(4px,0.6cqw,9px)] text-[clamp(18px,1.6cqw,24px)] leading-[1.15] transition-colors hover:text-white"
+              className="group flex items-baseline justify-between gap-3 py-[clamp(2px,0.55cqw,9px)] text-[clamp(14px,1.6cqw,24px)] leading-[1.15] transition-colors hover:text-white"
             >
               <b className="font-bold text-[#f2d58a]">{label}</b>
               <span className="flex items-center gap-1.5">
@@ -105,6 +107,8 @@ export function Cafe({ className }: { className?: string }) {
     <div className={className}>
       <div ref={lightsRef} data-sr="rise" className="@container relative aspect-[2560/1300] w-full overflow-hidden">
         <Image src={counter} alt="" fill sizes="100vw" className="object-cover" />
+        {/* tablets up: the awards, framed and hung on the wall (above the chalkboard, and on the right) */}
+        <AwardsOnWall className="hidden md:block" />
         {LAMPS.map((x) => (
           <LampLight key={x} x={x} />
         ))}
@@ -112,7 +116,7 @@ export function Cafe({ className }: { className?: string }) {
         {/* the counter's front edge, in front of her */}
         <Image src={counter} alt="" fill sizes="100vw" className="pointer-events-none object-cover [clip-path:inset(70.6%_0_0_0)]" />
         {/* the little orange paper plane (the eyebrows' one), flying across the café now and then (see useCafeLights) */}
-        <div data-cafe-plane aria-hidden="true" className="pointer-events-none absolute top-0 left-0 z-10 w-[3.2%] opacity-0 will-change-transform">
+        <div data-cafe-plane aria-hidden="true" className="pointer-events-none absolute top-0 left-0 z-[25] w-[3.2%] opacity-0 will-change-transform">
           {/* rolls about the flight's direction, in 3D */}
           <div data-cafe-roll className="transform-3d">
             {/* the picture's nose points 40° up: turned level here, so the plane lies along its flight */}
@@ -122,8 +126,10 @@ export function Cafe({ className }: { className?: string }) {
         {/* md up: the social handles, chalked on the board in the picture */}
         <SocialMenu className="absolute top-[23.8%] left-[5.1%] hidden h-[43%] w-[24.2%] p-[1.6cqw] md:flex" />
         {/* lg up: our numbers, email and address, pinned to the front of the counter */}
-        <CounterNotes size="counter" className="absolute inset-x-[7%] top-[74%] hidden grid-cols-3 items-start gap-[5cqw] lg:grid" />
+        <CounterNotes size="counter" className="absolute inset-x-[7%] top-[74%] z-30 hidden grid-cols-3 items-start gap-[5cqw] lg:grid" />
       </div>
+      {/* phones: the awards, hung two across under the scene */}
+      <AwardsGrid className="md:hidden" />
       {/* smaller screens: the same notes, under the scene */}
       <CounterNotes size="card" className="site-container mt-8 grid gap-5 sm:grid-cols-3 sm:gap-4 lg:hidden" />
       {/* phones: the same list on a chalkboard of its own */}

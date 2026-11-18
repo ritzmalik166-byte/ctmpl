@@ -30,17 +30,25 @@ function Navbar() {
 
         <div className="flex items-center gap-3 sm:gap-6 lg:gap-[46px]">
           <nav aria-label="Quick actions" className="flex items-center gap-4">
-            {/* paper crumple on hover, turning into a white pill */}
+            {/*
+              Just the icon; hovered, the button opens out smoothly to show "WhatsApp" beside it (and the paper still
+              crumples into a white pill). The button keeps one size throughout and only its visible part grows,
+              opening leftwards, so nothing reflows and the crumple plays on a steady shape; the hover area grows
+              with it. Inside, the icon glides to the left end as it opens, the word appearing on its right; the
+              contents are clipped to the button's rounded shape, so the word never shows outside it.
+            */}
             <ButtonLink
               href={siteConfig.contact.whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Chat with us on WhatsApp"
               variant="whatsapp"
+              className="group overflow-hidden [clip-path:inset(-10px_-10px_-10px_calc(100%-58px)_round_999px)] transition-[clip-path,scale]! duration-500! ease-[cubic-bezier(0.22,1,0.36,1)]! hover:[clip-path:inset(-10px_-10px_-10px_-10px_round_999px)] focus-visible:[clip-path:inset(-10px_-10px_-10px_-10px_round_999px)]"
             >
-              <span className="flex items-center gap-2">
+              {/* icon on the left, the word on its right: at rest slid over so the icon sits in the visible end, gliding back as it opens */}
+              <span className="flex translate-x-[calc(100%-24px)] items-center transition-[translate] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-focus-visible:translate-x-0">
                 <Image src={whatsappIcon} alt="" width={24} height={24} unoptimized />
-                <span className="hidden md:inline">WhatsApp</span>
+                <span className="pl-2 whitespace-nowrap opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-hover:delay-100 group-hover:duration-300 group-focus-visible:opacity-100">WhatsApp</span>
               </span>
             </ButtonLink>
 

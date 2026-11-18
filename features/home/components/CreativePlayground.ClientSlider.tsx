@@ -3,6 +3,10 @@
 import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils/cn";
+import { CrumpleButton } from "@/components/ui/CrumpleButton";
+
+/** Paper bits shed by a crumpling name: ink, cream and the outline's tan (as the selector's other buttons). */
+const CHUNKS = ["#2c2826", "#faf6ef", "#aa9986"] as const;
 
 const COPIES = 3; // the list is laid out three times, so it can slide on forever either way
 const SLIDE = { duration: 0.45, ease: "power3.out" };
@@ -12,6 +16,8 @@ type ClientSliderProps = {
   clients: string[];
   active: number;
   onSelect: (index: number) => void;
+  /** The paper crumple hover of the selector's other buttons (an outlined name turns dark at peak crush). */
+  crumple?: boolean;
 };
 
 /**
@@ -22,7 +28,7 @@ type ClientSliderProps = {
  * three copies of the list: after each slide it hops, unseen, back to the
  * middle copy, so there is always more strip on both sides. Swipe to step too.
  */
-export function ClientSlider({ clients, active, onSelect }: ClientSliderProps) {
+export function ClientSlider({ clients, active, onSelect, crumple = false }: ClientSliderProps) {
   const n = clients.length;
   const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
@@ -103,9 +109,11 @@ export function ClientSlider({ clients, active, onSelect }: ClientSliderProps) {
           const isActive = i === active;
           const isCopy = p < n || p >= 2 * n;
           return (
-            <button
+            <CrumpleButton
               key={p}
               type="button"
+              crumple={crumple}
+              chunkColors={CHUNKS}
               aria-pressed={isActive}
               aria-hidden={isCopy || undefined}
               tabIndex={isCopy ? -1 : undefined}
@@ -117,11 +125,13 @@ export function ClientSlider({ clients, active, onSelect }: ClientSliderProps) {
               className={cn(
                 // from md (when there are too many names for a row) the same size as the row's names
                 "flex h-9 shrink-0 cursor-pointer items-center justify-center rounded-[5px] px-3 font-inter text-sm leading-[normal] tracking-[-0.3px] whitespace-nowrap transition-colors duration-300 md:h-10 lg:h-11 lg:px-4 lg:text-base xl:h-[46px] xl:text-[17px]",
-                isActive ? "bg-[#2c2826] font-bold text-[#faf6ef]" : "border border-[#aa9986] font-medium text-[#2c2826]"
+                isActive ? "bg-[#2c2826] font-bold text-[#faf6ef]" : cn("border border-[#aa9986] font-medium text-[#2c2826]", !crumple && "hover:bg-[#2c2826]/5"),
+                // crumpled (hovered): an outlined name turns dark, as in the row of names
+                !isActive && "data-flipped:border-[#2c2826] data-flipped:bg-[#2c2826] data-flipped:text-[#faf6ef]"
               )}
             >
               {clients[i]}
-            </button>
+            </CrumpleButton>
           );
         })}
       </div>
