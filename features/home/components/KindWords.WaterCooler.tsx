@@ -10,6 +10,7 @@ import { RobotPuppet } from "./KindWords.Robot";
 import { StickyNotes } from "./KindWords.StickyNotes";
 import { WaterBubbles } from "./KindWords.WaterBubbles";
 import { RoomStage } from "./KindWords.Stage";
+import { KindWordsCat } from "./KindWords.Cat";
 import { scrollToRange } from "@/lib/scroll/smoothScroll";
 import waterCoolerRoom from "@/public/images/website/home/kind-words/water-cooler-room.png";
 import noticeBoard from "@/public/images/website/home/kind-words/notice-board-bare.png";
@@ -64,10 +65,15 @@ export function WaterCooler() {
         <WaterBubbles />
         <StickyNotes />
         <ArjunPuppet speechSignal={told} speechSeconds={TESTIMONIAL_SECONDS - 0.5} label={kindWordsCopy.askArjun} onClick={next} />
+        {/* the paper cat: sits with Arjun, then (once) goes and knocks the robot over and runs off */}
+        <KindWordsCat />
       </RoomStage>
 
       <div data-sr="rise" className="max-xl:site-container mt-8 flex justify-center md:mt-12 xl:absolute xl:top-[1170px] xl:left-1/2 xl:mt-0 xl:-translate-x-1/2">
-        <ProjectControls clients={testimonialClients} active={selected} onSelect={pick} labels={kindWordsCopy} crumple />
+        {/* wider than 1440 the scene grows (--kw-s); the selector is undone back to 1:1, so it stays the exact size of the creative playground's */}
+        <div className="flex w-full justify-center xl:w-auto xl:origin-top xl:scale-[calc(1/var(--kw-s))]">
+          <ProjectControls clients={testimonialClients} active={selected} onSelect={pick} labels={kindWordsCopy} crumple />
+        </div>
       </div>
     </div>
   );

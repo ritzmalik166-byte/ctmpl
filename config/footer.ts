@@ -2,6 +2,7 @@ import instagram from "@/public/icons/social/instagram.svg";
 import linkedin from "@/public/icons/social/linkedin.svg";
 import youtube from "@/public/icons/social/youtube.svg";
 import facebook from "@/public/icons/social/facebook.svg";
+import x from "@/public/icons/social/x.svg";
 
 /** Footer content (Figma 75:1251). Links point to "#" until the pages exist. */
 export const footerContent = {
@@ -11,6 +12,7 @@ export const footerContent = {
     { label: "LinkedIn", icon: linkedin, href: "#" },
     { label: "YouTube", icon: youtube, href: "#" },
     { label: "Facebook", icon: facebook, href: "#" },
+    { label: "X (Twitter)", icon: x, href: "#" },
   ],
   columns: [
     {

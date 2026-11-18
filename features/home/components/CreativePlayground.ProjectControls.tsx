@@ -24,6 +24,9 @@ type ProjectControlsProps = {
 /** Paper bits shed by the crumpling selector buttons: ink, cream and the outline's tan. */
 const CHUNKS = ["#2c2826", "#faf6ef", "#aa9986"] as const;
 
+/** The most client names that share one row from md up (more and they slide, as on phones). */
+const MAX_ROW = 6;
+
 const arrowClass = "size-9 shrink-0 cursor-pointer rounded-full sm:size-10 lg:size-11 xl:size-[50px]";
 
 /**
@@ -40,6 +43,8 @@ const arrowClass = "size-9 shrink-0 cursor-pointer rounded-full sm:size-10 lg:si
  */
 export function ProjectControls({ clients, active, onSelect, labels = creativePlaygroundCopy, crumple = false }: ProjectControlsProps) {
   const count = clients.length;
+  /** More names than fit one row (from 7): the sliding strip on every screen, not only phones. */
+  const slide = count > MAX_ROW;
   const step = (by: number) => onSelect((active + by + count) % count);
 
   return (
@@ -49,13 +54,13 @@ export function ProjectControls({ clients, active, onSelect, labels = creativePl
           <Image src={arrowPrevious} alt="" width={65} height={65} className="size-full" />
         </CrumpleButton>
 
-        {/* phones: the endless slider */}
-        <div className="flex min-w-0 flex-1 md:hidden">
-          <ClientSlider clients={clients} active={active} onSelect={onSelect} />
+        {/* phones (and any screen with too many names for a row): the endless slider */}
+        <div className={cn("flex min-w-0 flex-1", !slide && "md:hidden")}>
+          <ClientSlider clients={clients} active={active} onSelect={onSelect} crumple={crumple} />
         </div>
 
         {/* md up: one row of names, sharing the width equally */}
-        <div className="hidden min-w-0 flex-1 gap-2 md:flex lg:gap-3">
+        <div className={cn("hidden min-w-0 flex-1 gap-2 lg:gap-3", !slide && "md:flex")}>
           {clients.map((client, i) => {
             const isActive = i === active;
             return (
@@ -90,7 +95,7 @@ export function ProjectControls({ clients, active, onSelect, labels = creativePl
       <ButtonLink
         href="#"
         variant="folded"
-        className="shrink-0 max-md:px-5 max-md:py-3 max-md:text-base md:max-xl:px-6 md:max-xl:py-3 md:max-xl:text-base xl:px-6 xl:py-3.5 xl:text-lg"
+        className="shrink-0"
       >
         {/* the button capitalises words; this label stays in sentence case */}
         <span className="normal-case">{labels.viewAll}</span>

@@ -4,15 +4,6 @@ import { cn } from "@/lib/utils/cn";
 import type { Testimonial } from "../constants/kindWords.constants";
 import speechBubble from "@/public/images/website/home/kind-words/speech-bubble.svg";
 
-/**
- * Arjun's paper speech bubble: a quote mark, the client's words, and who said
- * them (initial, name, role). Starts hidden: it grows out of Arjun's mouth
- * (see useTestimonialCycle).
- *  - xl: the Figma bubble (75:1098, the svg with its tail and shadow), drawn at 82% of its
- *    629 × 307 so the story card sits more compactly in the room;
- *  - smaller screens: the same paper bubble drawn in CSS, as wide as the screen
- *    allows and as tall as its text, its tail pointing down at Arjun.
- */
 export function SpeechBubble({ testimonial, className, ref }: { testimonial: Testimonial; className?: string; ref?: Ref<HTMLElement> }) {
   const { quote, name, role } = testimonial;
   return (

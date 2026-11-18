@@ -6,13 +6,15 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { afterIntro } from "@/lib/helpers/afterIntro";
 import { waveRevealWords } from "@/lib/animations/waveReveal";
+import { FLIGHT_FROM_TOP_LEFT, flyLabelPlane } from "@/lib/animations/labelPlaneFlight";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /**
  * "The company we keep" scroll entrance, once (no scrub, no timeline: tweens
  * on their own triggers, each starting as its part comes into view):
- *  - the label rises in, and the heading's and intro's words rise up in a wave;
+ *  - the label rises in, its little red plane flying in on a curve from the
+ *    top left, and the heading's and intro's words rise up in a wave;
  *  - the paper airplane glides in from the bottom left;
  *  - each rail: its wooden bar draws in from the left, then its visitor passes
  *    drop on their lanyards one after another, settling with a little bounce
@@ -50,6 +52,8 @@ export function useCompanyWeKeepReveal() {
         const head = { trigger: heading, start: "top 82%", once: true };
 
         gsap.fromTo(label, { autoAlpha: 0, yPercent: 60 }, { autoAlpha: 1, yPercent: 0, duration: 0.8, ease: "power3.out", scrollTrigger: head, onComplete: clear(label) });
+        const labelPlane = label.querySelector("img");
+        if (labelPlane) flyLabelPlane(labelPlane, FLIGHT_FROM_TOP_LEFT, head);
         waveRevealWords(heading, head);
         waveRevealWords(intro, { ...head, trigger: intro, start: "top 88%" });
         planes.forEach((plane) =>

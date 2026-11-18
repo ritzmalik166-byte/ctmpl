@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { afterIntro } from "@/lib/helpers/afterIntro";
 import { waveRevealWords } from "./waveReveal";
+import { FLIGHT_FROM_TOP_LEFT, FLIGHT_FROM_TOP_RIGHT, flyLabelPlane } from "./labelPlaneFlight";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -33,6 +34,8 @@ const DURATION: Record<string, number> = { label: 0.8, rise: 0.9, drop: 0.9, "sl
  *  - `data-sr="words"`: the text's words rise up from under their lines, in a wave;
  *  - `data-sr="label" | "rise" | "drop" | "slide-left" | "slide-right"`: the element enters so;
  *  - `data-sr="stagger"`: its children rise in one after another.
+ * A label's little red paper plane flies in on a curve as the label rises
+ * (from the top right, or the top left with `data-sr-flight="left"`).
  * Optional `data-sr-delay` (s). Styles are cleared once each element has
  * arrived, so it behaves exactly as before afterwards. Elements of a layout
  * hidden at this screen size are left alone. Waits for fonts (text splits into
@@ -86,6 +89,8 @@ export function useScrollReveal<T extends HTMLElement = HTMLElement>() {
               scrollTrigger,
               onComplete: settle(el),
             });
+            const plane = kind === "label" ? el.querySelector("img") : null;
+            if (plane) flyLabelPlane(plane, el.dataset.srFlight === "left" ? FLIGHT_FROM_TOP_LEFT : FLIGHT_FROM_TOP_RIGHT, scrollTrigger);
           }
         });
       });

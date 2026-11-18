@@ -6,7 +6,7 @@ import { useSwingingPasses } from "../animations/CompanyWeKeep.Passes";
 import { cn } from "@/lib/utils/cn";
 import { LanyardRail, RailBar } from "./CompanyWeKeep.VisitorPass";
 import { RailScroller } from "./CompanyWeKeep.RailScroller";
-import paperAirplane from "@/public/images/website/home/who-we-are/paper-airplane.png";
+import paperAirplane from "@/public/images/website/home/who-we-are/paper-airplane-clean.png";
 
 /**
  * The reception board: both rails of visitor passes, swinging (see

@@ -4,12 +4,13 @@ import Image from "next/image";
 import SectionLabel from "@/components/website/shared/SectionLabel";
 import { whoWeAreCopy } from "../constants/whoWeAre.constants";
 import { useWhoWeAreIntro } from "../animations/WhoWeAre.Intro";
-import paperAirplane from "@/public/images/website/home/who-we-are/paper-airplane.png";
+import paperAirplane from "@/public/images/website/home/who-we-are/paper-airplane-clean.png";
 
 /**
  * "Who we are" heading, intro and paper airplane. On scroll the label, heading
- * and intro rise up word by word in a wave, all together, and the airplane
- * glides in from the bottom left to its place (see useWhoWeAreIntro).
+ * and intro rise up word by word in a wave, all together, the label's little
+ * red plane flies in on a curve, and the airplane glides in from the bottom
+ * left to its place (see useWhoWeAreIntro).
  */
 function WhoWeAreHeader() {
   const ref = useWhoWeAreIntro();

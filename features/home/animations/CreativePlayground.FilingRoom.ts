@@ -14,7 +14,8 @@ export const STAMP_LANDS_AT = 0.95;
 
 /**
  * Opening another case in the filing room:
- *  1. the open drawer's file tabs sink back inside and it glides shut,
+ *  1. the open cabinet drawer's file tabs sink back inside and it glides shut
+ *     (a file from the desk's drawers has none here: DeskDrawers slides those),
  *  2. the picked drawer glides well out towards us (larger, a deep shadow,
  *     over its neighbours) and its file tabs rise up out of it,
  *  3. on the desk the case file's photo and typed sheet are swapped for that
@@ -34,7 +35,8 @@ export function useFilingRoom(active: number) {
       if (!root || from === active) return;
       shown.current = active;
 
-      const one = (sel: string) => root.querySelector<HTMLElement>(sel);
+      // a file from the desk's drawers has no cabinet drawer or tabs: those steps just skip it (an empty target)
+      const one = (sel: string): HTMLElement | never[] => root.querySelector<HTMLElement>(sel) ?? [];
       const [oldDrawer, newDrawer] = [one(`[data-drawer="${from}"]`), one(`[data-drawer="${active}"]`)];
       const [oldTabs, newTabs] = [one(`[data-tabs="${from}"]`), one(`[data-tabs="${active}"]`)];
       const [oldCover, newCover] = [one(`[data-cover="${from}"]`), one(`[data-cover="${active}"]`)];
