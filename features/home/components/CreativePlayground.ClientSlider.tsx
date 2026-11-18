@@ -124,7 +124,7 @@ export function ClientSlider({ clients, active, onSelect, crumple = false }: Cli
               }}
               className={cn(
                 // from md (when there are too many names for a row) the same size as the row's names
-                "flex h-9 shrink-0 cursor-pointer items-center justify-center rounded-[5px] px-3 font-inter text-sm leading-[normal] tracking-[-0.3px] whitespace-nowrap transition-colors duration-300 md:h-10 lg:h-11 lg:px-4 lg:text-base xl:h-[46px] xl:text-[17px]",
+                "flex h-8 shrink-0 cursor-pointer items-center justify-center rounded-[5px] px-3 font-inter text-[13px] leading-[normal] tracking-[-0.3px] whitespace-nowrap transition-colors duration-300 md:h-9 lg:h-[38px] lg:px-3.5 lg:text-sm xl:h-10 xl:text-[15px]",
                 isActive ? "bg-[#2c2826] font-bold text-[#faf6ef]" : cn("border border-[#aa9986] font-medium text-[#2c2826]", !crumple && "hover:bg-[#2c2826]/5"),
                 // crumpled (hovered): an outlined name turns dark, as in the row of names
                 !isActive && "data-flipped:border-[#2c2826] data-flipped:bg-[#2c2826] data-flipped:text-[#faf6ef]"

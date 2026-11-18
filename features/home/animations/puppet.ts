@@ -146,3 +146,20 @@ export function blink(openEyes: Element[]) {
     .set(openEyes, { opacity: 1 }, "+=0.13");
   return timeline;
 }
+
+/**
+ * The same natural blinking, the other way round: `closedEyes` (a closed-eyes
+ * overlay over open-eyed artwork) shows for a moment.
+ */
+export function blinkShut(closedEyes: Element[]) {
+  gsap.set(closedEyes, { opacity: 0 });
+  // (a long run of blinks, each after its own pause, so no two gaps are alike)
+  const timeline = gsap.timeline({ repeat: -1, delay: gsap.utils.random(0.8, 2.5) });
+  for (let i = 0; i < 12; i++) {
+    const at = `+=${gsap.utils.random(2.8, 6)}`;
+    timeline.set(closedEyes, { opacity: 1 }, at).set(closedEyes, { opacity: 0 }, "+=0.14");
+    // about one blink in five is a double blink
+    if (Math.random() < 0.2) timeline.set(closedEyes, { opacity: 1 }, "+=0.18").set(closedEyes, { opacity: 0 }, "+=0.12");
+  }
+  return timeline;
+}

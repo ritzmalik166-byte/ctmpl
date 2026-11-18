@@ -2,9 +2,10 @@ import Image from "next/image";
 import Container from "@/components/ui/Container";
 import ButtonLink from "@/components/ui/ButtonLink";
 import { heroActions, heroHeadline, heroScene } from "../constants/hero.constants";
-import officeBackground from "@/public/images/website/home/hero/office-background.png";
+// (the office without anyone in it: the reception is drawn on top, see HeroReception)
+import officeBackground from "@/public/images/website/home/hero/office-background-empty.png";
 import HeroClock from "./Hero.Clock";
-import { ReadingWoman, WelcomingMan } from "./Hero.Characters";
+import { HeroReception } from "./Hero.Characters";
 import { HeroRotatingLine } from "./Hero.RotatingLine";
 
 /**
@@ -47,7 +48,7 @@ function HeroSection() {
 
           {/* Phones: full-width stacked buttons. From 400px: inline, as in Figma; on tablets a little
               smaller, so they stay clear of the reading woman */}
-          <div className="mt-7 flex flex-col gap-3 min-[400px]:flex-row min-[400px]:flex-wrap min-[400px]:items-center min-[400px]:gap-[19px] md:mt-[clamp(1.5rem,2.361vw,2.125rem)] md:max-lg:[zoom:0.72]">
+          <div className="mt-4 flex flex-col gap-3 min-[400px]:flex-row min-[400px]:flex-wrap min-[400px]:items-center min-[400px]:gap-[19px] md:mt-[clamp(0.75rem,1.111vw,1rem)] md:max-lg:[zoom:0.72]">
             {heroActions.map((action) => (
               <ButtonLink key={action.href} href={action.href} variant={action.variant}>
                 {action.label}
@@ -105,9 +106,8 @@ function HeroScene() {
         </span>
         <HeroClock style={heroScene.clock} />
 
-        {/* Paper puppets: she reads and talks, he welcomes you in */}
-        <ReadingWoman style={heroScene.woman} />
-        <WelcomingMan style={heroScene.man} />
+        {/* The reception: she reads, the receptionist takes a call at the desk, he leans on it */}
+        <HeroReception style={heroScene.reception} />
       </div>
     </div>
   );

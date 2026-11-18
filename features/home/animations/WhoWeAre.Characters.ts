@@ -88,26 +88,20 @@ export function usePresentingMeera(activeStat?: number) {
 }
 
 /**
- * The man is enjoying himself: a relaxed, easy sway. His raised arms wave
- * gently one after the other, his crossed legs rock from the hips, his head
- * tilts along and he bobs softly on each beat.
+ * The man is enjoying himself: his raised arms wave gently one after the
+ * other. Only his arms move; he stands with both feet on the floor.
  */
 export function useCheeringMan() {
   return usePuppet((q) => {
-    const [armL, armR, legs, head, eyes, figure] = [q("arm-left"), q("arm-right"), q("legs"), q("head"), q("eyes"), q("figure")];
+    const [armL, armR, eyes] = [q("arm-left"), q("arm-right"), q("eyes")];
     const BEAT = 0.9; // seconds per beat: an easy, happy groove
 
-    const sway = gsap.timeline({ delay: 0.2 });
-    sway
-      // arms wave outward, one after the other
+    // only his arms move: they wave outward, one after the other (his feet stay planted on the floor)
+    const cheer = gsap.timeline({ delay: 0.2 });
+    cheer
       .to(armL, { rotation: -7, duration: BEAT, ease: "sine.inOut", yoyo: true, repeat: -1 }, 0)
-      .to(armR, { rotation: 7, duration: BEAT, ease: "sine.inOut", yoyo: true, repeat: -1 }, BEAT)
-      // legs rock from the hips; the head tilts along a touch behind
-      .fromTo(legs, { rotation: -2 }, { rotation: 2, duration: BEAT, ease: "sine.inOut", yoyo: true, repeat: -1 }, 0)
-      .fromTo(head, { rotation: -2 }, { rotation: 2, duration: BEAT, ease: "sine.inOut", yoyo: true, repeat: -1 }, 0.12)
-      // a soft bob on every beat
-      .to(figure, { yPercent: -0.6, duration: BEAT / 2, ease: "sine.inOut", yoyo: true, repeat: -1 }, 0);
+      .to(armR, { rotation: 7, duration: BEAT, ease: "sine.inOut", yoyo: true, repeat: -1 }, BEAT);
 
-    return [sway, blink(eyes)];
+    return [cheer, blink(eyes)];
   });
 }

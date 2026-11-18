@@ -236,7 +236,8 @@ export function WhiteboardScene() {
           className="left-(--x) [--x:52%] lg:[--x:53%]"
           style={boardLayout.meera}
         />
-        <CheeringMan sizes="20vw" className="left-(--x) [--x:69.5%] lg:[--x:74.5%]" style={boardLayout.cheeringMan} />
+        {/* (close beside her) */}
+        <CheeringMan sizes="20vw" className="left-(--x) [--x:66.5%] lg:[--x:71.5%]" style={boardLayout.cheeringMan} />
       </div>
     </div>
   );
@@ -267,7 +268,7 @@ export function WhiteboardMobile() {
 
       {/* Meera and her colleague stand on the floor below the board, sized to the screen width */}
       <PresentingMeera sizes="33vw" className="bottom-3 left-[8.6%] z-10 w-[32.8%]" />
-      <CheeringMan sizes="31vw" className="bottom-3 left-[44%] z-10 w-[31%]" />
+      <CheeringMan sizes="31vw" className="bottom-3 left-[41%] z-10 w-[31%]" />
 
       {/* bottom padding leaves floor space for the two characters (% of width, like them) */}
       <div className="relative px-(--gutter) pt-10 pb-[56%]">

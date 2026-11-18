@@ -1,65 +1,64 @@
 "use client";
 
-import { useReadingWoman, useWelcomingMan } from "../animations/Hero.Characters";
-import { Layer, Overlay, type Placement } from "./Puppet";
-import manBody from "@/public/images/website/home/hero/rig/man-body.png";
-import manArm from "@/public/images/website/home/hero/rig/man-arm.png";
-import manHead from "@/public/images/website/home/hero/rig/man-head.png";
-import womanBody from "@/public/images/website/home/hero/rig/woman-body.png";
-import womanHead from "@/public/images/website/home/hero/rig/woman-head.png";
-import womanBook from "@/public/images/website/home/hero/rig/woman-book.png";
-import womanHands from "@/public/images/website/home/hero/rig/woman-hands.png";
+import { useReception } from "../animations/Hero.Characters";
+import { Layer, type Placement } from "./Puppet";
+import clerk from "@/public/images/website/home/hero/reception/clerk.png";
+import desk from "@/public/images/website/home/hero/reception/desk.png";
+import woman from "@/public/images/website/home/hero/reception/woman.png";
+import man from "@/public/images/website/home/hero/reception/man.png";
+import mouthClosed from "@/public/images/website/home/hero/reception/clerk-mouth-closed.png";
+import mouthSmall from "@/public/images/website/home/hero/reception/clerk-mouth-small.png";
+import mouthWide from "@/public/images/website/home/hero/reception/clerk-mouth-wide.png";
+import mouthRound from "@/public/images/website/home/hero/reception/clerk-mouth-round.png";
+import womanSmall from "@/public/images/website/home/hero/reception/woman-mouth-small.png";
+import womanMid from "@/public/images/website/home/hero/reception/woman-mouth-mid.png";
+import womanWide from "@/public/images/website/home/hero/reception/woman-mouth-wide.png";
+import womanRound from "@/public/images/website/home/hero/reception/woman-mouth-round.png";
+import manSmile from "@/public/images/website/home/hero/reception/man-smile.png";
+// closed eyes, laid over each face for a blink
+import clerkShut from "@/public/images/website/home/hero/reception/clerk-eyes-closed.png";
+import womanShut from "@/public/images/website/home/hero/reception/woman-eyes-closed.png";
+import manShut from "@/public/images/website/home/hero/reception/man-eyes-closed.png";
 
 /**
- * The hero's two paper-art characters as paper puppets (see ./Puppet).
- * Pivot and overlay positions are % of each character's artwork.
+ * The reception: a woman reading from her book, the receptionist on the phone
+ * behind the desk, and a man leaning on it. Cut from one picture (612 × 408)
+ * into full-size layers that line up exactly, so each can move on its own;
+ * at rest they make the original picture. Pivots are % of the picture.
  */
 
-/* --- Man (302 × 541): welcomes visitors with a sweep of his arm ------------ */
+const SIZES = "(min-width: 768px) 63vw, 100vw";
 
-const MAN_SIZES = "(min-width: 768px) 21vw, 34vw";
-
-export function WelcomingMan({ style }: { style: Placement }) {
-  const ref = useWelcomingMan();
+export function HeroReception({ style }: { style: Placement }) {
+  const ref = useReception();
   return (
-    <div ref={ref} className="absolute aspect-[302/541]" style={style}>
-      {/* whole figure leans from the feet */}
-      <div data-part="figure" className="absolute inset-0 origin-[54.6%_98.9%]">
-        {/* arm sits behind the jacket, pinned at the shoulder */}
-        <div data-part="arm" className="absolute inset-0 origin-[37.75%_24.4%]">
-          <Layer src={manArm} sizes={MAN_SIZES} />
-        </div>
-        <Layer src={manBody} sizes={MAN_SIZES} />
-        <div data-part="head" className="absolute inset-0 origin-[54.64%_18.11%]">
-          <Layer src={manHead} sizes={MAN_SIZES} />
-          <Overlay part="mouth" className="origin-top rounded-b-full bg-[#6e2f22]" style={{ left: "53.8%", top: "14.9%", width: "2%", height: "0.6%" }} />
-          <Overlay part="lid" className="origin-top border-b border-[#3a2a20] bg-[#efbb88]" style={{ left: "48.9%", top: "9.4%", width: "3.7%", height: "1.7%" }} />
-          <Overlay part="lid" className="origin-top border-b border-[#3a2a20] bg-[#e0b07e]" style={{ left: "56.9%", top: "9.4%", width: "4%", height: "1.7%" }} />
-        </div>
+    <div ref={ref} className="absolute aspect-[612/408]" style={style}>
+      {/* behind the desk, on the phone (the laptop and the desk are in front of her) */}
+      <div data-part="clerk" className="absolute inset-0 origin-[50.7%_54.9%]">
+        <Layer src={clerk} sizes={SIZES} />
+        {/* her mouth shapes as she talks (her own, a half-open smile, is the one in between) */}
+        <Layer src={mouthClosed} sizes={SIZES} part="mouth-closed" hidden />
+        <Layer src={mouthSmall} sizes={SIZES} part="mouth-small" hidden />
+        <Layer src={mouthWide} sizes={SIZES} part="mouth-wide" hidden />
+        <Layer src={mouthRound} sizes={SIZES} part="mouth-round" hidden />
+        <Layer src={clerkShut} sizes={SIZES} part="clerk-eyes" hidden />
       </div>
-    </div>
-  );
-}
-
-/* --- Woman (213 × 523): reads from her book, then tells you about it ------- */
-
-const WOMAN_SIZES = "(min-width: 768px) 15vw, 24vw";
-
-export function ReadingWoman({ style }: { style: Placement }) {
-  const ref = useReadingWoman();
-  return (
-    <div ref={ref} className="absolute aspect-[213/523]" style={style}>
-      <div data-part="figure" className="absolute inset-0 origin-[49.8%_99.4%]">
-        <Layer src={womanBody} sizes={WOMAN_SIZES} />
-        {/* book + hands move together */}
-        <div data-part="book" className="absolute inset-0 origin-[48.83%_36.33%]">
-          <Layer src={womanBook} sizes={WOMAN_SIZES} />
-          <Layer src={womanHands} sizes={WOMAN_SIZES} />
-        </div>
-        <div data-part="head" className="absolute inset-0 origin-[47.89%_17.21%]">
-          <Layer src={womanHead} sizes={WOMAN_SIZES} />
-          <Overlay part="mouth" className="origin-top rounded-b-full bg-[#7a2f2a]" style={{ left: "46.5%", top: "14.5%", width: "2.4%", height: "0.6%" }} />
-        </div>
+      <Layer src={desk} sizes={SIZES} />
+      <div data-part="woman" className="absolute inset-0 origin-[24.2%_98.3%]">
+        <Layer src={woman} sizes={SIZES} />
+        {/* her mouth shapes as she talks (her own, a closed smile, is the one at rest) */}
+        <Layer src={womanSmall} sizes={SIZES} part="woman-mouth-small" hidden />
+        <Layer src={womanMid} sizes={SIZES} part="woman-mouth-mid" hidden />
+        <Layer src={womanWide} sizes={SIZES} part="woman-mouth-wide" hidden />
+        <Layer src={womanRound} sizes={SIZES} part="woman-mouth-round" hidden />
+        <Layer src={womanShut} sizes={SIZES} part="woman-eyes" hidden />
+      </div>
+      {/* in front of the desk, his hand resting on it */}
+      <div data-part="man" className="absolute inset-0 origin-[77.1%_97.5%]">
+        <Layer src={man} sizes={SIZES} />
+        {/* a broad, closed-lip smile he breaks into now and then */}
+        <Layer src={manSmile} sizes={SIZES} part="man-smile" hidden />
+        <Layer src={manShut} sizes={SIZES} part="man-eyes" hidden />
       </div>
     </div>
   );

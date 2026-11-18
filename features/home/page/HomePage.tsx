@@ -6,6 +6,7 @@ import CompanyWeKeepSection from "../components/CompanyWeKeep.Section"
 import KindWordsSection from "../components/KindWords.Section"
 import PinboardSection from "../components/Pinboard.Section"
 import StartConversationSection from "../components/StartConversation.Section"
+import { ScrollPlane } from "../components/ScrollPlane"
 
 function HomePage() {
     return (
@@ -18,6 +19,8 @@ function HomePage() {
             <KindWordsSection />
             <PinboardSection />
             <StartConversationSection />
+            {/* the eyebrow plane, flying from section to section with the scroll */}
+            <ScrollPlane />
         </>
     )
 }

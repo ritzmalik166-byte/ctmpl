@@ -47,6 +47,8 @@ const SECONDS = 3.2;
  * screens the flight is smaller, in step. Plays once on `scrollTrigger`.
  */
 export function flyLabelPlane(plane: HTMLElement, flight: LabelFlight, scrollTrigger: ScrollTrigger.Vars) {
+  // on the home page every eyebrow keeps its plane in place: the scroll plane flies between them (see ScrollPlane)
+  if (plane.hasAttribute("data-plane-dock") && document.querySelector("#who-we-are [data-plane-dock]")) return;
   const k = Math.min(1, window.innerWidth / 1280);
   const path = flight.map(({ x, y }) => ({ x: x * k, y: y * k }));
   const [before, last] = flight.slice(-2);
