@@ -44,7 +44,7 @@ export function useKindWordsCat() {
       const root = ref.current;
       if (!root) return;
       const tl = gsap.timeline({ paused: true });
-      const { j, cat, flip, shadow, pose, setPose, walk, look, blink, grin, ambush, pounce } = createCatRig(root, tl);
+      const { j, cat, flip, shadow, pose, setPose, walk, look, blink, grin, ambush, pounce, dispose } = createCatRig(root, tl);
       // facing right, towards the robot, sitting by Arjun
       gsap.set(flip, { scaleX: -1 });
       gsap.set(cat, { x: SIT_X, y: FLOOR_Y, autoAlpha: 1 });
@@ -121,6 +121,7 @@ export function useKindWordsCat() {
         trigger.kill();
         observer.disconnect();
         tl.kill();
+        dispose();
       };
     },
     { scope: ref }

@@ -9,16 +9,15 @@ import { startConversationCopy } from "../constants/startConversation.constants"
 import counter from "@/public/images/website/home/start-conversation/cafe/counter-unlit-awards.webp";
 import { useCafeBarista, useCafeLights } from "../animations/StartConversation.Cafe";
 import { Layer, Overlay } from "./Puppet";
-import { CounterNotes } from "./StartConversation.CounterNotes";
-import { AwardsGrid, AwardsOnWall } from "./StartConversation.AwardsWall";
+import { AwardsOnWall } from "./StartConversation.AwardsWall";
 import baristaBody from "@/public/images/website/home/start-conversation/cafe/barista-body.png";
 import baristaHead from "@/public/images/website/home/start-conversation/cafe/barista-head.png";
 import baristaHands from "@/public/images/website/home/start-conversation/cafe/barista-hands.png";
 import baristaBlink from "@/public/images/website/home/start-conversation/cafe/barista-blink.webp";
 import paperPlane from "@/public/icons/paper-plane-accent.svg";
 
-/** The chalkboard's list: the studio's social handles, in chalk. */
-function SocialMenu({ className }: { className?: string }) {
+/** The chalkboard's list: the studio's social handles, in chalk (on the board in the scene; on phones, in the footer's counter). */
+export function SocialMenu({ className }: { className?: string }) {
   return (
     <div className={cn("flex flex-col font-caveat text-[#f4eedd]", className)}>
       <h3 className="text-center text-[clamp(20px,2.4cqw,38px)] leading-none font-bold">{startConversationCopy.cafe.boardTitle}</h3>
@@ -95,11 +94,10 @@ function Barista() {
  * (she talks to you and serves the coffee, see useCafeBarista), the three
  * ceiling lights blinking in turn and a paper plane flying through now and then
  * (useCafeLights), the
- * chalkboard on the wall listing the studio's social handles, and our numbers,
- * email and address pinned to the counter as paper notes (CounterNotes). The scene scales
- * with the screen's width; from md the list is chalked onto the board in the
- * picture, on phones (too small to read there) it hangs below the scene as a
- * chalkboard of its own.
+ * chalkboard on the wall listing the studio's social handles. It's the top of
+ * the site footer: the counter runs on down below it (FooterCounter). The scene
+ * scales with the screen's width; from md the list is chalked onto the board in
+ * the picture (on phones, too small to read there, the footer's counter has it).
  */
 export function Cafe({ className }: { className?: string }) {
   const lightsRef = useCafeLights();
@@ -125,15 +123,7 @@ export function Cafe({ className }: { className?: string }) {
         </div>
         {/* md up: the social handles, chalked on the board in the picture */}
         <SocialMenu className="absolute top-[23.8%] left-[5.1%] hidden h-[43%] w-[24.2%] p-[1.6cqw] md:flex" />
-        {/* lg up: our numbers, email and address, pinned to the front of the counter */}
-        <CounterNotes size="counter" className="absolute inset-x-[7%] top-[74%] z-30 hidden grid-cols-3 items-start gap-[5cqw] lg:grid" />
       </div>
-      {/* phones: the awards, hung two across under the scene */}
-      <AwardsGrid className="md:hidden" />
-      {/* smaller screens: the same notes, under the scene */}
-      <CounterNotes size="card" className="site-container mt-8 grid gap-5 sm:grid-cols-3 sm:gap-4 lg:hidden" />
-      {/* phones: the same list on a chalkboard of its own */}
-      <SocialMenu className="site-container mt-6 rounded-[4px] border-[10px] border-[#8a6a5a] bg-[#4e5e56] p-5 shadow-[0_10px_20px_-8px_rgba(40,30,20,0.4)] md:hidden" />
     </div>
   );
 }

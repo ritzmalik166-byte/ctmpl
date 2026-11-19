@@ -3,8 +3,8 @@ import localFont from "next/font/local";
 /**
  * Self-hosted variable fonts (files live in /public/fonts).
  * Each font exposes a CSS variable that globals.css maps to a Tailwind
- * utility: `font-instrument`, `font-inter`, `font-caveat`, `font-typewriter`
- * and `font-jakarta`.
+ * utility: `font-instrument`, `font-inter`, `font-caveat`, `font-typewriter`,
+ * `font-jakarta` and `font-western`.
  */
 
 export const instrumentSans = localFont({
@@ -51,5 +51,14 @@ export const plusJakartaSans = localFont({
   variable: "--font-plus-jakarta-sans-face",
 });
 
+/** Rye, a Western display face, used for the footer's wooden signs. */
+export const rye = localFont({
+  src: "../public/fonts/rye/Rye-400.woff2",
+  weight: "400",
+  style: "normal",
+  display: "swap",
+  variable: "--font-rye-face",
+});
+
 /** Class string that registers every font variable on <html>. */
-export const fontVariables = `${instrumentSans.variable} ${inter.variable} ${caveat.variable} ${courierPrime.variable} ${plusJakartaSans.variable}`;
+export const fontVariables = `${instrumentSans.variable} ${inter.variable} ${caveat.variable} ${courierPrime.variable} ${plusJakartaSans.variable} ${rye.variable}`;

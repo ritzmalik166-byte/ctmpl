@@ -22,7 +22,7 @@ function CasePage({ index }: { index: number }) {
       <Image src={paperBlank} alt="" fill sizes="340px" className="pointer-events-none object-cover" />
       <div className="absolute inset-0 flex flex-col px-[7%] pt-[7%] pb-[6%]">
         <p className="font-typewriter text-[10px] leading-none font-bold tracking-[1.8px] text-[#a17351] uppercase">
-          {caseFileLabels.title} · {file.number}
+          {caseFileLabels.title}
         </p>
         {/* the photo, in a polaroid with a paperclip */}
         <div className="relative mx-auto mt-[7%] w-[86%] -rotate-2 bg-white p-[3%] pb-[8%] shadow-[0_3px_8px_rgba(60,44,20,0.25)]">
@@ -36,7 +36,7 @@ function CasePage({ index }: { index: number }) {
           {[
             [caseFileLabels.client, file.client],
             [caseFileLabels.campaign, file.campaign],
-            [caseFileLabels.filedBy, file.filedBy],
+            [caseFileLabels.services, file.services],
           ].map(([label, value]) => (
             <div key={label} className="contents">
               <dt className="pt-px text-[9px] leading-none font-bold tracking-[1.2px] text-[#625d58] uppercase">{label}</dt>
@@ -123,7 +123,7 @@ export function CaseBook({ active, onSelect }: { active: number; onSelect: (inde
       data-case-book
       role="button"
       tabIndex={0}
-      aria-label={`${creativePlaygroundCopy.caseFileTab} ${active + 1} of ${count}: ${creativePlaygroundCopy.next}`}
+      aria-label={`${creativePlaygroundCopy.caseFileTab}: ${playgroundCases[active].client}. ${creativePlaygroundCopy.next}`}
       className="relative mx-auto w-full max-w-[340px] cursor-pointer touch-pan-y pt-7 outline-none select-none focus-visible:ring-2 focus-visible:ring-[#b96245] focus-visible:ring-offset-4"
       onKeyDown={(e) => {
         if (e.key !== "Enter" && e.key !== " ") return;
@@ -135,11 +135,9 @@ export function CaseBook({ active, onSelect }: { active: number; onSelect: (inde
       onPointerCancel={() => (swipe.current = null)}
     >
       {/* the folder: its tab, and the kraft back the pages lie on */}
-      <div className="absolute top-0 left-[6%] flex h-8 w-[38%] items-start justify-center rounded-t-lg bg-[#e2be82] pt-1.5">
+      <div className="absolute top-0 left-[6%] flex h-8 w-[38%] items-start justify-center rounded-t-lg bg-[#e2be82] pt-2">
         <p className="text-center font-inter text-[10px] leading-tight font-bold text-[#5b4520] uppercase">
           {creativePlaygroundCopy.caseFileTab}
-          <br />
-          {active + 1} of {count}
         </p>
       </div>
       <div className="relative rounded-md bg-[#e2be82] p-[4%] shadow-[0_10px_22px_rgba(60,44,20,0.28)]">

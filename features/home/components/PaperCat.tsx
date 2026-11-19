@@ -45,17 +45,16 @@ function Leg({ upper, lower, lift }: { upper: CatJoint; lower: CatJoint; lift: s
  * pleased with itself, its "o" (`data-surprise`) when something surprises it. Moved by createCatRig (animations/paperCat).
  *
  * `data-cat` is its box (placed by its top left, in px of the scene), turned
- * round by `data-flip`; its shadow (`data-cat-shadow`) stays on the floor when it
+ * round by `data-flip`; its shadow (`data-cat-shadow`, on the floor right under its paws) stays there when it
  * leaps. Starts hidden unless `visible`.
  */
 export function PaperCat({ width, height, visible = false }: { width: number | string; height: number | string; visible?: boolean }) {
   // ids of its filters, unique on the page (two cats, and SSR-safe)
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
-  const [lift, paper] = [`cat-lift-${uid}`, `cat-paper-${uid}`];
+  const [lift, paper, shade] = [`cat-lift-${uid}`, `cat-paper-${uid}`, `cat-shade-${uid}`];
 
   return (
     <div data-cat className={visible ? "absolute top-0 left-0" : "absolute top-0 left-0 opacity-0"} style={{ width, height }}>
-      <span data-cat-shadow className="absolute -bottom-[4px] left-[14%] h-[12px] w-[74%] rounded-[50%] bg-[radial-gradient(closest-side,rgba(60,40,20,0.34),transparent)]" />
       <div data-flip className="absolute inset-0">
         <svg viewBox="0 0 300 220" className="absolute inset-0 size-full overflow-visible">
           <defs>
@@ -72,8 +71,23 @@ export function PaperCat({ width, height, visible = false }: { width: number | s
                 <feMergeNode in="grain" />
               </feMerge>
             </filter>
+            <radialGradient id={`${shade}-soft`}>
+              <stop offset="0" stopColor="#3c2814" stopOpacity="0.26" />
+              <stop offset="1" stopColor="#3c2814" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id={`${shade}-touch`}>
+              <stop offset="0" stopColor="#2e1e0e" stopOpacity="0.42" />
+              <stop offset="1" stopColor="#2e1e0e" stopOpacity="0" />
+            </radialGradient>
           </defs>
+          {/* its shadow on the floor, right where its paws touch it (a soft spread and a darker contact line) */}
+          <g data-cat-shadow>
+            <ellipse cx={164} cy={212} rx={96} ry={8} fill={`url(#${shade}-soft)`} />
+            <ellipse cx={164} cy={212.5} rx={74} ry={3.2} fill={`url(#${shade}-touch)`} />
+          </g>
           <g filter={`url(#${paper})`}>
+            {/* keeps its paws on the floor in every pose (see createCatRig) */}
+            <g data-ground>
             <g data-j="figure">
               <Leg upper="frontFarUpper" lower="frontFarLower" lift={lift} />
               <Leg upper="backFarUpper" lower="backFarLower" lift={lift} />
@@ -102,6 +116,7 @@ export function PaperCat({ width, height, visible = false }: { width: number | s
               </Piece>
               <Leg upper="backNearUpper" lower="backNearLower" lift={lift} />
               <Leg upper="frontNearUpper" lower="frontNearLower" lift={lift} />
+            </g>
             </g>
           </g>
         </svg>

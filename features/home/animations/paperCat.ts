@@ -1,10 +1,18 @@
 "use client";
 
 import gsap from "gsap";
-import { CAT_PIVOTS, type CatJoint } from "../constants/playgroundCat.art";
+import { CAT_ART, CAT_PIVOTS, type CatJoint } from "../constants/playgroundCat.art";
 
 /** A pose: each joint's turn (deg), and the body's lean / lift (in the cat's 300 × 220 drawing). */
 export type Pose = Partial<Record<CatJoint, number>> & { figY?: number; figRot?: number; figX?: number };
+
+/** The floor line in the cat's drawing (its paws stand on it). */
+const FLOOR = 212;
+/** The lower legs (with the paws), and their shapes' corners: what touches the floor. */
+const FEET = ["frontNearLower", "frontFarLower", "backNearLower", "backFarLower"] as const;
+const FOOT_POINTS = FEET.map((name) =>
+  CAT_ART[name].flatMap((shape) => ("poly" in shape ? shape.poly.split(" ").map((p) => p.split(",").map(Number) as [number, number]) : []))
+);
 
 /** One stride (s): walking, and running. */
 export const STEP = 0.55;
@@ -17,10 +25,10 @@ export const SIT: Pose = {
   frontNearUpper: -26, frontNearLower: 2, frontFarUpper: -22, frontFarLower: 2,
   tail1: 40, tail2: 34, tail3: -6, head: -22, figY: 20, figRot: 26,
 };
-/** Down low to ambush: elbows up, haunches gathered under, chin down, tail out straight behind. */
+/** Down low to ambush, belly near the floor: elbows up, haunches gathered under, chin down, tail out straight behind. */
 export const CROUCH: Pose = {
-  frontNearUpper: -52, frontNearLower: 88, frontFarUpper: -52, frontFarLower: 88,
-  backNearUpper: 48, backNearLower: -82, backFarUpper: 48, backFarLower: -82,
+  frontNearUpper: -66, frontNearLower: 112, frontFarUpper: -64, frontFarLower: 110,
+  backNearUpper: 60, backNearLower: -104, backFarUpper: 60, backFarLower: -104,
   tail1: 62, tail2: -8, tail3: -16, head: 6, figY: 30,
 };
 /** Mid-leap: stretched out, front paws reaching, back legs pushing off. */
@@ -43,6 +51,13 @@ const half = (a: number[]) => [...a.slice(3, 5), ...a.slice(0, 3), a[3]];
  * times. `root` holds one PaperCat. Its joints turn about their own pivots; its
  * box (`cat`) moves it about the scene, and `flip` turns it round (scaleX -1:
  * facing right).
+ *
+ * Its paws stay on the floor whatever it's doing: every frame the rig finds
+ * the lowest point of its feet (their actual shapes, after every joint's turn)
+ * and sets the cat down so that point is on the floor line, so walking,
+ * sitting, crouching and batting all stand on the ground. Only in the air
+ * (a pounce or a hop, see `airborne`) is it left to fly. Call `dispose` when
+ * done with it.
  */
 export function createCatRig(root: Element, tl: gsap.core.Timeline) {
   const q = <T extends Element = HTMLElement>(sel: string) => root.querySelector(sel) as T;
@@ -50,10 +65,46 @@ export function createCatRig(root: Element, tl: gsap.core.Timeline) {
   const j = Object.fromEntries(joints.map((name) => [name, q(`[data-j="${name}"]`)])) as Record<CatJoint, HTMLElement>;
   const [cat, shadow, flip, figure, gaze, smile] = [q("[data-cat]"), q("[data-cat-shadow]"), q("[data-flip]"), q('[data-j="figure"]'), q("[data-gaze]"), q("[data-smile]")];
   const limbs = joints.filter((name) => name !== "eyes");
+  const ground = q<SVGGElement>("[data-ground]");
+  const base = ground.parentNode as SVGGElement;
+  const feet = FEET.map((name) => j[name] as unknown as SVGGElement);
+
+  // its paws on the floor: each frame, the lowest point of its feet set down on the floor line
+  const air = { v: 0 };
+  let down = 0;
+  let landing = 0; // frames left to ease down after coming back from the air
+  const settle = () => {
+    if (air.v > 0) {
+      landing = 8;
+      return;
+    }
+    if (+gsap.getProperty(cat, "opacity") === 0) return;
+    const toBase = base.getCTM()?.inverse();
+    if (!toBase) return;
+    let lowest = -Infinity;
+    feet.forEach((foot, i) => {
+      const ctm = foot.getCTM();
+      if (!ctm) return;
+      const m = toBase.multiply(ctm);
+      for (const [x, y] of FOOT_POINTS[i]) lowest = Math.max(lowest, m.b * x + m.d * y + m.f);
+    });
+    const gap = FLOOR - lowest;
+    if (!Number.isFinite(gap) || Math.abs(gap) < 0.05) return;
+    // (just after a landing, settling down eased over a few frames; otherwise exact, every frame, so the paws
+    // never lift, slide or sink)
+    down += landing > 0 && gap > 0 ? gap * 0.35 : gap;
+    if (landing > 0) landing--;
+    gsap.set(ground, { y: down });
+  };
+  gsap.ticker.add(settle);
+  const dispose = () => gsap.ticker.remove(settle);
+  /** In the air from `at` for `dur` s: left to fly (not set down on the floor). */
+  const airborne = (at: number, dur: number) => tl.set(air, { v: 1 }, at).set(air, { v: 0 }, at + dur);
 
   // every joint turns about its own pivot (in the cat's 300 × 220 drawing)
   joints.forEach((name) => gsap.set(j[name], { svgOrigin: CAT_PIVOTS[name].join(" ") }));
   gsap.set(figure, { svgOrigin: "214 150" });
+  gsap.set(shadow, { svgOrigin: "164 212" });
 
   /** Into a pose: every joint and the body's lean / height. */
   const pose = (at: number, p: Pose, dur = 0.45, ease = "power2.inOut") => {
@@ -115,14 +166,16 @@ export function createCatRig(root: Element, tl: gsap.core.Timeline) {
    * lower), stretched out, then down into a crouch; its shadow stays on the floor unless it lands elsewhere.
    */
   const pounce = (at: number, dx: number, height: number, dy = 0, dur = 0.54) => {
+    // (only a leap up onto something, or down off it, leaves the floor; on the level it's a low lunge, paws down)
+    if (dy) airborne(at, dur - 0.04);
     pose(at, LEAP, 0.16, "power2.out");
     tl.to(figure, { y: -height, duration: dur / 2, ease: "power2.out" }, at)
       .to(figure, { y: 14, duration: dur / 2, ease: "power2.in" }, at + dur / 2)
       .to(cat, { x: `+=${dx}`, duration: dur, ease: "sine.inOut" }, at)
-      .to(shadow, { scale: 0.6, opacity: 0.5, duration: dur / 2, ease: "power2.out", yoyo: true, repeat: 1 }, at);
+      .to(shadow, { scaleX: dy ? 0.6 : 0.92, opacity: dy ? 0.5 : 1, duration: dur / 2, ease: "power2.out", yoyo: true, repeat: 1 }, at);
     if (dy) tl.to(cat, { y: `+=${dy}`, duration: dur, ease: dy < 0 ? "power1.out" : "power1.in" }, at);
     pose(at + dur - 0.04, { ...CROUCH, figY: 18, tail2: 10, tail3: 6 }, 0.22, "power2.out");
   };
 
-  return { j, cat, shadow, flip, figure, gaze, smile, pose, setPose, walk, bat, flick, look, blink, grin, ambush, pounce };
+  return { j, cat, shadow, flip, figure, gaze, smile, pose, setPose, walk, bat, flick, look, blink, grin, ambush, pounce, airborne, dispose };
 }

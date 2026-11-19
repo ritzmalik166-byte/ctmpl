@@ -16,6 +16,8 @@ export const pinboardCopy = {
   heading: "Notes Pinned Up This Week.",
   readBlog: "Read the blog",
   readNote: "read the note",
+  /** On the article's card, under the rolled-up note. */
+  readArticle: "Read the article",
 } as const;
 
 /** Three more articles for the board (placeholders until the blog is live). */
