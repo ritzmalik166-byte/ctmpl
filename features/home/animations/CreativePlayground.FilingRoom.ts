@@ -15,7 +15,7 @@ export const STAMP_LANDS_AT = 0.95;
 /**
  * Opening another case in the filing room:
  *  1. the open cabinet drawer's file tabs sink back inside and it glides shut
- *     (a file from the desk's drawers has none here: DeskDrawers slides those),
+ *     (a file from the desk's drawers has none here: DeskChannel slides those),
  *  2. the picked drawer glides well out towards us (larger, a deep shadow,
  *     over its neighbours) and its file tabs rise up out of it,
  *  3. on the desk the case file's photo and typed sheet are swapped for that

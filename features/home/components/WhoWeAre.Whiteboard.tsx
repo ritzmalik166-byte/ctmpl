@@ -149,8 +149,8 @@ function Stat({ stat, index, active, onActivate, className, style }: StatProps) 
     >
       <MarkerCircle index={index} />
       <span data-reveal="stat" className="relative top-[-0.125em] block leading-[1.05]">{stat.value}</span>
-      {/* caption: 26px, 66px below the stat's top (2.538 of its own em) */}
-      <span data-reveal="caption" className="absolute top-[2.538em] left-0 text-[0.406em] leading-[1.1] text-marker-black">{stat.caption}</span>
+      {/* caption: 26px, 66px below the stat's top (2.538 of its own em); a line break in it starts a second line */}
+      <span data-reveal="caption" className="absolute top-[2.538em] left-0 text-[0.406em] leading-[1.1] whitespace-pre-line text-marker-black">{stat.caption}</span>
     </button>
   );
 }
@@ -227,7 +227,7 @@ export function WhiteboardScene() {
         <Magnets {...activeStat} className="absolute text-[1.181cqw]" style={boardLayout.magnets} />
         <BoardTitle className="absolute text-[2.639cqw]" style={boardLayout.title} />
         <BoardStats {...activeStat} layout="board" />
-        <BoardStory active={activeStat.active} className="absolute text-[1.667cqw] leading-[1.2] whitespace-nowrap" style={boardLayout.story} />
+        <BoardStory active={activeStat.active} className="absolute w-[40%] text-[1.5cqw] leading-[1.25]" style={boardLayout.story} />
 
         {/* Meera points at the board; her colleague cheers beside her */}
         <PresentingMeera
@@ -266,12 +266,8 @@ export function WhiteboardMobile() {
     >
       <Image src={roomFloorCorner} alt="" sizes="100vw" className="absolute bottom-0 left-0 h-auto w-full" />
 
-      {/* Meera and her colleague stand on the floor below the board, sized to the screen width */}
-      <PresentingMeera sizes="33vw" className="bottom-3 left-[8.6%] z-10 w-[32.8%]" />
-      <CheeringMan sizes="31vw" className="bottom-3 left-[41%] z-10 w-[31%]" />
-
-      {/* bottom padding leaves floor space for the two characters (% of width, like them) */}
-      <div className="relative px-(--gutter) pt-10 pb-[56%]">
+      {/* (no characters on phones: just the board, with a strip of floor under it, % of width like the floor art) */}
+      <div className="relative px-(--gutter) pt-10 pb-[24%]">
         <div data-reveal="room" className="font-caveat" style={boardFrame}>
           <div className="flex flex-col px-4 pt-4 pb-6">
             <Magnets {...activeStat} className="self-end text-[13px]" />

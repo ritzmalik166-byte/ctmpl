@@ -6,6 +6,8 @@ import { useBookingSequence } from "../animations/StartConversation.Booking";
 import { BookingForm, type BookingStatus } from "./StartConversation.BookingForm";
 import { MeetingRoomDoor } from "./StartConversation.Door";
 import { ReachingArm } from "./StartConversation.ReachingArm";
+import { KickedCat } from "./StartConversation.KickedCat";
+import { DOOR_BUSY_EVENT } from "../animations/StartConversation.WindowCat";
 
 /** How long the request takes to send (s; stands in for the real request for now). */
 const SENDING_SECONDS = 1.8;
@@ -31,12 +33,17 @@ export function MeetingRoom({ className }: { className?: string }) {
     };
   }, []);
 
+  /** Tells the cat in the door's window to keep out of sight (see useWindowCat). */
+  const doorBusy = (busy: boolean) => window.dispatchEvent(new CustomEvent(DOOR_BUSY_EVENT, { detail: busy }));
+
   const send = async () => {
+    doorBusy(true);
     setStatus("sending");
     await new Promise((done) => setTimeout(done, SENDING_SECONDS * 1000)); // TODO: send the request here
     if (!alive.current) return;
     setStatus("taking");
     await takeRequest();
+    doorBusy(false);
     if (!alive.current) return;
     showBooked();
     setStatus("booked");
@@ -54,6 +61,7 @@ export function MeetingRoom({ className }: { className?: string }) {
     // its 580.67; no door), lg the door and board side by side, xl the Figma layout
     <div ref={scene} className={cn("relative mx-auto h-[547px] w-full max-w-[580.67px] lg:h-[523px] lg:max-w-none lg:w-[949px] xl:absolute xl:inset-0 xl:h-auto xl:w-auto", className)}>
       <MeetingRoomDoor>
+        <KickedCat />
         <ReachingArm />
       </MeetingRoomDoor>
       <BookingForm status={status} sheetKey={sheetKey} onSubmit={send} onAnother={another} className="absolute top-[15px] left-0 w-full lg:top-0 lg:left-[367.9px] lg:w-[580.67px] xl:top-[489px] xl:left-[749px]" />

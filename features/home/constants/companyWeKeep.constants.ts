@@ -51,3 +51,28 @@ export const lanyardRails = [
 
 /** Barcode bar widths, left to right; a bar every 4.4px (as drawn in Figma). */
 export const barcodeBars = [2, 1, 1, 1.6, 1, 2, 1.6, 1, 1, 1.6, 2, 1, 1.6, 1, 1, 2, 1, 1, 1.6, 1, 2, 1.6, 1, 1, 1.6, 2, 1, 1.6, 1, 1, 2, 1, 1, 1.6, 1, 2, 1.6, 1, 1, 1.6, 2, 1, 1.6] as const;
+
+/** The visitor register (Figma "Visitor register", which replaced the rails of passes). */
+export const visitorRegisterCopy = {
+  label: "The company we keep",
+  headingFirst: "Signed In At Reception,",
+  headingSecond: "Again And Again.",
+  intro: "Every brand that works with us gets a visitor pass. Some of these have been in our building for more than a decade.",
+  columns: { pass: "Pass no.", client: "Client", signedIn: "Signed in" },
+  visitor: "Visitor",
+  signedBy: (brand: string) => `Signed in by ${brand}`,
+} as const;
+
+/**
+ * Each visitor's line in the register: their pass colour (its tag and their
+ * signature's ink) and the shape of their signature: its length (px) and the
+ * height of each wave after the opening loop, as they scrawled it.
+ */
+export const registerEntries = [
+  { brand: "ICICI", number: "001", color: "#bf5d3a", signature: { width: 156, waves: [3, 5, 4, 6, 8, 9, 7] } },
+  { brand: "Tanishq", number: "002", color: "#285f8e", signature: { width: 157, waves: [3, 4, 3, 5, 9, 10, 8] } },
+  { brand: "Raymond Group", number: "003", color: "#3f7e5d", signature: { width: 185, waves: [3, 5, 4, 5, 4, 9, 6, 5] } },
+  { brand: "Kotak Life Insurance", number: "004", color: "#b78b27", signature: { width: 175, waves: [3, 7, 5, 6, 3, 5, 6] } },
+  { brand: "Escorts Tractor", number: "005", color: "#87466b", signature: { width: 180, waves: [8, 4, 5, 4, 6, 4, 5, 6] } },
+  { brand: "Jaypee Group", number: "006", color: "#3a393e", signature: { width: 200, waves: [3, 5, 4, 3, 6, 4, 7, 6] } },
+] as const;

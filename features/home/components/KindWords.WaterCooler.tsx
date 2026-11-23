@@ -1,54 +1,34 @@
 "use client";
 
 import Image from "next/image";
-import { kindWordsCopy, testimonialClients, testimonials } from "../constants/kindWords.constants";
+import { kindWordsCopy, testimonials } from "../constants/kindWords.constants";
 import { TESTIMONIAL_SECONDS, useTestimonialCycle } from "../animations/KindWords.Testimonials";
-import { ProjectControls } from "./CreativePlayground.ProjectControls";
 import { SpeechBubble } from "./KindWords.SpeechBubble";
 import { ArjunPuppet } from "./KindWords.Arjun";
 import { RobotPuppet } from "./KindWords.Robot";
 import { StickyNotes } from "./KindWords.StickyNotes";
 import { WaterBubbles } from "./KindWords.WaterBubbles";
 import { RoomStage } from "./KindWords.Stage";
-import { KindWordsCat } from "./KindWords.Cat";
-import { scrollToRange } from "@/lib/scroll/smoothScroll";
 import waterCoolerRoom from "@/public/images/website/home/kind-words/water-cooler-room.png";
 import noticeBoard from "@/public/images/website/home/kind-words/notice-board-bare.png";
+import roomWall from "@/public/images/website/home/kind-words/water-cooler-wall.webp";
 
 /**
  * The water cooler corner: the room (water cooler with rising bubbles, notice
- * board with swinging sticky notes, the cardboard robot behind it) and Arjun, telling the story in his speech
- * bubble, then the client selector. Every 5 s Arjun tells the next
- * testimonial, its bubble coming out of his mouth; click him (or pick a client)
- * to hear another one at once.
+ * board with swinging sticky notes, the cardboard robot behind it) and Arjun,
+ * telling the story in his speech bubble. Every 5 s Arjun tells the next
+ * testimonial, its bubble coming out of his mouth; click him to hear another
+ * one at once. The room's wall runs on up behind the heading.
  *
  *  - xl: the Figma layout (frame 75:286 plus page layers 75:1095–75:1098), in px
- *    of the 1440 frame: the room at y 377, the bubble at (462, 391) (82% size), the
- *    selector at y 1170;
+ *    of the 1440 frame: the room at y 377 (the section ends with its floor, y 1108),
+ *    the bubble at (462, 391) (82% size);
  *  - smaller screens: the bubble (readable size) above the room, the room
- *    scaled to the screen (see RoomStage), then the selector (on phones the
- *    names slide, like the creative playground's).
+ *    scaled to the screen (see RoomStage).
  */
-/** Room kept clear at the top for the site header when checking that the scene shows (px). */
-const HEADER_SPACE = 90;
-/** After the page starts gliding up to the scene, how long before the next story comes out (ms). */
-const CHANGE_DELAY = 450;
-
 export function WaterCooler() {
   const { scene, bubble, shown, selected, told, goTo } = useTestimonialCycle(testimonials.length);
   const next = () => goTo((selected + 1) % testimonials.length);
-
-  // from the client selector: if Arjun's bubble or the room is off screen, glide them into view first, then tell it
-  const pick = (index: number) => {
-    if (index === selected) return;
-    const fig = bubble.current?.getBoundingClientRect();
-    const room = scene.current?.querySelector("[data-sr]")?.getBoundingClientRect();
-    if (!fig || !room) return goTo(index);
-    const top = Math.min(fig.top, room.top);
-    if (top >= HEADER_SPACE && room.bottom <= window.innerHeight) return goTo(index);
-    scrollToRange(top + window.scrollY, room.bottom + window.scrollY, HEADER_SPACE);
-    window.setTimeout(() => goTo(index), CHANGE_DELAY);
-  };
 
   return (
     <div ref={scene} className="mt-8 md:mt-12 xl:absolute xl:inset-0 xl:mt-0">
@@ -57,24 +37,26 @@ export function WaterCooler() {
         <SpeechBubble ref={bubble} testimonial={testimonials[shown]} className="w-full max-w-[480px] md:ml-[12%] xl:top-[391px] xl:left-[462px] xl:z-10 xl:ml-0 xl:max-w-none" />
       </div>
 
-      <RoomStage sr="rise">
-        <Image src={waterCoolerRoom} alt="" fill sizes="(min-width: 1280px) 1440px, 100vw" className="object-cover" />
+      <RoomStage
+        sr="rise"
+        backdrop={
+          <>
+            {/* the room's wall runs on up behind the heading (the same striped paper, 1350 px more of it, then its plain colour), so heading and room are one wall */}
+            <div aria-hidden="true" className="absolute bottom-full left-0 h-[4000px] w-full bg-[#dddccc]">
+              <Image src={roomWall} alt="" sizes="(min-width: 1280px) 1440px, 100vw" className="absolute bottom-0 left-0 h-[1350px] w-full [mask-image:linear-gradient(to_bottom,transparent,black_240px)]" />
+            </div>
+            <Image src={waterCoolerRoom} alt="" fill sizes="(min-width: 1280px) 1440px, 100vw" className="object-cover" />
+          </>
+        }
+      >
         {/* the cardboard robot (Figma 175:1062), behind the notice board: it watches Arjun, then talks to itself */}
         <RobotPuppet signal={told} seconds={TESTIMONIAL_SECONDS - 0.5} />
         <Image src={noticeBoard} alt="" fill sizes="(min-width: 1280px) 1440px, 100vw" className="pointer-events-none object-cover" />
         <WaterBubbles />
         <StickyNotes />
         <ArjunPuppet speechSignal={told} speechSeconds={TESTIMONIAL_SECONDS - 0.5} label={kindWordsCopy.askArjun} onClick={next} />
-        {/* the paper cat: sits with Arjun, then (once) goes and knocks the robot over and runs off */}
-        <KindWordsCat />
       </RoomStage>
 
-      <div data-sr="rise" className="max-xl:site-container mt-8 flex justify-center md:mt-12 xl:absolute xl:top-[1170px] xl:left-1/2 xl:mt-0 xl:-translate-x-1/2">
-        {/* wider than 1440 the scene grows (--kw-s); the selector is undone back to 1:1, so it stays the exact size of the creative playground's */}
-        <div className="flex w-full justify-center xl:w-auto xl:origin-top xl:scale-[calc(1/var(--kw-s))]">
-          <ProjectControls clients={testimonialClients} active={selected} onSelect={pick} labels={kindWordsCopy} crumple />
-        </div>
-      </div>
     </div>
   );
 }

@@ -34,12 +34,13 @@ const GAP = 6;
  *     the ball on, stops, and sits to watch it, head tilting, tail tip
  *     flicking.
  *  2. Down into an ambush crouch, tail swishing, its rear wiggling... and it
- *     pounces onto the ball, bats it twice, and walks off to the left kicking
+ *     pounces low onto the ball, bats it twice, and walks off to the left kicking
  *     it along.
  *  3. 6 s later, in from the left (turned round) after a paper plane, which
  *     circles above it: it sits and watches, crouches to ambush, tail
- *     swishing, leaps up at it; the plane zips off and the cat runs after it,
+ *     swishing, lunges up at it; the plane zips off and the cat runs after it,
  *     off to the right. 6 s later, round again.
+ * Its paws are on the floor the whole time (see createCatRig).
  * Nothing moves with reduced motion (the cat stays away).
  */
 export function usePlaygroundCat(active: number) {
@@ -54,7 +55,7 @@ export function usePlaygroundCat(active: number) {
       const q = (sel: string) => root.querySelector<HTMLElement>(sel)!;
       const [ball, spin, plane] = [q("[data-ball]"), q("[data-spin]"), q("[data-cat-plane]")];
       const tl = gsap.timeline({ repeat: -1, paused: true });
-      const { j, cat, flip, figure, gaze, pose, walk, bat, flick, look, blink, ambush, pounce } = createCatRig(root, tl);
+      const { j, cat, flip, figure, gaze, pose, walk, bat, flick, look, blink, ambush, pounce, dispose } = createCatRig(root, tl);
       gsap.set(cat, { x: 1600, y: CAT_Y, autoAlpha: 0 });
       gsap.set(ball, { x: 1600, y: BALL_Y, autoAlpha: 0 });
       gsap.set(plane, { xPercent: -50, yPercent: -50, autoAlpha: 0 });
@@ -107,7 +108,7 @@ export function usePlaygroundCat(active: number) {
         .to(j.tail3, { rotation: 40, duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 3 }, t + 1.2);
       blink(t + 1.5);
 
-      // 2. down into an ambush crouch, tail swishing, rear wiggling... and it pounces, landing paws on the ball
+      // 2. down into an ambush crouch, tail swishing, rear wiggling... and it pounces low along the floor, paws onto the ball
       t += 2.5;
       pose(t, CROUCH, 0.6);
       look(t, -1, 0.6);
@@ -127,7 +128,7 @@ export function usePlaygroundCat(active: number) {
         bx -= by;
       };
       reach(t + 0.95, 55);
-      // ...a little hop after it, and another bat
+      // ...a quick skip after it (paws staying on the floor), and another bat
       tl.to(cat, { x: cx - 55, duration: 0.35, ease: "sine.inOut" }, t + 1.35)
         .to(figure, { y: -10, duration: 0.17, ease: "power1.out", yoyo: true, repeat: 1 }, t + 1.35);
       cx -= 55;
@@ -159,7 +160,7 @@ export function usePlaygroundCat(active: number) {
       tl.to(gaze, { keyframes: { x: [0.4, 1, -0.6, 0.4], y: [-2.2, -1.4, -2.4, -2.2], easeEach: "sine.inOut" }, ease: "none", duration: 2, repeat: 1 }, t + 0.4);
       tl.to(j.head, { rotation: 14, duration: 0.6, ease: "sine.inOut", yoyo: true, repeat: 2 }, t + 1);
       blink(t + 1.6);
-      // ...then down to ambush as it comes round low, tail swishing, and up it leaps at it
+      // ...then down to ambush as it comes round low, tail swishing, and it lunges up at it, reaching (back paws on the floor)
       t += 2.2;
       pose(t, CROUCH, 0.5);
       look(t, -0.4, -1.4);
@@ -193,6 +194,7 @@ export function usePlaygroundCat(active: number) {
         observer.disconnect();
         start.current = null;
         tl.kill();
+        dispose();
       };
     },
     { scope: ref }

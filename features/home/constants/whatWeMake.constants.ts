@@ -1,8 +1,16 @@
 export const whatWeMakeCopy = {
   label: "What we make",
-  // Title Case written out (not CSS `capitalize`), ready for letter-by-letter animation later
-  heading: "Eight Floors. Pick One And Ride Up.",
+  heading: "Eight floors. One lift. Press any button.",
+  intro: "Tell us what you need and we'll take you to the right floor, or to several at once.",
+  /** Under the lobby, with a button down to the contact form. */
+  closing: "Not sure which floor? Ask at reception.",
+  cta: { label: "Talk to us", href: "#start-a-conversation" },
   directoryTitle: "Building directory",
+  /** "8 floors", beside the directory's title. */
+  floorCount: (count: number) => `${count} floors`,
+  /** Over the floor the lift is at: "Floor 01 · Now showing". */
+  nowShowing: (floor: number) => `Floor ${String(floor).padStart(2, "0")} · Now showing`,
+  nextFloor: "Next floor",
   aiTag: "AI-powered",
   comingSoon: "Studio opening soon",
 } as const;
@@ -18,18 +26,18 @@ export type Floor = {
 
 /** Building directory, top floor first (as on a real lobby board). */
 export const floors: Floor[] = [
-  { number: 8, name: "Digital", description: "Social, search and performance campaigns, powered by AI. Reach. Convert. Grow." },
-  { number: 7, name: "Artists", description: "Artists, influencers and brand faces, matched with AI. Discover. Sign. Shine." },
-  { number: 6, name: "Events", description: "From concept to celebration, powered by AI. Plan. Promote. Experience." },
-  { number: 5, name: "Radio", description: "Broadcast, record and create, powered by AI. On air. Always." },
-  { number: 4, name: "Print", description: "Premium print solutions, powered by AI for bigger ideas." },
-  { number: 3, name: "AI creatives", aiPowered: true, description: "Generate stunning visuals, designs and more with cutting-edge AI tools." },
-  { number: 2, name: "Reels", aiPowered: true, description: "Short-form, high-impact reels, powered by AI. Create. Edit. Go Viral." },
+  { number: 8, name: "Digital", description: "Websites, SEO, social and performance campaigns that bring people to your door and keep them coming back." },
+  { number: 7, name: "Artists", description: "Artist and talent management and bookings for events, brand shoots and launches." },
+  { number: 6, name: "Events", description: "Launches, corporate events, activations and shows, planned and run on the ground. 1000+ and counting." },
+  { number: 5, name: "Radio", description: "Scripts, jingles and airtime that put your message in people's ears across the region." },
+  { number: 4, name: "Print", description: "Brochures, press ads, packaging and collateral, designed to be picked up and kept." },
+  { number: 3, name: "AI creatives", aiPowered: true, description: "Faster concepts, visuals and variations, made with AI and finished by our designers." },
+  { number: 2, name: "Reels", aiPowered: true, description: "Short vertical video for Instagram, YouTube Shorts and beyond, made quickly and made to be watched." },
   {
     number: 1,
     name: "Brand films",
     aiPowered: true,
-    description: "Brand films and TV ads, scripted, shot and cut under one roof, made faster with AI.",
+    description: "Scripted, shot and cut under one roof, made faster with AI.",
   },
 ];
 

@@ -9,21 +9,24 @@ import magnetShadowClients from "@/public/images/website/home/who-we-are/magnet-
 
 export const whoWeAreCopy = {
   label: "Who we are",
-  // Title Case written out (not CSS `capitalize`): the reveal animation splits it into words
-  heading: "Every Monday Starts At The Whiteboard.",
-  intro:
-    "We plan and make work for brands in print, radio, film, events and digital. Tap a magnet and Meera will walk you through the numbers.",
+  heading: "Every Monday starts at the whiteboard.",
+  /** Two paragraphs, beside the heading. */
+  intro: [
+    "We started in Noida in 2008 with a small team and one big whiteboard. Eighteen years on, the team is bigger and the whiteboard is still where every project begins: a brief, a few healthy arguments, and a plan everyone can say out loud.",
+    "We plan, write, design, shoot, print, broadcast and book. You work with one team instead of seven vendors, and nothing gets lost between floors.",
+  ],
+  /** The three notes stuck up by the whiteboard. */
+  notes: ["One team, not seven vendors.", "Ideas first, channels second.", "Made in-house, checked by humans."],
   boardTitle: { lead: "CTM, ", accent: "by the numbers" },
   /**
    * The line written along the bottom of the board, one per stat (same order
    * as `boardStats`): it changes to match the stat being pointed at.
-   * Placeholders for now, apart from the first.
    */
   stories: [
-    "Started in Noida with print and radio. Eighteen years on, still the same curiosity.",
-    "From product launches to stage shows, every event planned down to the last cue.",
-    "Campaigns, films and identities: every project made by hand, under one roof.",
-    "Brands that came for one ad and stayed for years. We still know them by name.",
+    "Started in Noida with print and radio. Eighteen years later, still driven by the same curiosity and creativity.",
+    "From product launches to stage shows, every event planned with creativity, precision and attention to every last cue.",
+    "From brand campaigns to films and creative identities, every project gets a fresh idea and a thoughtful touch.",
+    "Some came to us for one campaign and stayed for years. That's the kind of relationship we love building.",
   ],
 } as const;
 
@@ -43,7 +46,7 @@ export const boardMagnets = [
  * `position` places each one on the board artwork, as % of the 1440×732 scene.
  */
 export const boardStats = [
-  { value: "2008", caption: "started in Noida", color: "text-marker-red", position: { left: "13.681%", top: "31.011%" } },
+  { value: "2008", caption: "the year our story\nbegan in Noida", color: "text-marker-red", position: { left: "13.681%", top: "31.011%" } },
   { value: "1000+", caption: "events organised", color: "text-marker-blue", position: { left: "39.236%", top: "29.235%" } },
   { value: "1800+", caption: "projects done", color: "text-marker-green", position: { left: "17.639%", top: "51.639%" } },
   { value: "2000+", caption: "happy clients", color: "text-marker-mustard", position: { left: "40.417%", top: "49.863%" } },
@@ -53,7 +56,8 @@ export const boardStats = [
 export const boardLayout = {
   title: { left: "12.708%", top: "15.984%" },
   magnets: { left: "39.167%", top: "4.645%" },
-  story: { left: "12.708%", top: "68.169%" },
+  /** (two lines, set a little higher than Figma's one so both fit on the board) */
+  story: { left: "12.708%", top: "64.8%" },
   /** Paper-art people standing in front of the board (page-level layers in Figma). */
   /**
    * (the new art is narrower / wider than Figma's: sized so each stands as tall as before.) Meera stands

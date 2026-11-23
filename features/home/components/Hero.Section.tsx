@@ -16,10 +16,11 @@ import { HeroRotatingLine } from "./Hero.RotatingLine";
  * Phones (below md): the headline stacks above a cropped view of the scene
  * (reception desk and characters) so the art stays legible.
  *
- * Exactly one screen tall on phones and from xl up (md–xl keeps the Figma ratio):
- *  - on phones the scene takes the height left under the headline (never more
- *    than its usual crop), so everything shows without scrolling;
- *  - from xl the whole scene fits the screen, held to the bottom right; on a
+ * Heights:
+ *  - phones: just the headline and buttons (full width, stacked), with the
+ *    scene right under them at its usual crop (no gap between the two);
+ *  - md–xl keeps the Figma ratio;
+ *  - from xl, exactly one screen tall: the whole scene fits the screen, held to the bottom right; on a
  *    wider screen the wall carries on to the left, on a taller one up to the
  *    ceiling (see HeroScene), and the headline keeps its place on the wall.
  */
@@ -27,7 +28,7 @@ function HeroSection() {
   return (
     <section
       id="home"
-      className="relative flex min-h-svh flex-col justify-between overflow-hidden bg-cream md:block md:min-h-auto md:aspect-[1440/809] xl:aspect-auto xl:h-svh xl:min-h-[600px] xl:[container-type:size]"
+      className="relative flex flex-col overflow-hidden bg-cream md:block md:min-h-auto md:aspect-[1440/809] xl:aspect-auto xl:h-svh xl:min-h-[600px] xl:[container-type:size]"
     >
       {/* from xl: the scene is min(screen height, 56.18% of the width) tall, sitting at the bottom;
           the copy starts 27.57% of the way down it, as in the 1440 × 809 frame */}
@@ -46,11 +47,11 @@ function HeroSection() {
             <HeroRotatingLine />
           </h1>
 
-          {/* Phones: full-width stacked buttons. From 400px: inline, as in Figma; on tablets a little
-              smaller, so they stay clear of the reading woman */}
-          <div className="mt-4 flex flex-col gap-3 min-[400px]:flex-row min-[400px]:flex-wrap min-[400px]:items-center min-[400px]:gap-[19px] md:mt-[clamp(0.75rem,1.111vw,1rem)] md:max-lg:[zoom:0.72]">
+          {/* Phones: full-width stacked buttons. From sm: inline, as in Figma; on tablets a little
+              smaller, so they stay clear of the reading woman (the zoom shrinks their margin too, hence its bigger value there) */}
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-[19px] md:mt-[calc(clamp(0.75rem,1.111vw,1rem)+20px)] md:max-lg:mt-[calc(clamp(0.75rem,1.111vw,1rem)+27.8px)] md:max-lg:[zoom:0.72]">
             {heroActions.map((action) => (
-              <ButtonLink key={action.href} href={action.href} variant={action.variant}>
+              <ButtonLink key={action.href} href={action.href} variant={action.variant} className="max-sm:w-full">
                 {action.label}
               </ButtonLink>
             ))}
@@ -65,8 +66,8 @@ function HeroSection() {
 
 /**
  * The illustrated office. Layers are kept separate so they can animate later.
- * The picture (1440 × 809) is held to the bottom right: on phones it is as tall
- * as the space it has (at most 0.9 of the width, the usual crop of the desk),
+ * The picture (1440 × 809) is held to the bottom right: on phones it is 0.9 of
+ * the width tall (the usual crop of the desk),
  * from xl it fits the screen. Where it doesn't reach, the wall carries on:
  * to the left a mirrored strip of its own left edge, upward its top rows.
  */
@@ -74,7 +75,7 @@ function HeroScene() {
   return (
     <div
       aria-hidden="true"
-      className="relative mt-4 min-h-[200px] w-full flex-1 [mask-image:linear-gradient(to_bottom,transparent,black_16%)] max-md:max-h-[calc(100vw*809/900)] sm:mt-0 md:absolute md:inset-0 md:mt-0 md:min-h-0 md:[mask-image:none]"
+      className="relative -mt-2 h-[calc(100vw*809/900)] w-full [mask-image:linear-gradient(to_bottom,transparent,black_12%)] md:absolute md:inset-0 md:mt-0 md:h-auto md:[mask-image:none]"
     >
       <div
         // floor line (93% down the scene) where the gateway's paper ball lands

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import {
   cabinetDrawerTops,
@@ -11,66 +12,110 @@ import {
   playgroundCases,
 } from "../constants/creativePlayground.constants";
 import { useFilingRoom } from "../animations/CreativePlayground.FilingRoom";
-import { CabinetDrawer } from "./CreativePlayground.Drawer";
+import { CabinetDrawer, ViewAllDrawer } from "./CreativePlayground.Drawer";
 import { CaseFile } from "./CreativePlayground.CaseFile";
 import { NehaPuppet } from "./CreativePlayground.Neha";
-import { ProjectControls } from "./CreativePlayground.ProjectControls";
+import ButtonLink from "@/components/ui/ButtonLink";
 import { PlaygroundStage } from "./CreativePlayground.Stage";
 import { CaseBook } from "./CreativePlayground.CaseBook";
-import { DeskDrawers } from "./CreativePlayground.DeskDrawers";
+import { DeskChannel } from "./CreativePlayground.DeskChannel";
+import { AlmirahHint } from "./CreativePlayground.AlmirahHint";
 import { PlaygroundCat } from "./CreativePlayground.Cat";
-import { scrollToElement } from "@/lib/scroll/smoothScroll";
 import drawerTanishq from "@/public/images/website/home/creative-playground/drawer-tanishq.png";
 import filingRoom from "@/public/images/website/home/creative-playground/filing-room-empty.png";
 import almirah from "@/public/images/website/home/creative-playground/almirah.png";
 
-const playgroundClients = playgroundCases.map(({ client }) => client);
-
 /**
  * The interactive part of the filing room: the room itself (cabinet, case file
- * on the desk, Neha) on its scaling stage, and the client selector below it. Press a drawer (the cabinet's,
- * or one of the desk's three) or a client below and that drawer opens, its file goes on the desk and Neha stamps it APPROVED.
- * Picking from the selector while the case file is off screen first glides the
- * page back up to it, so the change is seen.
+ * on the desk, Neha) on its scaling stage; the almirah's bottom drawer is
+ * "View all projects".
+ * Every client has a drawer with its logo: the cabinet's four, and the rest
+ * sliding along a channel in the desk (see DeskChannel). Press a drawer and it
+ * opens, its file goes on the desk and Neha stamps it APPROVED.
  */
+/** How long the almirah's hint shows each time (ms), and how long after the almirah comes into view (ms). */
+const HINT_FOR = 4000;
+const HINT_AFTER = 700;
+/** Once a drawer has been opened, the hint isn't shown again this visit (kept for the browser session). */
+const HINT_DONE = "ctm-almirah-hint-done";
 
-/** Room kept clear at the top for the site header when checking that the file shows (px). */
-const HEADER_SPACE = 90;
-/** After the page starts gliding up to the file, how long before the drawers move (ms). */
-const CHANGE_DELAY = 450;
+/**
+ * The almirah's hint: as the almirah scrolls into view (a ScrollTrigger on `target`), it shows for 4 s, a
+ * moment after the room has made its entrance; again each time the section is scrolled back into, until a
+ * drawer is opened. After that it's gone for the rest of the session.
+ */
+function useAlmirahHint() {
+  const [show, setShow] = useState(false);
+  const target = useRef<HTMLDivElement>(null);
+  const done = useRef(false);
+  const timers = useRef<number[]>([]);
+  const clear = () => {
+    timers.current.forEach((t) => window.clearTimeout(t));
+    timers.current = [];
+  };
+  useEffect(() => {
+    try {
+      done.current = sessionStorage.getItem(HINT_DONE) === "1";
+    } catch {}
+    const el = target.current;
+    if (!el || done.current) return;
+    const pop = () => {
+      if (done.current || timers.current.length) return;
+      timers.current = [
+        window.setTimeout(() => !done.current && setShow(true), HINT_AFTER),
+        window.setTimeout(() => {
+          setShow(false);
+          timers.current = [];
+        }, HINT_AFTER + HINT_FOR),
+      ];
+    };
+    // the almirah well in view: its middle past 70% of the screen, and still on screen
+    const trigger = ScrollTrigger.create({ trigger: el, start: "top 70%", end: "bottom 20%", onEnter: pop, onEnterBack: pop });
+    return () => {
+      trigger.kill();
+      clear();
+    };
+  }, []);
+  const dismiss = () => {
+    done.current = true;
+    clear();
+    setShow(false);
+    try {
+      sessionStorage.setItem(HINT_DONE, "1");
+    } catch {}
+  };
+  return { show, target, dismiss };
+}
+
 export function FilingRoom() {
   const [active, setActive] = useState(INITIAL_CASE);
   const [stampSignal, setStampSignal] = useState(0);
   const ref = useFilingRoom(active);
+  const { show: hintShown, target: almirahRef, dismiss: dismissHint } = useAlmirahHint();
 
   const open = (index: number) => {
+    // a drawer has been opened: the hint has done its job
+    dismissHint();
     if (index === active) return;
     setActive(index);
     setStampSignal((n) => n + 1);
   };
 
-  // from the client selector: bring the case file into view first if it isn't, then change it
-  const pick = (index: number) => {
-    if (index === active) return;
-    // the file on show: the one on the desk (md up) or the flip-through file (phones)
-    const file = [...(ref.current?.querySelectorAll<HTMLElement>('[data-file="folder"], [data-case-book]') ?? [])].find((el) => el.getBoundingClientRect().width > 0);
-    const box = file?.getBoundingClientRect();
-    if (!file || !box || (box.top >= HEADER_SPACE && box.bottom <= window.innerHeight)) return open(index);
-    scrollToElement(file, { block: "center" });
-    window.setTimeout(() => open(index), CHANGE_DELAY);
-  };
-
   return (
     <div ref={ref}>
-      {/* phones: no room, just the case file to flip through (same selection as everywhere) */}
+      {/* phones: no room, just the case file to flip through, and the clients' drawers under it */}
       <div className="site-container md:hidden">
         <CaseBook active={active} onSelect={open} />
+        <div className="mt-12 mb-2">
+          <DeskChannel variant="strip" active={active} onOpen={open} />
+        </div>
       </div>
 
       {/* md up: the room, scaled as one piece to the screen (see PlaygroundStage) */}
       <div data-cp="room" className="max-md:hidden">
         <PlaygroundStage>
-          <div className="pointer-events-none absolute top-[339px] left-0 h-[844px] w-[1440px]">
+          {/* (its top edge fades into the section's wall above, so there's no line between them) */}
+          <div className="pointer-events-none absolute top-[339px] left-0 h-[844px] w-[1440px] [mask-image:linear-gradient(to_bottom,transparent,black_90px)]">
             <Image
               src={filingRoom}
               alt=""
@@ -82,12 +127,12 @@ export function FilingRoom() {
 
           {/* the almirah (cut from the room picture with its trophies, plant and certificates), its
               drawers and file tabs: drawn at 92%, shrunk toward its foot so it still stands on the floor */}
-          <div className="pointer-events-none absolute inset-0 origin-[288px_1095px] scale-[0.92] [&_button]:pointer-events-auto">
-          <div className="absolute top-[347.09px] left-[78.82px] h-[761.12px] w-[418.36px]">
+          <div className="pointer-events-none absolute inset-0 origin-[288px_1095px] scale-[0.92] [&_a]:pointer-events-auto [&_button]:pointer-events-auto">
+          <div ref={almirahRef} className="absolute top-[347.09px] left-[78.82px] h-[761.12px] w-[418.36px]">
             <Image src={almirah} alt="" fill sizes="29.1vw" className="object-fill" />
           </div>
 
-          {/* cabinet: the four drawers, top to bottom */}
+          {/* cabinet: three clients' drawers, top to bottom, and at the bottom "View all projects" */}
           <div className="pointer-events-none absolute top-[549px] left-[116px] h-[121px] w-[302px]">
             <Image
               src={drawerTanishq}
@@ -97,19 +142,23 @@ export function FilingRoom() {
               className="object-cover"
             />
           </div>
-          {cabinetDrawerTops.map((top, i) => (
+          {cabinetDrawerTops.slice(0, CABINET_CASES.length).map((top, i) => (
             <CabinetDrawer
               key={top}
               index={i}
               top={top}
               client={playgroundCases[CABINET_CASES[i]].client}
+              logo={playgroundCases[CABINET_CASES[i]].logo}
               initiallyOpen={i === INITIAL_CASE}
               open={i === active}
               onOpen={open}
             />
           ))}
+          <ViewAllDrawer top={cabinetDrawerTops[CABINET_CASES.length]} href={creativePlaygroundCopy.projectsHref} label={creativePlaygroundCopy.viewAll} />
+          {/* the hint over the drawers, as the almirah comes into view: "Click a drawer to open its case file" */}
+          <AlmirahHint show={hintShown} text={creativePlaygroundCopy.almirahHint} />
           {/* the coloured file tabs standing up out of each drawer (only the open one's show; the rest sit inside) */}
-          {cabinetDrawerTops.map((top, i) => (
+          {cabinetDrawerTops.slice(0, CABINET_CASES.length).map((top, i) => (
             <div
               key={top}
               aria-hidden="true"
@@ -135,8 +184,8 @@ export function FilingRoom() {
           ))}
           </div>
 
-          {/* the desk's three drawers: press one and it slides out, and its file goes on the desk */}
-          <DeskDrawers active={active} onOpen={open} />
+          {/* the desk's drawers, sliding along a channel: press one and it slides out, and its file goes on the desk */}
+          <DeskChannel active={active} onOpen={open} />
 
           {/* the case file on the desk, with its tab (it drops onto the desk as the section scrolls in) */}
           <div data-cp="file" className="pointer-events-none absolute inset-0">
@@ -144,11 +193,8 @@ export function FilingRoom() {
             <div className="absolute inset-0 origin-[848px_887px] scale-[0.92] *:pointer-events-auto">
             <div className="absolute top-[436px] left-[539px] h-[41px] w-[129px]">
               <span className="absolute top-0 left-0 h-10 w-[129px] rounded-t-lg bg-[#e2be82]" />
-              <p className="absolute top-[5px] left-[18px] flex w-[93px] flex-col gap-0.5 text-center font-inter text-xs leading-[normal] font-bold text-[#5b4520] uppercase">
-                <span>{creativePlaygroundCopy.caseFileTab}</span>
-                <span>
-                  {active + 1} of {playgroundCases.length}
-                </span>
+              <p className="absolute top-[12px] left-[18px] w-[93px] text-center font-inter text-xs leading-[normal] font-bold text-[#5b4520] uppercase">
+                {creativePlaygroundCopy.caseFileTab}
               </p>
             </div>
             <CaseFile />
@@ -168,17 +214,12 @@ export function FilingRoom() {
         </PlaygroundStage>
       </div>
 
-      {/* client selector: opens the same drawers */}
-      <div
-        data-cp="controls"
-        className="site-container mt-8 flex justify-center md:mt-12 xl:mt-[77px]"
-      >
-        <ProjectControls
-          clients={playgroundClients}
-          active={active}
-          onSelect={pick}
-          crumple
-        />
+      {/* all the work (phones; from md it's the almirah's bottom drawer) */}
+      <div data-cp="controls" className="site-container mt-8 flex justify-center md:hidden">
+        <ButtonLink href={creativePlaygroundCopy.projectsHref} variant="folded">
+          {/* the button capitalises words; this label stays in sentence case */}
+          <span className="normal-case">{creativePlaygroundCopy.viewAll}</span>
+        </ButtonLink>
       </div>
     </div>
   );

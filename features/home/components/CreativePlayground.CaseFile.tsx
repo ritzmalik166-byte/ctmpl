@@ -30,7 +30,7 @@ function Field({ top, label, value }: { top: number; label: string; value: strin
       <span className="absolute left-[27px] font-typewriter text-[9.5px] leading-none font-bold tracking-[1.2px] text-[#625d58] uppercase" style={{ top }}>
         {label}
       </span>
-      <span className="absolute left-[124px] font-typewriter text-sm leading-none whitespace-nowrap text-[#3f3b38]" style={{ top: top - 3 }}>
+      <span className="absolute left-[108px] w-[200px] truncate font-typewriter text-[12px] leading-none whitespace-nowrap text-[#3f3b38]" style={{ top: top - 3 }}>
         {value}
       </span>
     </>
@@ -43,11 +43,16 @@ function CaseSheet({ index, file }: { index: number; file: PlaygroundCase["file"
     <div data-sheet={index} className="absolute" style={{ ...box(caseFileSheet), opacity: index === INITIAL_CASE ? 1 : 0 }}>
       <Image src={paperBlank} alt="" fill sizes="22.3vw" className="pointer-events-none" />
       <p className="absolute top-[28px] left-[27px] font-typewriter text-[9.5px] leading-none font-bold tracking-[1.9px] whitespace-nowrap text-[#a17351] uppercase">
-        {caseFileLabels.title} · {file.number}
+        {caseFileLabels.title}
       </p>
-      <Field top={90} label={caseFileLabels.client} value={file.client} />
-      <Field top={121} label={caseFileLabels.campaign} value={file.campaign} />
-      <Field top={152} label={caseFileLabels.filedBy} value={file.filedBy} />
+      <Field top={78} label={caseFileLabels.client} value={file.client} />
+      <Field top={106} label={caseFileLabels.campaign} value={file.campaign} />
+      <Field top={134} label={caseFileLabels.services} value={file.services} />
+      {/* the brief, typed out underneath */}
+      <span className="absolute top-[166px] left-[27px] font-typewriter text-[9.5px] leading-none font-bold tracking-[1.2px] text-[#625d58] uppercase">
+        {caseFileLabels.brief}
+      </span>
+      <p className="absolute top-[184px] left-[27px] w-[262px] font-typewriter text-[12px] leading-[1.55] text-[#3f3b38]">{file.brief}</p>
     </div>
   );
 }

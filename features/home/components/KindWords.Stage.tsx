@@ -22,8 +22,15 @@ function cropFor(width: number) {
  * desktop the stage scales that whole room to the screen's width as one piece
  * (showing the part of it set by `cropFor`), and every animation stays as
  * designed. From xl up the room is drawn 1:1 at its Figma place (y 377).
+ *
+ * `backdrop` (the room's wall and floor) is laid out the same way but stays
+ * put while `children` make their entrance (`sr`); it may reach up above the
+ * room (only the sides are clipped), so the wall can run on behind the heading.
  */
-export function RoomStage({ children, sr }: { children: ReactNode; sr?: string }) {
+/** The 1440 room, scaled (and cropped) to the stage below xl. */
+const roomClass = "absolute top-0 left-0 h-[731px] w-[1440px] origin-top-left transform-(--room-t) xl:transform-none";
+
+export function RoomStage({ children, sr, backdrop }: { children: ReactNode; sr?: string; backdrop?: ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(375);
 
@@ -47,11 +54,13 @@ export function RoomStage({ children, sr }: { children: ReactNode; sr?: string }
   return (
     <div
       ref={ref}
-      data-sr={sr}
       style={vars}
-      className="relative h-(--room-h) w-full overflow-hidden xl:absolute xl:top-[377px] xl:left-0 xl:h-[731px] xl:w-[1440px] xl:overflow-visible"
+      className="relative h-(--room-h) w-full overflow-x-clip xl:absolute xl:top-[377px] xl:left-0 xl:h-[731px] xl:w-[1440px] xl:overflow-visible"
     >
-      <div className="absolute top-0 left-0 h-[731px] w-[1440px] origin-top-left transform-(--room-t) xl:transform-none">{children}</div>
+      {backdrop && <div className={roomClass}>{backdrop}</div>}
+      <div data-sr={sr} className="absolute inset-0">
+        <div className={roomClass}>{children}</div>
+      </div>
     </div>
   );
 }

@@ -7,12 +7,14 @@ import { startConversationCopy } from "../constants/startConversation.constants"
 const { call, mail, visit } = startConversationCopy.cafe;
 const mapQuery = encodeURIComponent(`Corporate Park, Tower A1, Sector 142, Noida 201305`);
 
-type Size = "counter" | "card";
+type Size = "counter" | "card" | "compact";
 
-/** Sizes: on the counter (lg up) they scale with the scene (cqw); below lg they're ordinary cards. */
+/** Sizes: on the counter in the scene they scale with it (cqw); otherwise ordinary cards (`compact`: the footer's, tighter). */
 const text = {
   counter: { label: "text-[clamp(14px,1.5cqw,22px)]", body: "text-[clamp(11px,1.02cqw,15px)]", pad: "px-[1.4cqw] pt-[2cqw] pb-[1.2cqw]" },
   card: { label: "text-xl", body: "text-sm", pad: "px-5 pt-8 pb-4" },
+  /** In the footer: the same, packed a little tighter. */
+  compact: { label: "text-lg", body: "text-[13px]", pad: "px-4 pt-6 pb-3" },
 };
 
 /** A paper note pinned to the counter: pastel paper, a push pin at the top, a slight tilt; straightens and lifts on hover. */

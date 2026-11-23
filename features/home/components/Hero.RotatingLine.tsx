@@ -6,12 +6,12 @@ import { useRotatingLine } from "../animations/Hero.RotatingLine";
 /**
  * Sized so the longest line always wraps onto two lines at most (the headline is three lines with
  * "Come in."): on phones it scales with the screen; from tablets up it scales with the headline's
- * column (36.25vw), 52px at 1440 and no larger.
+ * column (36.25vw), 57px at 1440 and no larger.
  */
-const lg = "text-[4.8vw] leading-[1.18] font-semibold md:text-[min(3.6vw,51.84px)]";
+const lg = "text-[calc(4.8vw+5px)] leading-[1.18] font-semibold md:text-[calc(min(3.6vw,51.84px)+5px)]";
 /** The red word: a third larger on phones (its tighter leading keeps the line box the same); from
  * tablets up the whole changing line is one size. Lines set close, like a headline. */
-const xl = "text-[6.4vw] leading-[0.9] font-semibold text-brand-red md:text-[min(3.6vw,51.84px)] md:leading-[1.18]";
+const xl = "text-[calc(6.4vw+5px)] leading-[0.9] font-semibold text-brand-red md:text-[calc(min(3.6vw,51.84px)+5px)] md:leading-[1.18]";
 
 /** A piece of text as single letters, so it can be written out (and erased) one at a time. */
 function Letters({ text, className }: { text: string; className: string }) {

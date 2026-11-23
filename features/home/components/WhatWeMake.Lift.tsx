@@ -40,14 +40,15 @@ type LiftProps = {
 /**
  * The lift: car (floor scene + sliding doors) behind the lift artwork, with
  * the dial needle, floor lights and "FLOOR n" label drawn on top. It fills its
- * parent's width (428 × 619 on desktop) and scales as one piece.
+ * parent's width (368px wide on desktop); below xl its parent is a size
+ * container and it's as big as fits in it. It scales as one piece.
  */
 export function Lift({ target, initialFloor, sceneFloor, onSceneChange, onArrive }: LiftProps) {
   const ref = useLiftRide(target, initialFloor, { onSceneChange, onArrive });
   const { car, dial, label } = LIFT;
 
   return (
-    <div ref={ref} className="@container relative aspect-[428/619] w-full overflow-clip max-md:w-[min(100%,calc(min(100svh_-_270px,56svh)*428/619))]" aria-live="polite">
+    <div ref={ref} className="@container relative aspect-[428/619] w-full shrink-0 overflow-clip max-xl:w-[min(100cqw,calc(100cqh*428/619))]" aria-live="polite">
       <div data-lift="cabin" className="absolute inset-0">
         {/* car: the floor's studio, and the doors in front of it */}
         <div className="absolute" style={{ left: pctX(car.x), top: pctY(car.y), width: pctX(car.width), height: pctY(car.height) }}>
