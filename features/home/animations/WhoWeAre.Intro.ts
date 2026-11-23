@@ -21,7 +21,8 @@ const START = "top 78%";
  *  - the little red paper plane by the label flies in from the top right on a
  *    curving flight and lands in its place beside "Who we are";
  *  - the paper airplane glides in from the bottom left into its spot, then
- *    floats on the air.
+ *    floats on the air;
+ *  - the three notes are stuck up one after another.
  * Waits for fonts (so lines split where they'll stay) and the welcome gateway.
  */
 export function useWhoWeAreIntro() {
@@ -34,10 +35,11 @@ export function useWhoWeAreIntro() {
 
       const q = (name: string) => root.querySelector<HTMLElement>(`[data-anim="${name}"]`)!;
       const [label, heading, intro, plane] = [q("label"), q("heading"), q("intro"), q("plane")];
+      const notes = gsap.utils.toArray<HTMLElement>('[data-anim="notes"] > li', root);
       const trigger = { trigger: root, start: START, once: true };
 
       // hidden until it's seen (the section starts below the fold)
-      gsap.set([label, heading, intro, plane], { autoAlpha: 0 });
+      gsap.set([label, heading, intro, plane, ...notes], { autoAlpha: 0 });
 
       let stopWaiting = () => {};
       const build = contextSafe(() => {
@@ -49,6 +51,13 @@ export function useWhoWeAreIntro() {
         [heading, intro].forEach((block) => waveRevealWords(block, trigger));
 
         flyIn(plane, trigger);
+
+        // the notes are stuck up one after another: each slaps on from a little above, turned, and settles
+        gsap.fromTo(
+          notes,
+          { autoAlpha: 0, y: -26, scale: 1.12, rotation: (i) => [-14, 12, -10][i % 3] },
+          { autoAlpha: 1, y: 0, scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2.2)", stagger: 0.16, delay: 0.5, scrollTrigger: trigger, clearProps: "transform" }
+        );
       });
 
       // fonts first, then wait for the gateway so it never plays behind it

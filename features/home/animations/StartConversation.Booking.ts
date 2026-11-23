@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import { catGone, KICK_EVENT, KICK_HOLD } from "./StartConversation.KickedCat";
 
 gsap.registerPlugin(useGSAP);
 
@@ -81,7 +82,8 @@ function tearOff(
  *  - `takeRequest()`: from lg up the door opens a little (out toward us), a
  *    hand reaches out from behind it to the clipboard, takes hold of the
  *    request, tugs, tears it off the board (a jagged stub stays under the
- *    clip) and carries it back inside; the door closes behind it. Below lg
+ *    clip) and carries it back inside; the first time in a visit, the cat
+ *    in the room is kicked out (useKickedCat); the door closes. Below lg
  *    there's no door: the request is torn off and drops away. Resolves when done.
  *  - `showBooked()`: the "room booked" note is clipped onto the board.
  *  - `clearBooked()`: the note comes off again (to send another request).
@@ -112,6 +114,10 @@ export function useBookingSequence() {
         alongArm(-34, 14),
         alongArm(-INTO_ROOM, 34),
       ];
+
+      // the first time in a visit, the cat in the room gets kicked out before the door closes (see useKickedCat)
+      const kick = !catGone();
+      const close = 2.95 + (kick ? KICK_HOLD : 0);
 
       playing.current = gsap
         .timeline({ onComplete: () => resolve() })
@@ -186,12 +192,14 @@ export function useBookingSequence() {
           2.72,
         )
         .to([arm, sheet], { autoAlpha: 0, duration: 0.2 }, 2.85)
+        // ...out goes the cat
+        .call(() => void (kick && window.dispatchEvent(new Event(KICK_EVENT))), [], 2.95)
         // the door is pulled shut, with a small bump back out as it meets the frame
-        .to(leaf, { rotationY: 0, duration: 0.65, ease: "power2.in" }, 2.95)
+        .to(leaf, { rotationY: 0, duration: 0.65, ease: "power2.in" }, close)
         .to(
           part("leaf-shade"),
           { opacity: 0, duration: 0.65, ease: "power2.in" },
-          2.95,
+          close,
         )
         .to(
           leaf,
@@ -202,7 +210,7 @@ export function useBookingSequence() {
             yoyo: true,
             repeat: 1,
           },
-          3.6,
+          close + 0.65,
         );
     });
 

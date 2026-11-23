@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import doorFrame from "@/public/images/website/home/start-conversation/door-frame.png";
 import doorLeaf from "@/public/images/website/home/start-conversation/door-leaf.png";
+import { DoorDecor } from "./StartConversation.DoorDecor";
 
 /**
  * The meeting room door (Figma 75:325, 495 × 674 at 161, 390 of the section),
@@ -33,6 +34,8 @@ export function MeetingRoomDoor({ children }: { children?: ReactNode }) {
       <div className="pointer-events-none absolute top-[49.5px] left-[49.5px] h-[625.5px] w-[396px] perspective-[3000px] perspective-origin-left">
         <div data-anim="leaf" className="relative size-full origin-left transform-3d">
           <Image src={doorLeaf} alt="" width={396} height={626} sizes="396px" className="size-full max-w-none" />
+          {/* the cat in the window, the stickers and the room's sign */}
+          <DoorDecor />
           {/* turning away from the light, the door darkens a little */}
           <span data-anim="leaf-shade" className="absolute inset-0 bg-black opacity-0" />
           {/* its edge, seen as it swings out */}

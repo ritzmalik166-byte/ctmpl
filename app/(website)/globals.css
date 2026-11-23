@@ -13,6 +13,7 @@
   --font-typewriter: var(--font-courier-prime-face), "Courier New", Courier, monospace;
   --font-jakarta: var(--font-plus-jakarta-sans-face), ui-sans-serif, system-ui, sans-serif;
   --font-western: var(--font-rye-face), Georgia, serif;
+  --font-serif-italic: var(--font-instrument-serif-face), Georgia, serif;
 }
 
 @theme {
@@ -250,6 +251,17 @@ body::-webkit-scrollbar {
 }
 
 /* A sign hung on the café counter (footer), swinging gently on its strings (see HangingSign). */
+/* the visitor register's paper lamp, swaying a little on its cord */
+@keyframes lamp-sway {
+  0%,
+  100% {
+    rotate: -1.2deg;
+  }
+  50% {
+    rotate: 1.2deg;
+  }
+}
+
 @keyframes sign-sway {
   0%,
   100% {

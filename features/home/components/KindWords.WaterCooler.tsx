@@ -9,7 +9,6 @@ import { RobotPuppet } from "./KindWords.Robot";
 import { StickyNotes } from "./KindWords.StickyNotes";
 import { WaterBubbles } from "./KindWords.WaterBubbles";
 import { RoomStage } from "./KindWords.Stage";
-import { KindWordsCat } from "./KindWords.Cat";
 import waterCoolerRoom from "@/public/images/website/home/kind-words/water-cooler-room.png";
 import noticeBoard from "@/public/images/website/home/kind-words/notice-board-bare.png";
 import roomWall from "@/public/images/website/home/kind-words/water-cooler-wall.webp";
@@ -56,8 +55,6 @@ export function WaterCooler() {
         <WaterBubbles />
         <StickyNotes />
         <ArjunPuppet speechSignal={told} speechSeconds={TESTIMONIAL_SECONDS - 0.5} label={kindWordsCopy.askArjun} onClick={next} />
-        {/* the paper cat: sits with Arjun, then (once) goes and knocks the robot over and runs off */}
-        <KindWordsCat />
       </RoomStage>
 
     </div>

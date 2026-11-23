@@ -43,10 +43,13 @@ const variants = {
     crumple: ["#ffffff", "#25d366", "var(--color-paper-cream)"],
     size: BUTTON_HEIGHT,
   },
-  /** Soft paper pill: hero "Take the office tour" → paper cream with dark text */
+  /**
+   * Soft paper pill: hero "Take the office tour" → paper cream with dark text.
+   * On phones it's a dark espresso pill instead (there it sits on the hero's light wall, so it needs the contrast).
+   */
   soft: {
     className:
-      "bg-[radial-gradient(closest-side,var(--color-blush),var(--color-paper))] text-ink data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
+      "bg-[radial-gradient(closest-side,var(--color-blush),var(--color-paper))] text-ink max-sm:bg-[linear-gradient(100deg,#3a2d26_50%,#2e2420_50.3%)] max-sm:text-paper-cream max-sm:shadow-[0_3px_8px_rgba(46,36,32,0.25)] data-flipped:bg-paper-cream data-flipped:bg-none data-flipped:text-ink-soft",
     crumple: ["var(--color-ivory)", "var(--color-clay)", "var(--color-blush)"],
   },
   /** Two-tone burnt-orange pill (as "View all projects"): hero "See our work" → cream with dark text */
