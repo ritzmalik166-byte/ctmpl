@@ -1,6 +1,6 @@
 export const whatWeMakeCopy = {
   label: "What we make",
-  heading: "Eight floors. One lift. Press any button.",
+  heading: "Eight floors. Pick one and ride up.",
   intro: "Tell us what you need and we'll take you to the right floor, or to several at once.",
   /** Under the lobby, with a button down to the contact form. */
   closing: "Not sure which floor? Ask at reception.",
@@ -26,18 +26,48 @@ export type Floor = {
 
 /** Building directory, top floor first (as on a real lobby board). */
 export const floors: Floor[] = [
-  { number: 8, name: "Digital", description: "Websites, SEO, social and performance campaigns that bring people to your door and keep them coming back." },
-  { number: 7, name: "Artists", description: "Artist and talent management and bookings for events, brand shoots and launches." },
-  { number: 6, name: "Events", description: "Launches, corporate events, activations and shows, planned and run on the ground. 1000+ and counting." },
-  { number: 5, name: "Radio", description: "Scripts, jingles and airtime that put your message in people's ears across the region." },
-  { number: 4, name: "Print", description: "Brochures, press ads, packaging and collateral, designed to be picked up and kept." },
-  { number: 3, name: "AI creatives", aiPowered: true, description: "Faster concepts, visuals and variations, made with AI and finished by our designers." },
-  { number: 2, name: "Reels", aiPowered: true, description: "Short vertical video for Instagram, YouTube Shorts and beyond, made quickly and made to be watched." },
+  {
+    number: 8,
+    name: "Digital marketing",
+    description: "Data-led marketing that brings the right people to your brand and turns visits into leads. We plan it, build it and run it, then report on what moved.",
+  },
+  {
+    number: 7,
+    name: "Artist management",
+    description: "We connect brands with celebrities, influencers, performers, anchors and entertainers, and look after the booking, the brief and the day itself.",
+  },
+  {
+    number: 6,
+    name: "Event management",
+    description: "End-to-end events, from the first idea to the last guest leaving. We have organised more than 1000 of them, and we plan each one down to the detail.",
+  },
+  {
+    number: 5,
+    name: "Radio advertising",
+    description: "Scripts, voice-overs and FM media planning for radio campaigns that build awareness. Radio is where we started, and Red FM 93.5 recognised our work in 2011.",
+  },
+  {
+    number: 4,
+    name: "Print advertising",
+    description: "Newspaper and magazine ads, brochures and corporate profiles, designed so your message reads clearly and your brand looks like itself.",
+  },
+  {
+    number: 3,
+    name: "AI creatives",
+    aiPowered: true,
+    description: "Campaign concepts, visuals and variations made with generative AI, then refined by our designers and writers so they still feel like your brand. Our generative AI campaign won an AdAura award in the AI & Innovation Excellence category.",
+  },
+  {
+    number: 2,
+    name: "Reels",
+    aiPowered: true,
+    description: "Short vertical video for Instagram, YouTube Shorts and Facebook, scripted, shot and edited quickly, with AI helping where it saves time. Built for local and growing brands.",
+  },
   {
     number: 1,
-    name: "Brand films",
+    name: "Brand films and TV ads",
     aiPowered: true,
-    description: "Scripted, shot and cut under one roof, made faster with AI.",
+    description: "Brand films and TV ads, scripted, shot and cut under one roof, made faster with AI. This is also where corporate videos, product films and photography live.",
   },
 ];
 

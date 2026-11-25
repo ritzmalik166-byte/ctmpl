@@ -21,13 +21,14 @@ export function SpeechBubble({ testimonial, className, ref }: { testimonial: Tes
       {/* smaller screens: the tail, pointing down at Arjun */}
       <span aria-hidden="true" className="absolute -bottom-2.5 left-[18%] size-6 rotate-45 rounded-br-[4px] bg-[#faf7ef] xl:hidden" />
 
-      <div className="relative flex flex-col gap-2.5 font-inter xl:absolute xl:top-[50px] xl:left-[42px] xl:w-[432px]">
-        <span aria-hidden="true" className="h-7 w-[26px] text-[52px] leading-[48px] font-medium text-[#b96245] xl:h-[35px] xl:text-[62px] xl:leading-[57px]">
+      {/* desktop: sized so the longest quote and its name still sit inside the drawn bubble */}
+      <div className="relative flex flex-col gap-2.5 font-inter xl:absolute xl:top-[38px] xl:left-[42px] xl:w-[440px] xl:gap-1.5">
+        <span aria-hidden="true" className="h-7 w-[26px] text-[52px] leading-[48px] font-medium text-[#b96245] xl:h-[26px] xl:text-[52px] xl:leading-[48px]">
           “
         </span>
-        <blockquote className="text-sm leading-[1.45] text-[#3d3a35] sm:text-base xl:text-[15px]">{quote}</blockquote>
-        <figcaption className="flex items-center gap-3 pt-2">
-          <span aria-hidden="true" className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#b96245] text-sm leading-[normal] font-bold tracking-[0.4px] text-[#faf7ef]">
+        <blockquote className="text-sm leading-[1.45] text-[#3d3a35] sm:text-base xl:text-[14px] xl:leading-[1.4]">{quote}</blockquote>
+        <figcaption className="flex items-center gap-3 pt-2 xl:pt-1">
+          <span aria-hidden="true" className="flex size-11 shrink-0 xl:size-9 items-center justify-center rounded-full bg-[#b96245] text-sm leading-[normal] font-bold tracking-[0.4px] text-[#faf7ef]">
             {name.charAt(0)}
           </span>
           <span className="flex min-w-0 flex-1 flex-col gap-1 leading-[normal]">

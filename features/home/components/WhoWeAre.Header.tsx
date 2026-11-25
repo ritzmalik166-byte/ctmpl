@@ -61,26 +61,25 @@ function WhoWeAreHeader() {
             {whoWeAreCopy.heading}
           </h2>
           {/* xl: the notes under the heading, clear of the paper airplane */}
-          <WhiteboardNotes className="mt-10 hidden w-[456px] grid-cols-3 gap-6 self-end xl:grid" />
+          <WhiteboardNotes className="mt-8 hidden w-[456px] grid-cols-3 gap-6 self-end xl:grid" />
         </div>
-        <div
+        {/* the intro as one paragraph, running on */}
+        <p
           data-anim="intro"
-          className="relative mt-5 flex max-w-[720px] flex-col gap-4 font-inter text-[17px] leading-[1.7] tracking-[-0.2px] text-stone md:text-[19px] xl:mt-0 xl:max-w-none xl:flex-[575_1_0%] xl:gap-5 xl:pt-[60px] xl:text-[20px] xl:leading-[1.7]"
+          className="relative mt-5 max-w-[720px] font-inter text-[17px] leading-[1.5] tracking-[-0.2px] text-stone md:text-[19px] xl:mt-0 xl:max-w-none xl:flex-[575_1_0%] xl:pt-[52px] xl:text-[19px] xl:leading-[1.55]"
         >
-          {whoWeAreCopy.intro.map((paragraph) => (
-            <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-          ))}
-        </div>
+          {whoWeAreCopy.intro.join(" ")}
+        </p>
       </div>
 
       {/* below xl: the notes under the intro */}
-      <WhiteboardNotes className="mt-9 grid max-w-[560px] grid-cols-3 gap-3 sm:gap-5 xl:hidden" />
+      <WhiteboardNotes className="mt-7 grid max-w-[560px] grid-cols-3 gap-3 sm:gap-5 xl:hidden" />
 
       <Image
         data-anim="plane"
         src={paperAirplane}
         alt=""
-        className="mt-8 w-[110px] md:w-[130px] xl:absolute xl:top-[278px] xl:-left-[43px] xl:mt-0 xl:w-[154px]"
+        className="mt-5 w-[90px] md:w-[110px] xl:absolute xl:top-[278px] xl:-left-[43px] xl:mt-0 xl:w-[154px]"
       />
     </div>
   );

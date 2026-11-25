@@ -17,37 +17,31 @@ export type Testimonial = {
   role: string;
 };
 
-/** One testimonial per client button. Only Sanskar's is real copy; the rest are placeholders. */
+/** One testimonial per client button. */
 export const testimonials: Testimonial[] = [
   {
-    client: "Sanskar",
-    quote: "I have been nothing other than astound with their out of the box ideas and superb creative thinking.",
-    name: "Sanskar",
+    client: "Mahagun",
+    quote: "The team at Creative Thinks Media literally cannot do any more justice to the name of their company. I have been nothing other than astounded by their out-of-the-box ideas and superb creative thinking.",
+    name: "Mahagun",
     role: "Marketing Head",
   },
   {
-    client: "Client_Two",
-    quote: "They turned a tight brief into a campaign our whole team still talks about. Fast, sharp and always on brand.",
-    name: "Client Two",
-    role: "Brand Manager",
+    client: "Escorts Tractor",
+    quote: "I must admit that CTM and its team of professionals are always on my favourite list. They have always delivered the best services to me, even if they had to put in extra effort, and their team has always been available for extensive support.",
+    name: "Escorts Tractor",
+    role: "Chief Communication Officer",
   },
   {
-    client: "Client_Three",
-    quote: "Every idea came with a reason behind it. Working with CTM felt like having a creative team in the next room.",
-    name: "Client Three",
-    role: "Founder",
+    client: "Bullmen Realty",
+    quote: "They not only make sure that they deliver on their promises, but also educate you on what exactly needs to be done for your brand, preventing you from under- or overspending your precious money.",
+    name: "Bullmen Realty",
+    role: "Managing Director",
   },
   {
-    client: "Client_Four",
-    quote: "From the first sketch to the final print, they made the whole process simple, and the results spoke for themselves.",
-    name: "Client Four",
-    role: "Head of Communications",
-  },
-  {
-    client: "Client_Five",
-    quote: "Bold ideas, delivered on time, every time. Our launch would not have landed the way it did without them.",
-    name: "Client Five",
-    role: "Marketing Director",
+    client: "Madhusudan Ghee",
+    quote: "To me, advertising my brand was merely a means to ensure my elongated presence in the market. Thanks to Creative Thinks Media, my advertisements not only ensured my brand's sustenance but have also got me a great number of quality leads.",
+    name: "Madhusudan Ghee",
+    role: "Managing Director",
   },
 ];
 

@@ -12,8 +12,7 @@ import blog8 from "@/public/images/website/home/pinboard/blogs/dummy-8.jpg";
 
 export const pinboardCopy = {
   label: "Fresh from our minds",
-  // Title Case written out (not CSS `capitalize`), ready for the word wave
-  heading: "Notes Pinned Up This Week.",
+  heading: "Notes pinned up this week.",
   readBlog: "Read the blog",
   readNote: "read the note",
   /** On the article's card, under the rolled-up note. */

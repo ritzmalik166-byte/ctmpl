@@ -12,8 +12,10 @@ export const whoWeAreCopy = {
   heading: "Every Monday starts at the whiteboard.",
   /** Two paragraphs, beside the heading. */
   intro: [
-    "We started in Noida in 2008 with a small team and one big whiteboard. Eighteen years on, the team is bigger and the whiteboard is still where every project begins: a brief, a few healthy arguments, and a plan everyone can say out loud.",
-    "We plan, write, design, shoot, print, broadcast and book. You work with one team instead of seven vendors, and nothing gets lost between floors.",
+    "Creative Thinks Media began on 16 August 2008. Two friends and colleagues were talking over a cup of coffee about what it takes to build a business. The conversation turned into a brainstorm, and the brainstorm turned into a full-service advertising agency in Noida.",
+    "Eighteen years and more than 10,000 brainstorming sessions later, the whiteboard is still where every project starts. We plan, write, design, shoot, print, broadcast and book, so you work with one team instead of seven vendors.",
+    "Our motto is best or nothing. Early on, we asked a client for more time to remake a TV commercial we weren't happy with, and we did it at our own cost. That is what the motto means to us.",
+    "Tap a magnet and Meera will walk you through the numbers.",
   ],
   /** The three notes stuck up by the whiteboard. */
   notes: ["One team, not seven vendors.", "Ideas first, channels second.", "Made in-house, checked by humans."],
@@ -23,10 +25,10 @@ export const whoWeAreCopy = {
    * as `boardStats`): it changes to match the stat being pointed at.
    */
   stories: [
-    "Started in Noida with print and radio. Eighteen years later, still driven by the same curiosity and creativity.",
-    "From product launches to stage shows, every event planned with creativity, precision and attention to every last cue.",
-    "From brand campaigns to films and creative identities, every project gets a fresh idea and a thoughtful touch.",
-    "Some came to us for one campaign and stayed for years. That's the kind of relationship we love building.",
+    "Since 2008. Two friends, one cup of coffee and a very big whiteboard.",
+    "1000+ events organised, from product launches to award nights and roadshows.",
+    "1800+ projects done across print, radio, film, events and digital.",
+    "2000+ happy clients, from growing local brands to national names.",
   ],
 } as const;
 

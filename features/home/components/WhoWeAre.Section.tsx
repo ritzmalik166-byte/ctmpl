@@ -13,12 +13,12 @@ function WhoWeAreSection() {
     <section id="who-we-are" className="relative isolate overflow-hidden">
       <Image src={paperWall} alt="" fill sizes="100vw" className="-z-10 object-cover object-top" />
 
-      <Container className="relative pt-12 pb-10 md:pb-14 xl:pt-[37px] xl:pb-0">
+      <Container className="relative pt-10 pb-10 md:pt-12 md:pb-12 xl:pt-[37px] xl:pb-4">
         <WhoWeAreHeader />
       </Container>
 
-      {/* xl+: the whiteboard room starts 421px down the section, as in Figma */}
-      <div className="xl:mt-[164px]">
+      {/* xl+: the whiteboard room, a little way under the header */}
+      <div className="xl:mt-14">
         <WhiteboardScene />
         <WhiteboardMobile />
       </div>

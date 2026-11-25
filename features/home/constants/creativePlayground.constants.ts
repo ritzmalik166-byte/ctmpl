@@ -47,8 +47,7 @@ import logoScnd9 from "@/public/images/website/clients/trimmed/scnd-9.webp";
 
 export const creativePlaygroundCopy = {
   label: "Our creative playground",
-  // Title Case written out (not CSS `capitalize`), ready for letter-by-letter animation later
-  heading: "Every Campaign Gets Its Own Case File.",
+  heading: "Every campaign gets its own case file.",
   intro: "The filing room is where finished work lives. Pull out a drawer and Neha will open the file and stamp it for you.",
   /** The note shown over the almirah as it scrolls into view, until a drawer has been opened. */
   almirahHint: "Click a drawer to open its case file",

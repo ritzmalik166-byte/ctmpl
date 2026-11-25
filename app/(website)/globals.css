@@ -262,6 +262,40 @@ body::-webkit-scrollbar {
   }
 }
 
+/* a desk sticker's unstuck corner: its peel is its idle size plus a flutter in the draught now and
+   then (animated) plus a lift on hover (transitioned); registered so both can be animated smoothly */
+@property --peel {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+@property --flutter {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --lift {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@keyframes sticker-flutter {
+  0%,
+  72%,
+  100% {
+    --flutter: 0px;
+  }
+  78% {
+    --flutter: 5px;
+  }
+  84% {
+    --flutter: 1px;
+  }
+  90% {
+    --flutter: 3px;
+  }
+}
+
 @keyframes sign-sway {
   0%,
   100% {

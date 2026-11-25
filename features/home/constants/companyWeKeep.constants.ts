@@ -10,7 +10,7 @@ export const companyWeKeepCopy = {
   label: "The company we keep",
   // Title Case written out (not CSS `capitalize`), ready for letter-by-letter animation later
   heading: "Signed In At Reception, Again And Again.",
-  intro: "Every brand that works with us gets a visitor pass. Some of these have been in our building for more than a decade.",
+  intro: "Every brand that works with us gets a visitor pass. Some of them have been signing in for years.",
   visitor: "Visitor",
   passNumber: "Pass no.",
 } as const;
@@ -55,9 +55,9 @@ export const barcodeBars = [2, 1, 1, 1.6, 1, 2, 1.6, 1, 1, 1.6, 2, 1, 1.6, 1, 1,
 /** The visitor register (Figma "Visitor register", which replaced the rails of passes). */
 export const visitorRegisterCopy = {
   label: "The company we keep",
-  headingFirst: "Signed In At Reception,",
-  headingSecond: "Again And Again.",
-  intro: "Every brand that works with us gets a visitor pass. Some of these have been in our building for more than a decade.",
+  headingFirst: "Signed in at reception,",
+  headingSecond: "again and again.",
+  intro: "Every brand that works with us gets a visitor pass. Some of them have been signing in for years.",
   columns: { pass: "Pass no.", client: "Client", signedIn: "Signed in" },
   visitor: "Visitor",
   signedBy: (brand: string) => `Signed in by ${brand}`,
@@ -75,4 +75,10 @@ export const registerEntries = [
   { brand: "Kotak Life Insurance", number: "004", color: "#b78b27", signature: { width: 175, waves: [3, 7, 5, 6, 3, 5, 6] } },
   { brand: "Escorts Tractor", number: "005", color: "#87466b", signature: { width: 180, waves: [8, 4, 5, 4, 6, 4, 5, 6] } },
   { brand: "Jaypee Group", number: "006", color: "#3a393e", signature: { width: 200, waves: [3, 5, 4, 3, 6, 4, 7, 6] } },
+  { brand: "Mahagun", number: "007", color: "#bf5d3a", signature: { width: 168, waves: [4, 6, 3, 7, 5, 8, 6] } },
+  { brand: "Axis Asset Management", number: "008", color: "#285f8e", signature: { width: 190, waves: [3, 6, 4, 8, 5, 4, 7, 5] } },
+  { brand: "IIFL Securities", number: "009", color: "#3f7e5d", signature: { width: 162, waves: [5, 3, 6, 4, 9, 7, 5] } },
+  { brand: "Qube Cinema", number: "010", color: "#b78b27", signature: { width: 178, waves: [3, 8, 5, 6, 4, 7, 5, 6] } },
+  { brand: "Madhusudan Ghee", number: "011", color: "#87466b", signature: { width: 186, waves: [4, 5, 7, 3, 6, 8, 4, 5] } },
+  { brand: "Aeronet Holidays", number: "012", color: "#3a393e", signature: { width: 172, waves: [6, 4, 5, 7, 3, 6, 8] } },
 ] as const;

@@ -6,7 +6,7 @@ export const heroActions: ReadonlyArray<{
   variant: ButtonVariant;
 }> = [
   { label: "Take the office tour", href: "#who-we-are", variant: "soft" },
-  { label: "See our work", href: "#our-work", variant: "brand" },
+  { label: "See our work", href: "#creative-playground", variant: "brand" },
 ];
 
 /**
