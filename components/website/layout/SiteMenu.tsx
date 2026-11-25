@@ -32,9 +32,9 @@ function useMenuLayout(shown: boolean) {
     if (!shown) return;
     const measure = () => {
       const w = window.innerWidth;
-      const h = window.innerHeight;
       const desktop = w >= DESKTOP_FROM;
-      const scale = desktop ? Math.min(w / MENU_DESK_SIZE.width, h / MENU_DESK_SIZE.height) : Math.min(w / MENU_MOBILE_SIZE.width, MOBILE_MAX_SCALE);
+      // desktop: the desk spans the full width of the screen (it scrolls if that makes it taller than the screen)
+      const scale = desktop ? w / MENU_DESK_SIZE.width : Math.min(w / MENU_MOBILE_SIZE.width, MOBILE_MAX_SCALE);
       // (desktop: how far the screen reaches past the 1440 frame on each side, in frame px; the masthead spans it)
       const bleed = desktop ? Math.max(0, (w / scale - MENU_DESK_SIZE.width) / 2) : 0;
       setLayout({ desktop, scale, bleed });
@@ -57,8 +57,8 @@ function useMenuLayout(shown: boolean) {
  * and the papers are dealt onto the desk one after another, settling from a
  * tilt; the props slide in. Closing lifts it all away. While it's open the page
  * holds still, Esc closes it, and focus moves to the Close tag (and back to
- * the menu button after). Desktop: the 1440 × 1060 desk, scaled to fit the
- * screen, from the top, its masthead running the full width of the screen (the
+ * the menu button after). Desktop: the 1440 × 1060 desk, scaled to the full
+ * width of the screen (scrolling if that makes it taller), its masthead too (the
  * logo at the left edge, the Close tag at the right); phones: the 390-wide
  * sheet, scaled to the screen's width, scrolling.
  */
@@ -151,7 +151,7 @@ export function SiteMenu() {
             {/* the edition, at its Figma size, scaled to the screen (the phone sheet scrolls) */}
             <div
               data-lenis-prevent
-              className={`absolute inset-0 overflow-x-hidden overscroll-contain ${desktop ? "flex items-start justify-center overflow-y-hidden" : "overflow-y-auto"}`}
+              className={`absolute inset-0 overflow-x-hidden overflow-y-auto overscroll-contain ${desktop ? "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden" : ""}`}
               onClick={(e) => e.target === e.currentTarget && closeMenu()}
             >
               <div className={desktop ? "shrink-0" : "mx-auto"} style={{ width: size.width * scale, height: size.height * scale }}>
