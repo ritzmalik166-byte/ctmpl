@@ -1,17 +1,29 @@
 "use client";
 
 import gsap from "gsap";
-import { blinkFrames, talkFrames, talkOverOpenArt, usePuppet } from "./puppet";
+import { usePuppet } from "./puppet";
 import { LIFT_DOORS_OPEN } from "./WhatWeMake.Lift";
+
+/**
+ * A blink for characters whose eyes are cut out on their own (`eye` parts):
+ * both squash shut and open again, every few seconds (the wait changes each time).
+ */
+function squashBlink(eyes: Element[]) {
+  return gsap
+    .timeline({ repeat: -1, repeatRefresh: true, repeatDelay: 2.4, delay: gsap.utils.random(0.8, 2) })
+    .to(eyes, { scaleY: 0.08, duration: 0.07, ease: "power2.in" })
+    .to(eyes, { scaleY: 1, duration: 0.1, ease: "power2.out" })
+    .to({}, { duration: () => gsap.utils.random(0.4, 2.6) });
+}
 
 /**
  * Floor 1 · Brand films. The cameraman leans in towards you, gives three little
  * "ready?" nods, and takes the shot: the camera flashes, the room lights up for
- * an instant, and the take board moves on to the next take. The REC light blinks.
+ * an instant, and the take board moves on to the next take. The REC light blinks, and so does he.
  */
 export function useFilmStudio() {
   return usePuppet((q) => {
-    const [man, burst, fill, rec, take] = [q("cameraman"), q("flash-burst"), q("flash-fill"), q("rec"), q("take")];
+    const [man, burst, fill, rec, take, eyes] = [q("cameraman"), q("flash-burst"), q("flash-fill"), q("rec"), q("take"), q("eye")];
     let takeNumber = 12;
     // flash parts start hidden; their tweens below don't render until the click
     gsap.set(burst, { scale: 0, opacity: 0 });
@@ -36,21 +48,21 @@ export function useFilmStudio() {
       .to(man, { scale: 1, rotation: 0, duration: 0.8, ease: "power2.inOut" }, "click+=0.4");
 
     const recording = gsap.to(rec, { opacity: 0.15, duration: 0.6, ease: "steps(1)", yoyo: true, repeat: -1 });
-    return [shoot, recording];
+    return [shoot, recording, squashBlink(eyes)];
   });
 }
 
 /**
- * Floor 2 · Reels. Every 3 seconds the creator does her bit: waves (the whole
- * arm, from the shoulder), lifts her phone, tilts her head and says a few words, and
- * the ring light shines with her: bulbs light up round the ring, then all glow
- * together and fade. She blinks and breathes in between.
+ * Floor 2 · Reels. Every 3 seconds the creator does her bit: waves her peace
+ * sign (the forearm, from where it leaves her sleeve), lifts her phone and tilts her head, the
+ * ring light shines with her (bulbs light up round the ring, then all glow
+ * together and fade) and the social icons round her pop. In between the icons
+ * float, and she blinks and breathes.
  */
 export function useReelsStudio() {
   return usePuppet((q) => {
-    const [creator, head, eyes, eyesHalf, mouthSmall, mouthWide, wave, phone, bulbs, halo] = [
-      q("creator"), q("head"), q("eyes"), q("eyes-half"), q("mouth-small"), q("mouth-wide"),
-      q("arm-wave"), q("arm-phone"), q("bulb"), q("ring-halo"),
+    const [creator, head, eyes, wave, phone, bulbs, halo, icons] = [
+      q("creator"), q("head"), q("eye"), q("arm-wave"), q("arm-phone"), q("bulb"), q("ring-halo"), q("icon"),
     ];
 
     const show = gsap.timeline({ repeat: -1, delay: 0.6 });
@@ -58,30 +70,35 @@ export function useReelsStudio() {
 
     // ring light: a chase round the ring, then the whole ring glows, then off
     show
-      .to(bulbs, { opacity: 1, duration: 0.12, stagger: 0.035, ease: "power1.out" }, "go")
+      .to(bulbs, { opacity: 1, duration: 0.12, stagger: 0.05, ease: "power1.out" }, "go")
       .to(halo, { opacity: 1, duration: 0.4, ease: "power2.out" }, "go+=0.6")
       .to(bulbs, { opacity: 0.8, duration: 0.2, yoyo: true, repeat: 3, ease: "sine.inOut" }, "go+=0.9")
       .to([...bulbs, ...halo], { opacity: 0, duration: 0.5, ease: "power2.in" }, "go+=1.9");
 
-    // the creator: wave, lift the phone, tilt the head, a little bounce, a few words
+    // the creator: peace-sign wave, lift the phone, tilt the head, a little bounce; the icons pop
     show
-      // wave from the shoulder: the whole arm lifts and swings (+ = up), never into her hair
-      .to(wave, { rotation: 10, duration: 0.28, ease: "sine.inOut" }, "go")
-      .to(wave, { rotation: -6, duration: 0.3, ease: "sine.inOut" }, "go+=0.28")
-      .to(wave, { rotation: 9, duration: 0.3, ease: "sine.inOut" }, "go+=0.58")
-      .to(wave, { rotation: -4, duration: 0.3, ease: "sine.inOut" }, "go+=0.88")
-      .to(wave, { rotation: 0, duration: 0.4, ease: "sine.inOut" }, "go+=1.18")
+      .to(wave, { rotation: 5, duration: 0.3, ease: "sine.inOut" }, "go")
+      .to(wave, { rotation: -3.5, duration: 0.32, ease: "sine.inOut" }, "go+=0.3")
+      .to(wave, { rotation: 4.5, duration: 0.32, ease: "sine.inOut" }, "go+=0.62")
+      .to(wave, { rotation: -2.5, duration: 0.32, ease: "sine.inOut" }, "go+=0.94")
+      .to(wave, { rotation: 0, duration: 0.45, ease: "sine.inOut" }, "go+=1.26")
       .to(phone, { rotation: -5, duration: 0.45, ease: "power2.out" }, "go")
       .to(phone, { rotation: 0, duration: 0.6, ease: "power2.inOut" }, "go+=1.3")
-      .to(head, { rotation: 4, duration: 0.45, ease: "sine.inOut" }, "go")
-      .to(head, { rotation: -2, duration: 0.5, ease: "sine.inOut" }, "go+=0.6")
+      .to(head, { rotation: 3, duration: 0.45, ease: "sine.inOut" }, "go")
+      .to(head, { rotation: -1.5, duration: 0.5, ease: "sine.inOut" }, "go+=0.6")
       .to(head, { rotation: 0, duration: 0.5, ease: "sine.inOut" }, "go+=1.3")
-      .to(creator, { yPercent: -0.8, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 3 }, "go");
-    talkFrames(show, mouthSmall, mouthWide, show.labels.go + 0.15, 8);
+      .to(creator, { yPercent: -0.8, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 3 }, "go")
+      .to(icons, { scale: 1.14, duration: 0.25, ease: "back.out(3)", stagger: 0.12, yoyo: true, repeat: 1 }, "go+=0.3");
 
-    const blinking = blinkFrames(eyes, eyesHalf);
+    // the icons drift, each on its own beat
+    const floating = icons.map((icon, i) =>
+      gsap.to(icon, { yPercent: -0.9, rotation: i % 2 ? 4 : -4, duration: 1.6 + i * 0.35, ease: "sine.inOut", yoyo: true, repeat: -1, delay: i * 0.3 })
+    );
+
+    const blinking = squashBlink(eyes);
+
     const breathing = gsap.to(creator, { scaleY: 1.006, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
-    return [show, blinking, breathing];
+    return [show, ...floating, blinking, breathing];
   });
 }
 
@@ -94,9 +111,8 @@ export function useReelsStudio() {
  */
 export function useAiCreativesStudio() {
   return usePuppet((q) => {
-    const [strategist, head, eyes, eyesHalf, mouthSmall, mouthWide, forearm, notes, stars, glows] = [
-      q("strategist"), q("head"), q("eyes"), q("eyes-half"), q("mouth-small"), q("mouth-wide"),
-      q("forearm"), q("note"), q("star"), q("star-glow"),
+    const [strategist, head, eyes, forearm, notes, stars, glows] = [
+      q("strategist"), q("head"), q("eye"), q("forearm"), q("note"), q("star"), q("star-glow"),
     ];
 
     const show = gsap.timeline({ repeat: -1, delay: 0.6 });
@@ -109,16 +125,16 @@ export function useAiCreativesStudio() {
       .to(stars, { scale: 1, rotation: 0, duration: 0.6, ease: "power2.inOut", stagger: 0.15 }, "go+=0.55")
       .to(glows, { opacity: 0, duration: 0.6, ease: "power2.in", stagger: 0.15 }, "go+=0.55");
 
-    // the phrase, and the gestures timed to it
+    // his explanation, and the gestures timed to it
     const go = show.labels.go;
-    const end = talkFrames(show, mouthSmall, mouthWide, go + 0.2, 10);
+    const end = go + 2.3;
     show
-      // pencil hand comes up off the tablet (+ = up), beats twice on his points, settles back
-      .to(forearm, { rotation: 11, duration: 0.5, ease: "power2.out" }, go)
-      .to(forearm, { rotation: 7, duration: 0.25, ease: "sine.inOut" }, go + 0.7)
-      .to(forearm, { rotation: 11, duration: 0.25, ease: "sine.inOut" }, go + 0.95)
-      .to(forearm, { rotation: 8, duration: 0.25, ease: "sine.inOut" }, go + 1.3)
-      .to(forearm, { rotation: 10, duration: 0.25, ease: "sine.inOut" }, go + 1.55)
+      // pencil hand comes up off the tablet (- = up), taps twice on his points, settles back
+      .to(forearm, { rotation: -7, duration: 0.5, ease: "power2.out" }, go)
+      .to(forearm, { rotation: -3.5, duration: 0.25, ease: "sine.inOut" }, go + 0.7)
+      .to(forearm, { rotation: -7, duration: 0.25, ease: "sine.inOut" }, go + 0.95)
+      .to(forearm, { rotation: -4, duration: 0.25, ease: "sine.inOut" }, go + 1.3)
+      .to(forearm, { rotation: -6, duration: 0.25, ease: "sine.inOut" }, go + 1.55)
       .to(forearm, { rotation: 0, duration: 0.6, ease: "power2.inOut" }, end - 0.1)
       // head: tilts as he starts, turns back the other way mid-sentence, then straight
       .to(head, { rotation: -2.5, duration: 0.5, ease: "sine.inOut" }, go)
@@ -135,7 +151,7 @@ export function useAiCreativesStudio() {
       ).seek(gsap.utils.random(0, 2)) // each note starts at a different point of its flutter
     );
 
-    const blinking = blinkFrames(eyes, eyesHalf);
+    const blinking = squashBlink(eyes);
     const breathing = gsap.to(strategist, { scaleY: 1.006, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
     return [show, blinking, breathing, ...flutter];
   });
@@ -150,16 +166,14 @@ export function useAiCreativesStudio() {
  */
 export function usePrintStudio() {
   return usePuppet((q) => {
-    const [reader, head, eyes, eyesHalf, mouthSmall, mouthWide, paper, page, signs, glows, lights] = [
-      q("reader"), q("head"), q("eyes"), q("eyes-half"), q("mouth-small"), q("mouth-wide"),
-      q("paper"), q("page"), q("sign"), q("sign-glow"), q("sign-light"),
+    const [reader, head, eyes, paper, signs, glows, lights] = [
+      q("reader"), q("head"), q("eye"), q("paper"), q("sign"), q("sign-glow"), q("sign-light"),
     ];
 
     // reading: two lines, then a snap of the paper and a short pause
     const reading = gsap.timeline({ repeat: -1, delay: 0.4 });
     const readLine = (at: number) => {
       reading.to(head, { xPercent: 0.5, duration: 1.8, ease: "sine.inOut" }, at); // eyes along the line
-      talkFrames(reading, mouthSmall, mouthWide, at + 0.15, 7);
       reading
         .to(head, { xPercent: -0.5, duration: 0.45, ease: "power2.inOut" }, at + 1.85) // back to the next line
         .to(head, { rotation: 0.8, duration: 0.22, ease: "sine.inOut", yoyo: true, repeat: 1 }, at + 1.85);
@@ -170,9 +184,7 @@ export function usePrintStudio() {
     reading
       .to(paper, { yPercent: -1.2, duration: 0.14, ease: "power2.out" }, 4.9) // snap!
       .to(paper, { yPercent: 0, duration: 0.4, ease: "power2.inOut" }, 5.04)
-      .to(page, { rotation: -2, duration: 0.12, ease: "power1.out" }, 4.9)
-      .to(page, { rotation: 1.2, duration: 0.18, ease: "sine.inOut" }, 5.02)
-      .to(page, { rotation: 0, duration: 0.3, ease: "sine.out" }, 5.2)
+      .to(reader, { yPercent: -0.3, duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 1 }, 4.9) // and a little smile-bob over the top
       .to({}, { duration: 1 }, 5.6); // a moment before the next line
 
     // hands holding the paper are never perfectly still
@@ -196,7 +208,7 @@ export function usePrintStudio() {
     });
     shine.set({}, {}, signs.length * 2);
 
-    const blinking = blinkFrames(eyes, eyesHalf);
+    const blinking = squashBlink(eyes);
     const breathing = gsap.to(reader, { scaleY: 1.006, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
     return [reading, holding, shine, blinking, breathing, ...swing];
   });
@@ -211,29 +223,28 @@ export function usePrintStudio() {
  */
 export function useRadioStudio() {
   return usePuppet((q) => {
-    const [host, head, arm, eyes, eyesHalf, closed, small, panels, glow, light] = [
-      q("host"), q("head"), q("arm"), q("eyes"), q("eyes-half"), q("mouth-closed"), q("mouth-small"),
-      q("panel"), q("on-air-glow"), q("on-air-light"),
+    const [host, head, arm, eyes, panels, glow, light] = [
+      q("host"), q("head"), q("arm"), q("eye"), q("panel"), q("on-air-glow"), q("on-air-light"),
     ];
 
     // on air: two sentences with a breath between, then a longer pause
     const talking = gsap.timeline({ repeat: -1, delay: 0.5 });
-    const first = talkOverOpenArt(talking, closed, small, 0, 12);
+    const first = 2.4;
     talking
-      // the free arm leaves her hip, beats on the words, then rests again (- = out from the hip)
-      .to(arm, { rotation: -6, duration: 0.5, ease: "power2.out" }, 0.1)
-      .to(arm, { rotation: -3.5, duration: 0.25, ease: "sine.inOut" }, 0.8)
-      .to(arm, { rotation: -6, duration: 0.25, ease: "sine.inOut" }, 1.05)
-      .to(arm, { rotation: -4, duration: 0.25, ease: "sine.inOut" }, 1.5)
+      // her mic hand moves with her words (from the elbow): in to the mic, a beat out, in again
+      .to(arm, { rotation: -4, duration: 0.5, ease: "power2.out" }, 0.1)
+      .to(arm, { rotation: -1.5, duration: 0.25, ease: "sine.inOut" }, 0.8)
+      .to(arm, { rotation: -4, duration: 0.25, ease: "sine.inOut" }, 1.05)
+      .to(arm, { rotation: -2, duration: 0.25, ease: "sine.inOut" }, 1.5)
       .to(arm, { rotation: 0, duration: 0.6, ease: "power2.inOut" }, first - 0.2)
       .to(head, { rotation: 1.5, duration: 0.6, ease: "sine.inOut" }, 0)
       .to(head, { rotation: -1, duration: 0.7, ease: "sine.inOut" }, 0.9);
     const secondAt = first + 0.7;
-    const second = talkOverOpenArt(talking, closed, small, secondAt, 9);
+    const second = secondAt + 1.8;
     talking
       .to(head, { rotation: 1, duration: 0.6, ease: "sine.inOut" }, secondAt)
       .to(head, { rotation: 0, duration: 0.6, ease: "sine.inOut" }, second - 0.1)
-      .to(arm, { rotation: -3, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, secondAt + 0.3)
+      .to(arm, { rotation: -2.5, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, secondAt + 0.3)
       .to(host, { yPercent: -0.3, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1 }, secondAt)
       .to({}, { duration: 1.6 }, second); // listening to the next caller
 
@@ -256,31 +267,10 @@ export function useRadioStudio() {
       }
     );
 
-    const blinking = blinkFrames(eyes, eyesHalf);
+    const blinking = squashBlink(eyes);
     const breathing = gsap.to(host, { scaleY: 1.006, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
     return [talking, onAir, sway, blinking, breathing];
   });
-}
-
-/**
- * Singing: a run of notes. Each note is the art's own open mouth or a wide
- * "aah" held a little longer, with a quick humming close between some notes.
- * Returns when the phrase ends (the mouth back on the art's note).
- */
-function sing(timeline: gsap.core.Timeline, hum: Element[], wide: Element[], at: number, notes: number) {
-  let t = at;
-  for (let i = 0; i < notes; i++) {
-    const held = Math.random() < 0.45;
-    const length = held ? gsap.utils.random(0.35, 0.65) : gsap.utils.random(0.2, 0.38);
-    if (held) timeline.set(wide, { opacity: 1 }, t).set(wide, { opacity: 0 }, t + length);
-    t += length;
-    if (Math.random() < 0.35) {
-      const close = gsap.utils.random(0.08, 0.14);
-      timeline.set(hum, { opacity: 1 }, t).set(hum, { opacity: 0 }, t + close);
-      t += close;
-    }
-  }
-  return t;
 }
 
 /**
@@ -293,15 +283,14 @@ function sing(timeline: gsap.core.Timeline, hum: Element[], wide: Element[], at:
  */
 export function useEventsStage() {
   return usePuppet((q) => {
-    const [singer, head, arm, eyes, eyesHalf, hum, wide, curtains, confetti] = [
-      q("singer"), q("head"), q("arm"), q("eyes"), q("eyes-half"), q("mouth-hum"), q("mouth-wide"),
-      q("curtain"), q("confetti"),
+    const [singer, head, arm, eyes, curtains, confetti] = [
+      q("singer"), q("head"), q("arm"), q("eye"), q("curtain"), q("confetti"),
     ];
 
     // the song: two phrases, each followed by a breath
     const song = gsap.timeline({ repeat: -1, delay: 0.4 });
-    const phrase = (at: number, notes: number, reach: number) => {
-      const end = sing(song, hum, wide, at, notes);
+    const phrase = (at: number, length: number, reach: number) => {
+      const end = at + length;
       song
         // the arm rises out to the audience (+ = up), floats on the melody, then settles
         .to(arm, { rotation: reach, duration: 0.9, ease: "sine.inOut" }, at)
@@ -311,14 +300,12 @@ export function useEventsStage() {
         // the head sways with the line and lifts a little into it
         .to(head, { rotation: -1.4, duration: 0.8, ease: "sine.inOut" }, at)
         .to(head, { rotation: 1, duration: 0.9, ease: "sine.inOut" }, at + 1)
-        .to(head, { rotation: 0, duration: 0.6, ease: "sine.inOut" }, end - 0.2)
-        // breath between phrases: lips together
-        .set(hum, { opacity: 1 }, end)
-        .set(hum, { opacity: 0 }, end + 0.55);
+        .to(head, { rotation: 0, duration: 0.6, ease: "sine.inOut" }, end - 0.2);
       return end + 0.6;
     };
-    const second = phrase(0, 8, 10);
-    phrase(second, 7, 6);
+    // (his welcoming arm opens out further, from the shoulder: + = up)
+    const second = phrase(0, 3.4, 5);
+    phrase(second, 3, 3.5);
 
     // the whole figure sways gently to the music, from his feet
     const sway = gsap.fromTo(singer, { rotation: -0.5 }, { rotation: 0.5, duration: 1.7, ease: "sine.inOut", yoyo: true, repeat: -1 });
@@ -350,7 +337,7 @@ export function useEventsStage() {
     if (doorsOpen) shower(); // already standing open (e.g. the lift started on this floor)
     else scene?.addEventListener(LIFT_DOORS_OPEN, shower, { once: true });
 
-    const blinking = blinkFrames(eyes, eyesHalf);
+    const blinking = squashBlink(eyes);
     const breathing = gsap.to(singer, { scaleY: 1.006, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
     return [song, sway, curtainSway, blinking, breathing];
   });
@@ -364,31 +351,25 @@ export function useEventsStage() {
  */
 export function useArtistsCarpet() {
   return usePuppet((q) => {
-    const [artist, head, arm, forearm, smile, smileOpen, star, glow, gleam] = [
-      q("artist"), q("head"), q("arm"), q("forearm"), q("smile"), q("smile-open"),
-      q("star"), q("star-glow"), q("star-gleam"),
+    const [artist, head, forearm, glint, star, glow, gleam] = [
+      q("artist"), q("head"), q("forearm"), q("glint"), q("star"), q("star-glow"), q("star-gleam"),
     ];
 
     // hello: smile, wave, "hel-lo", smile on, then back to rest
     const hello = gsap.timeline({ repeat: -1, delay: 0.6, repeatDelay: 2.2 });
     hello
-      .set(smile, { opacity: 1 }, 0)
       .to(forearm, { rotation: -12, duration: 0.3, ease: "sine.inOut" }, 0.15)
       .to(forearm, { rotation: 10, duration: 0.32, ease: "sine.inOut" }, 0.45)
       .to(forearm, { rotation: -10, duration: 0.32, ease: "sine.inOut" }, 0.77)
       .to(forearm, { rotation: 8, duration: 0.32, ease: "sine.inOut" }, 1.09)
       .to(forearm, { rotation: -6, duration: 0.3, ease: "sine.inOut" }, 1.41)
       .to(forearm, { rotation: 0, duration: 0.35, ease: "sine.out" }, 1.71)
-      .to(arm, { rotation: -2, duration: 0.6, ease: "sine.inOut" }, 0.15)
-      .to(arm, { rotation: 1.5, duration: 0.7, ease: "sine.inOut" }, 0.75)
-      .to(arm, { rotation: 0, duration: 0.6, ease: "sine.inOut" }, 1.45)
       .to(head, { rotation: 2, duration: 0.5, ease: "sine.inOut" }, 0.1)
       .to(head, { rotation: 0, duration: 0.6, ease: "sine.inOut" }, 1.9)
       .to(artist, { yPercent: -0.35, duration: 0.22, ease: "sine.inOut", yoyo: true, repeat: 1 }, 0.4)
-      // "hel" … "lo": the smile opens, closes a moment, opens again
-      .set(smileOpen, { opacity: 1 }, 0.45).set(smileOpen, { opacity: 0 }, 0.7)
-      .set(smileOpen, { opacity: 1 }, 0.82).set(smileOpen, { opacity: 0 }, 1.25)
-      .set(smile, { opacity: 0 }, 2.5);
+      // her sunglasses catch the light as she turns to us (her eyes are behind them, so no blink)
+      .fromTo(glint, { left: "-40%", opacity: 1 }, { left: "120%", duration: 0.55, ease: "power1.inOut", immediateRender: false }, 1.95)
+      .set(glint, { opacity: 0 }, 2.5);
 
     // the star: 3 s rest, then a warm glow, a little swell and a gleam across it
     const shine = gsap.timeline({ repeat: -1 });
@@ -415,8 +396,8 @@ export function useArtistsCarpet() {
  */
 export function useDigitalGrowth() {
   return usePuppet((q) => {
-    const [strategist, head, eyes, eyesHalf, mouthSmall, mouthWide, forearm, bars, trend, trendGlow, badges, badgeGlows, gleams] = [
-      q("strategist"), q("head"), q("eyes"), q("eyes-half"), q("mouth-small"), q("mouth-wide"), q("forearm"),
+    const [strategist, head, eyes, forearm, bars, trend, trendGlow, badges, badgeGlows, gleams] = [
+      q("strategist"), q("head"), q("eye"), q("forearm"),
       q("bar"), q("trend"), q("trend-glow"), q("badge"), q("badge-glow"), q("badge-gleam"),
     ];
 
@@ -453,21 +434,21 @@ export function useDigitalGrowth() {
         .to(badgeGlows[i], { opacity: 0, duration: 0.6, ease: "power2.in" }, at + 0.55);
     });
 
-    // the strategist explains: hand up off the laptop (+ = up), a few beats, words, head tilts
-    const end = talkFrames(show, mouthSmall, mouthWide, go + 0.2, 9);
+    // the strategist explains: her presenting hand lifts towards the tablet (- = up), a few beats, head tilts
+    const end = go + 2.2;
     show
-      .to(forearm, { rotation: 10, duration: 0.5, ease: "power2.out" }, go)
-      .to(forearm, { rotation: 6.5, duration: 0.25, ease: "sine.inOut" }, go + 0.7)
-      .to(forearm, { rotation: 10, duration: 0.25, ease: "sine.inOut" }, go + 0.95)
-      .to(forearm, { rotation: 7.5, duration: 0.25, ease: "sine.inOut" }, go + 1.35)
-      .to(forearm, { rotation: 9, duration: 0.25, ease: "sine.inOut" }, go + 1.6)
+      .to(forearm, { rotation: -6, duration: 0.5, ease: "power2.out" }, go)
+      .to(forearm, { rotation: -3, duration: 0.25, ease: "sine.inOut" }, go + 0.7)
+      .to(forearm, { rotation: -6, duration: 0.25, ease: "sine.inOut" }, go + 0.95)
+      .to(forearm, { rotation: -3.5, duration: 0.25, ease: "sine.inOut" }, go + 1.35)
+      .to(forearm, { rotation: -5, duration: 0.25, ease: "sine.inOut" }, go + 1.6)
       .to(forearm, { rotation: 0, duration: 0.6, ease: "power2.inOut" }, end - 0.1)
       .to(head, { rotation: -2, duration: 0.5, ease: "sine.inOut" }, go)
       .to(head, { rotation: 1.5, duration: 0.6, ease: "sine.inOut" }, go + 0.8)
       .to(head, { rotation: 0, duration: 0.5, ease: "sine.inOut" }, end - 0.2)
       .to(strategist, { yPercent: -0.4, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1 }, go + 0.1);
 
-    const blinking = blinkFrames(eyes, eyesHalf);
+    const blinking = squashBlink(eyes);
     const breathing = gsap.to(strategist, { scaleY: 1.006, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
     return [show, chart, blinking, breathing];
   });

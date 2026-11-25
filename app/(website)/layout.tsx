@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Navbar from "@/components/website/layout/Navbar";
 import Footer from "@/components/website/layout/Footer";
 import SmoothScroll from "@/components/website/layout/SmoothScroll";
+import { PaperPlaneCursor } from "@/components/website/layout/PaperPlaneCursor";
 import { GatewaySessionScript } from "@/features/gateway/components/GatewaySessionScript";
 import { fontVariables } from "@/config/fonts";
 import { siteConfig } from "@/config/site";
@@ -24,6 +25,8 @@ export default function WebsiteLayout({ children }: LayoutProps<"/">) {
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        {/* the cursor is a paper plane (desktop, with a mouse) */}
+        <PaperPlaneCursor />
       </body>
     </html>
   );

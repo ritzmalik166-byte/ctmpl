@@ -44,7 +44,7 @@ export type BookingField = {
 /** The meeting request's fields, in order. */
 export const bookingFields: BookingField[] = [
   { name: "name", label: "Name", type: "text", placeholder: "e.g. Vikram Sharma", required: true, autoComplete: "name" },
-  { name: "email", label: "Email", type: "email", placeholder: "e.g. vikram@company.com", required: true, autoComplete: "email" },
   { name: "phone", label: "Phone", type: "tel", placeholder: "e.g. +91 98765 43210", required: true, autoComplete: "tel" },
+  { name: "email", label: "Email", type: "email", placeholder: "e.g. vikram@company.com", required: true, autoComplete: "email" },
   { name: "message", label: "Message", type: "text", placeholder: "Tell us a little about your project", required: true },
 ];

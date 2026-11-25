@@ -13,12 +13,12 @@ function WhoWeAreSection() {
     <section id="who-we-are" className="relative isolate overflow-hidden">
       <Image src={paperWall} alt="" fill sizes="100vw" className="-z-10 object-cover object-top" />
 
-      <Container className="relative pt-10 pb-10 md:pt-12 md:pb-12 xl:pt-[37px] xl:pb-4">
+      <Container className="relative pt-10 pb-10 md:pt-12 md:pb-12 xl:pt-[37px] xl:pb-0">
         <WhoWeAreHeader />
       </Container>
 
-      {/* xl+: the whiteboard room, a little way under the header */}
-      <div className="xl:mt-14">
+      {/* the whiteboard room: as far under the header as the header is under the top of the section (xl: 37px) */}
+      <div className="xl:mt-[37px]">
         <WhiteboardScene />
         <WhiteboardMobile />
       </div>

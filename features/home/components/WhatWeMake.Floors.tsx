@@ -1,20 +1,58 @@
 "use client";
 
 import Image, { type StaticImageData } from "next/image";
+import type { ReactNode } from "react";
 import { useAiCreativesStudio, useArtistsCarpet, useDigitalGrowth, useEventsStage, useFilmStudio, usePrintStudio, useRadioStudio, useReelsStudio } from "../animations/WhatWeMake.Floors";
 import { floorByNumber, whatWeMakeCopy } from "../constants/whatWeMake.constants";
 import { STAGE_CONFETTI } from "../constants/stageConfetti.constants";
 import { Layer } from "./Puppet";
+// floors 3-8: the new characters (floorN-updated), each cut into a puppet laid out on the 880 x 1180 car (the old floorN art is kept)
+import floor3Body from "@/public/images/website/home/what-we-make/lift/floor3-updated/body.webp";
+import floor3Head from "@/public/images/website/home/what-we-make/lift/floor3-updated/head.webp";
+import floor3EyeLeft from "@/public/images/website/home/what-we-make/lift/floor3-updated/eye-left.webp";
+import floor3EyeRight from "@/public/images/website/home/what-we-make/lift/floor3-updated/eye-right.webp";
+import floor3Forearm from "@/public/images/website/home/what-we-make/lift/floor3-updated/forearm.webp";
+import floor4Body from "@/public/images/website/home/what-we-make/lift/floor4-updated/body.webp";
+import floor4Head from "@/public/images/website/home/what-we-make/lift/floor4-updated/head.webp";
+import floor4EyeLeft from "@/public/images/website/home/what-we-make/lift/floor4-updated/eye-left.webp";
+import floor4EyeRight from "@/public/images/website/home/what-we-make/lift/floor4-updated/eye-right.webp";
+import floor4Paper from "@/public/images/website/home/what-we-make/lift/floor4-updated/paper.webp";
+import floor5Body from "@/public/images/website/home/what-we-make/lift/floor5-updated/body.webp";
+import floor5Head from "@/public/images/website/home/what-we-make/lift/floor5-updated/head.webp";
+import floor5EyeLeft from "@/public/images/website/home/what-we-make/lift/floor5-updated/eye-left.webp";
+import floor5EyeRight from "@/public/images/website/home/what-we-make/lift/floor5-updated/eye-right.webp";
+import floor5Arm from "@/public/images/website/home/what-we-make/lift/floor5-updated/arm.webp";
+import floor6Body from "@/public/images/website/home/what-we-make/lift/floor6-updated/body.webp";
+import floor6Head from "@/public/images/website/home/what-we-make/lift/floor6-updated/head.webp";
+import floor6EyeLeft from "@/public/images/website/home/what-we-make/lift/floor6-updated/eye-left.webp";
+import floor6EyeRight from "@/public/images/website/home/what-we-make/lift/floor6-updated/eye-right.webp";
+import floor6Arm from "@/public/images/website/home/what-we-make/lift/floor6-updated/arm.webp";
+import floor7Body from "@/public/images/website/home/what-we-make/lift/floor7-updated/body.webp";
+import floor7Head from "@/public/images/website/home/what-we-make/lift/floor7-updated/head.webp";
+import floor7Forearm from "@/public/images/website/home/what-we-make/lift/floor7-updated/forearm.webp";
+import floor8Body from "@/public/images/website/home/what-we-make/lift/floor8-updated/body.webp";
+import floor8Head from "@/public/images/website/home/what-we-make/lift/floor8-updated/head.webp";
+import floor8EyeLeft from "@/public/images/website/home/what-we-make/lift/floor8-updated/eye-left.webp";
+import floor8EyeRight from "@/public/images/website/home/what-we-make/lift/floor8-updated/eye-right.webp";
+import floor8Forearm from "@/public/images/website/home/what-we-make/lift/floor8-updated/forearm.webp";
 import floor1Room from "@/public/images/website/home/what-we-make/lift/floor1-room.png";
-import floor1Cameraman from "@/public/images/website/home/what-we-make/lift/floor1-cameraman.png";
-import reelsBackground from "@/public/images/website/home/what-we-make/lift/floor2/floor-2-bg.webp";
-import reelsBody from "@/public/images/website/home/what-we-make/lift/floor2/body.png";
-import reelsHead from "@/public/images/website/home/what-we-make/lift/floor2/head.png";
-import reelsArmWave from "@/public/images/website/home/what-we-make/lift/floor2/arm-wave.png";
-import reelsArmUpper from "@/public/images/website/home/what-we-make/lift/floor2/arm-upper.png";
-import reelsArmPhone from "@/public/images/website/home/what-we-make/lift/floor2/arm-phone.png";
-import reelsEyesOpen from "@/public/images/website/home/what-we-make/lift/floor2/eyes-open.png";
-import reelsEyesHalf from "@/public/images/website/home/what-we-make/lift/floor2/eyes-half.png";
+// the photographer (floor1-updated, laid out on the car at twice its size; the old floor1-cameraman.png is kept)
+import floor1Cameraman from "@/public/images/website/home/what-we-make/lift/floor1-updated/cameraman.webp";
+import floor1EyeLeft from "@/public/images/website/home/what-we-make/lift/floor1-updated/eye-left.webp";
+import floor1EyeRight from "@/public/images/website/home/what-we-make/lift/floor1-updated/eye-right.webp";
+// floor 2's creator (floor2-updated, cut into a puppet on the 880 x 1180 car frame; the old floor2 files are kept)
+import reelsBackground from "@/public/images/website/home/what-we-make/lift/floor2-updated/background.webp";
+import reelsRing from "@/public/images/website/home/what-we-make/lift/floor2-updated/body-back.webp";
+import reelsBody from "@/public/images/website/home/what-we-make/lift/floor2-updated/body-front.webp";
+import reelsHead from "@/public/images/website/home/what-we-make/lift/floor2-updated/head.webp";
+import reelsEyeLeft from "@/public/images/website/home/what-we-make/lift/floor2-updated/eye-left.webp";
+import reelsEyeRight from "@/public/images/website/home/what-we-make/lift/floor2-updated/eye-right.webp";
+import reelsArmWave from "@/public/images/website/home/what-we-make/lift/floor2-updated/arm-wave.webp";
+import reelsArmPhone from "@/public/images/website/home/what-we-make/lift/floor2-updated/arm-phone.webp";
+import reelsIconYoutube from "@/public/images/website/home/what-we-make/lift/floor2-updated/icon-youtube.webp";
+import reelsIconFacebook from "@/public/images/website/home/what-we-make/lift/floor2-updated/icon-facebook.webp";
+import reelsIconFollow from "@/public/images/website/home/what-we-make/lift/floor2-updated/icon-follow.webp";
+import reelsIconClapper from "@/public/images/website/home/what-we-make/lift/floor2-updated/icon-clapper.webp";
 import aiWall from "@/public/images/website/home/what-we-make/lift/floor3/wall.webp";
 import aiNote1 from "@/public/images/website/home/what-we-make/lift/floor3/note-1.png";
 import aiNote2 from "@/public/images/website/home/what-we-make/lift/floor3/note-2.png";
@@ -25,64 +63,19 @@ import aiNote6 from "@/public/images/website/home/what-we-make/lift/floor3/note-
 import aiStarBig from "@/public/images/website/home/what-we-make/lift/floor3/star-big.png";
 import aiStarMid from "@/public/images/website/home/what-we-make/lift/floor3/star-mid.png";
 import aiStarSmall from "@/public/images/website/home/what-we-make/lift/floor3/star-small.png";
-import aiBody from "@/public/images/website/home/what-we-make/lift/floor3/body.png";
-import aiForearm from "@/public/images/website/home/what-we-make/lift/floor3/forearm.png";
-import aiElbow from "@/public/images/website/home/what-we-make/lift/floor3/elbow.png";
-import aiHead from "@/public/images/website/home/what-we-make/lift/floor3/head.png";
-import aiEyesOpen from "@/public/images/website/home/what-we-make/lift/floor3/eyes-open.png";
-import aiEyesHalf from "@/public/images/website/home/what-we-make/lift/floor3/eyes-half.png";
-import aiMouthSmall from "@/public/images/website/home/what-we-make/lift/floor3/mouth-open-small.png";
-import aiMouthWide from "@/public/images/website/home/what-we-make/lift/floor3/mouth-open-wide.png";
 import printWall from "@/public/images/website/home/what-we-make/lift/floor4/wall.webp";
 import printSignNew from "@/public/images/website/home/what-we-make/lift/floor4/sign-new.png";
 import printSignSale from "@/public/images/website/home/what-we-make/lift/floor4/sign-sale.png";
 import printSignOpen from "@/public/images/website/home/what-we-make/lift/floor4/sign-open.png";
-import printBody from "@/public/images/website/home/what-we-make/lift/floor4/body.png";
-import printHead from "@/public/images/website/home/what-we-make/lift/floor4/head.png";
-import printPageLeft from "@/public/images/website/home/what-we-make/lift/floor4/page-left.png";
-import printPageRight from "@/public/images/website/home/what-we-make/lift/floor4/page-right.png";
-import printEyesOpen from "@/public/images/website/home/what-we-make/lift/floor4/eyes-open.png";
-import printEyesHalf from "@/public/images/website/home/what-we-make/lift/floor4/eyes-half.png";
-import printMouthSmall from "@/public/images/website/home/what-we-make/lift/floor4/mouth-open-small.png";
-import printMouthWide from "@/public/images/website/home/what-we-make/lift/floor4/mouth-open-wide.png";
 import radioWall from "@/public/images/website/home/what-we-make/lift/floor5/wall.webp";
-import radioBody from "@/public/images/website/home/what-we-make/lift/floor5/body-hand.png";
-import radioArm from "@/public/images/website/home/what-we-make/lift/floor5/arm-hip-hand.png";
-import radioHead from "@/public/images/website/home/what-we-make/lift/floor5/head.png";
-import radioEyesOpen from "@/public/images/website/home/what-we-make/lift/floor5/eyes-open.png";
-import radioEyesHalf from "@/public/images/website/home/what-we-make/lift/floor5/eyes-half.png";
-import radioMouthClosed from "@/public/images/website/home/what-we-make/lift/floor5/mouth-closed.png";
-import radioMouthSmall from "@/public/images/website/home/what-we-make/lift/floor5/mouth-open-small.png";
 import stageBackground from "@/public/images/website/home/what-we-make/lift/floor6/stage.webp";
 import stageValance from "@/public/images/website/home/what-we-make/lift/floor6/valance.webp";
 import artistsBackground from "@/public/images/website/home/what-we-make/lift/floor7/floor7-bg.webp";
 import artistsStar from "@/public/images/website/home/what-we-make/lift/floor7/star.png";
-import artistsBody from "@/public/images/website/home/what-we-make/lift/floor7/body.png";
-import artistsHead from "@/public/images/website/home/what-we-make/lift/floor7/head.png";
-import artistsForearm from "@/public/images/website/home/what-we-make/lift/floor7/forearm.png";
-import artistsUpperArm from "@/public/images/website/home/what-we-make/lift/floor7/arm-upper.png";
-import artistsSmile from "@/public/images/website/home/what-we-make/lift/floor7/mouth-smile.png";
-import artistsSmileOpen from "@/public/images/website/home/what-we-make/lift/floor7/mouth-smile-open.png";
 import digitalWall from "@/public/images/website/home/what-we-make/lift/floor8/wall.webp";
 import digitalTrend from "@/public/images/website/home/what-we-make/lift/floor8/trend-line.png";
 import digitalHeart from "@/public/images/website/home/what-we-make/lift/floor8/heart.png";
 import digitalStar from "@/public/images/website/home/what-we-make/lift/floor8/star.png";
-import digitalBody from "@/public/images/website/home/what-we-make/lift/floor8/body.png";
-import digitalForearm from "@/public/images/website/home/what-we-make/lift/floor8/forearm.png";
-import digitalElbow from "@/public/images/website/home/what-we-make/lift/floor8/elbow.png";
-import digitalHead from "@/public/images/website/home/what-we-make/lift/floor8/head.png";
-import digitalEyesOpen from "@/public/images/website/home/what-we-make/lift/floor8/eyes-open.png";
-import digitalEyesHalf from "@/public/images/website/home/what-we-make/lift/floor8/eyes-half.png";
-import digitalMouthSmall from "@/public/images/website/home/what-we-make/lift/floor8/mouth-open-small.png";
-import digitalMouthWide from "@/public/images/website/home/what-we-make/lift/floor8/mouth-open-wide.png";
-import singerBody from "@/public/images/website/home/what-we-make/lift/floor6/body.png";
-import singerArm from "@/public/images/website/home/what-we-make/lift/floor6/arm.png";
-import singerHead from "@/public/images/website/home/what-we-make/lift/floor6/head.png";
-import singerMic from "@/public/images/website/home/what-we-make/lift/floor6/mic.png";
-import singerEyesOpen from "@/public/images/website/home/what-we-make/lift/floor6/eyes-open.png";
-import singerEyesHalf from "@/public/images/website/home/what-we-make/lift/floor6/eyes-half.png";
-import singerMouthHum from "@/public/images/website/home/what-we-make/lift/floor6/mouth-hum.png";
-import singerMouthWide from "@/public/images/website/home/what-we-make/lift/floor6/mouth-wide.png";
 import stageCurtain1 from "@/public/images/website/home/what-we-make/lift/floor6/curtains/curtain-1.webp";
 import stageCurtain2 from "@/public/images/website/home/what-we-make/lift/floor6/curtains/curtain-2.webp";
 import stageCurtain3 from "@/public/images/website/home/what-we-make/lift/floor6/curtains/curtain-3.webp";
@@ -109,8 +102,6 @@ import radioPanel42 from "@/public/images/website/home/what-we-make/lift/floor5/
 import radioPanel43 from "@/public/images/website/home/what-we-make/lift/floor5/panels/panel-4-3.webp";
 import radioPanel44 from "@/public/images/website/home/what-we-make/lift/floor5/panels/panel-4-4.webp";
 import radioPanel45 from "@/public/images/website/home/what-we-make/lift/floor5/panels/panel-4-5.webp";
-import reelsMouthSmall from "@/public/images/website/home/what-we-make/lift/floor2/mouth-open-small.png";
-import reelsMouthWide from "@/public/images/website/home/what-we-make/lift/floor2/mouth-open-wide.png";
 
 /*
  * Scenes inside the lift car, one per floor. Each fills the car (433 × 580 px
@@ -119,8 +110,9 @@ import reelsMouthWide from "@/public/images/website/home/what-we-make/lift/floor
  */
 
 /**
- * Floor 1 · Brand films: the cameraman leans in, counts you down with little
- * nods, and takes the shot: the camera flashes and the slate moves to the next take.
+ * Floor 1 · Brand films: the photographer leans in, counts you down with little
+ * nods, and takes the shot: the camera flashes and the slate moves to the next
+ * take. He blinks now and then.
  */
 export function FilmStudioFloor() {
   const ref = useFilmStudio();
@@ -136,13 +128,20 @@ export function FilmStudioFloor() {
         {"TAKE  12"}
       </span>
       {/* the cameraman, leaning from his feet */}
-      <div data-part="cameraman" className="absolute inset-0" style={{ transformOrigin: "49.65% 97.4%" }}>
+      <div data-part="cameraman" className="absolute inset-0" style={{ transformOrigin: "50% 97.07%" }}>
         <Image src={floor1Cameraman} alt="" fill sizes="324px" className="pointer-events-none" />
-        <span data-part="rec" className="absolute size-[1.06cqw] -translate-1/2 rounded-full bg-[#ff3b30]" style={{ left: "66.05%", top: "32.24%" }} />
+        {/* his eyes, each squashed shut for a blink */}
+        <div data-part="eye" className="absolute inset-0" style={{ transformOrigin: "47.13% 32.38%" }}>
+          <Image src={floor1EyeLeft} alt="" fill sizes="324px" className="pointer-events-none" />
+        </div>
+        <div data-part="eye" className="absolute inset-0" style={{ transformOrigin: "52.55% 32.14%" }}>
+          <Image src={floor1EyeRight} alt="" fill sizes="324px" className="pointer-events-none" />
+        </div>
+        <span data-part="rec" className="absolute size-[0.75cqw] -translate-1/2 rounded-[0.1cqw] bg-[#ff3b30]" style={{ left: "61.76%", top: "34.16%" }} />
         <span
           data-part="flash-burst"
           className="absolute aspect-square w-[34%] -translate-1/2 rounded-full bg-[radial-gradient(circle,#fff_0%,rgba(255,250,235,0.85)_22%,rgba(255,240,200,0)_68%)] opacity-0"
-          style={{ left: "60.5%", top: "35.7%" }}
+          style={{ left: "57.75%", top: "36.21%" }}
         />
       </div>
       {/* the whole room lights up for an instant */}
@@ -151,17 +150,27 @@ export function FilmStudioFloor() {
   );
 }
 
-/** The ring light's 24 bulbs (every 15°), in % of the 880 × 1180 floor-2 background. */
-const RING_BULBS = Array.from({ length: 24 }, (_, i) => {
-  const a = (i * 15 * Math.PI) / 180;
-  return { left: `${49.94 + 26.1 * Math.cos(a)}%`, top: `${30.46 + 19.47 * Math.sin(a)}%` };
-});
+/** The ring light's bulbs that show (round her head and phone), in % of the car. */
+const RING_BULBS = [
+  ["53.44%", "5.51%"], ["46.68%", "6.10%"], ["60.12%", "6.52%"], ["40.64%", "8.12%"], ["66.09%", "9.07%"], ["36.18%", "11.20%"], ["70.47%", "12.92%"],
+  ["32.28%", "16.13%"], ["72.61%", "17.43%"], ["31.09%", "20.58%"], ["73.25%", "21.88%"], ["31.73%", "25.20%"], ["72.85%", "26.21%"], ["34.19%", "29.53%"],
+].map(([left, top]) => ({ left, top }));
+
+/** The social icons round her (each floats from its own middle, in % of the car). */
+const REELS_ICONS = [
+  { src: reelsIconYoutube, origin: "22.50% 37.31%" },
+  { src: reelsIconFacebook, origin: "80.01% 38.31%" },
+  { src: reelsIconFollow, origin: "79.14% 49.53%" },
+  { src: reelsIconClapper, origin: "27.35% 53.74%" },
+];
 
 /**
- * Floor 2 · Reels: a creator films a selfie reel in front of a ring light.
- * Every 3 seconds she waves, lifts her phone and talks, and the ring light
- * shines (the bulbs light up round the ring, then glow together).
- * Background 880 × 1180 (fills the car); she is a puppet cut from her own art.
+ * Floor 2 · Reels: a creator films a selfie reel in front of her ring light,
+ * social icons floating round her. Every 3 seconds she waves (a peace sign,
+ * from the elbow), lifts her phone and tilts her head, the ring light shines
+ * (the bulbs light up round the ring, then glow together) and the icons pop.
+ * She blinks and breathes in between. All her parts are cut from her own
+ * artwork, laid out on the car (880 × 1180).
  */
 export function ReelsStudioFloor() {
   const ref = useReelsStudio();
@@ -170,46 +179,85 @@ export function ReelsStudioFloor() {
     <div ref={ref} className="absolute inset-0">
       <Image src={reelsBackground} alt="" fill sizes={sizes} className="pointer-events-none object-cover" />
 
-      {/* ring light, switched on: each bulb glows, plus a soft halo round the ring */}
-      <div
-        data-part="ring-halo"
-        className="pointer-events-none absolute aspect-square w-[66%] -translate-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,244,214,0)_56%,rgba(255,244,214,0.55)_66%,rgba(255,244,214,0)_80%)] opacity-0"
-        style={{ left: "49.94%", top: "30.46%" }}
-      />
-      {RING_BULBS.map((pos, i) => (
-        <span
-          key={i}
-          data-part="bulb"
-          className="pointer-events-none absolute aspect-square w-[5%] -translate-1/2 rounded-full bg-[radial-gradient(circle,#fffdf3_0%,#fff3c9_45%,rgba(255,236,170,0)_72%)] opacity-0 shadow-[0_0_10px_4px_rgba(255,232,160,0.75)]"
-          style={pos}
+      {/* the creator, her ring light and its stand, breathing from her feet */}
+      <div data-part="creator" className="absolute inset-0" style={{ transformOrigin: "52.73% 96.57%" }}>
+        {/* behind her: the ring light, its stand and the icons stuck on it */}
+        <Layer src={reelsRing} sizes={sizes} />
+        {/* the ring light, switched on (between the ring and her, so it shines from behind her): each bulb glows, plus a soft halo round the ring */}
+        <div
+          data-part="ring-halo"
+          className="pointer-events-none absolute aspect-square w-[52%] -translate-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,244,214,0)_58%,rgba(255,244,214,0.55)_70%,rgba(255,244,214,0)_84%)] opacity-0"
+          style={{ left: "52.17%", top: "20.34%" }}
         />
-      ))}
-
-      {/* the creator (661 × 1168), standing with her face in the ring */}
-      <div
-        data-part="creator"
-        className="absolute aspect-[661/1168]"
-        style={{ left: "20.8%", top: "18.79%", width: "58.52%", transformOrigin: "49.92% 97.6%" }}
-      >
-        {/* waving arm: the whole arm (upper arm + forearm + hand) swings from the shoulder */}
-        <div data-part="arm-wave" className="absolute inset-0" style={{ transformOrigin: "34.19% 25.17%" }}>
-          <Image src={reelsArmWave} alt="" fill sizes={sizes} className="pointer-events-none" />
-          <Image src={reelsArmUpper} alt="" fill sizes={sizes} className="pointer-events-none" />
+        {RING_BULBS.map((pos, i) => (
+          <span
+            key={i}
+            data-part="bulb"
+            className="pointer-events-none absolute aspect-square w-[4%] -translate-1/2 rounded-full bg-[radial-gradient(circle,#fffdf3_0%,#fff3c9_45%,rgba(255,236,170,0)_72%)] opacity-0 shadow-[0_0_10px_4px_rgba(255,232,160,0.75)]"
+            style={pos}
+          />
+        ))}
+        <Layer src={reelsBody} sizes={sizes} />
+        {REELS_ICONS.map(({ src, origin }) => (
+          <div key={src.src} data-part="icon" className="absolute inset-0" style={{ transformOrigin: origin }}>
+            <Layer src={src} sizes={sizes} />
+          </div>
+        ))}
+        {/* the peace sign: her forearm and hand, cut exactly round them, turning where her forearm leaves the sleeve */}
+        <div data-part="arm-wave" className="absolute inset-0" style={{ transformOrigin: "37.61% 40.63%" }}>
+          <Layer src={reelsArmWave} sizes={sizes} />
         </div>
-        {/* phone arm: the forearm swings from the elbow, tucked behind the upper arm */}
-        <div data-part="arm-phone" className="absolute inset-0" style={{ transformOrigin: "95.01% 24.4%" }}>
-          <Image src={reelsArmPhone} alt="" fill sizes={sizes} className="pointer-events-none" />
+        {/* the phone: forearm, hand and phone, from the elbow */}
+        <div data-part="arm-phone" className="absolute inset-0" style={{ transformOrigin: "71.18% 33.51%" }}>
+          <Layer src={reelsArmPhone} sizes={sizes} />
         </div>
-        <Image src={reelsBody} alt="" fill sizes={sizes} className="pointer-events-none" />
-        <div data-part="head" className="absolute inset-0" style={{ transformOrigin: "49.92% 21.83%" }}>
-          <Image src={reelsHead} alt="" fill sizes={sizes} className="pointer-events-none" />
-          {/* her artwork has closed eyes (the "closed" frame); open and half-closed eyes are painted on */}
-          <Layer src={reelsEyesOpen} sizes={sizes} part="eyes" />
-          <Layer src={reelsEyesHalf} sizes={sizes} part="eyes-half" hidden />
-          <Layer src={reelsMouthSmall} sizes={sizes} part="mouth-small" hidden />
-          <Layer src={reelsMouthWide} sizes={sizes} part="mouth-wide" hidden />
+        <div data-part="head" className="absolute inset-0" style={{ transformOrigin: "51.93% 26.86%" }}>
+          <Layer src={reelsHead} sizes={sizes} />
+          {/* her eyes, each squashed shut for a blink */}
+          <div data-part="eye" className="absolute inset-0" style={{ transformOrigin: "49.47% 21.58%" }}>
+            <Layer src={reelsEyeLeft} sizes={sizes} />
+          </div>
+          <div data-part="eye" className="absolute inset-0" style={{ transformOrigin: "54.64% 20.16%" }}>
+            <Layer src={reelsEyeRight} sizes={sizes} />
+          </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+type CutPart = { name: string; src: StaticImageData; origin: string };
+
+/**
+ * One of the new floor characters (floors 3-8), cut from its own artwork into
+ * a puppet laid out on the whole car (880 × 1180), so every layer fills it:
+ * the body, the parts that move (an arm, a newspaper...), each turning about
+ * its own `origin`, and the head, its eyes cut out on their own so a blink can
+ * squash them shut (`eye` parts). `part` names the whole figure for its floor's
+ * motion (it breathes and sways from its feet).
+ */
+function CutCharacter({ part, feet, body, head, headOrigin, eyes, parts, children }: {
+  part: string; feet: string; body: StaticImageData; head: StaticImageData; headOrigin: string;
+  eyes: { src: StaticImageData; origin: string }[]; parts: CutPart[]; children?: ReactNode;
+}) {
+  const sizes = "330px";
+  return (
+    <div data-part={part} className="absolute inset-0" style={{ transformOrigin: feet }}>
+      <Layer src={body} sizes={sizes} />
+      <div data-part="head" className="absolute inset-0" style={{ transformOrigin: headOrigin }}>
+        <Layer src={head} sizes={sizes} />
+        {eyes.map(({ src, origin }) => (
+          <div key={src.src} data-part="eye" className="absolute inset-0" style={{ transformOrigin: origin }}>
+            <Layer src={src} sizes={sizes} />
+          </div>
+        ))}
+        {children}
+      </div>
+      {parts.map(({ name, src, origin }) => (
+        <div key={src.src} data-part={name} className="absolute inset-0" style={{ transformOrigin: origin }}>
+          <Layer src={src} sizes={sizes} />
+        </div>
+      ))}
     </div>
   );
 }
@@ -260,27 +308,8 @@ export function AiCreativesFloor() {
       <ShiningStar src={aiStarBig} sizes={sizes} left="14.72%" top="54.19%" glow="21%" />
       <ShiningStar src={aiStarMid} sizes={sizes} left="86.31%" top="50.85%" glow="16%" />
 
-      {/* the strategist, standing in front of the wall */}
-      <div
-        data-part="strategist"
-        className="absolute aspect-[450/1105]"
-        style={{ left: "29.64%", top: "22.97%", width: "40.73%", transformOrigin: "53.33% 98.2%" }}
-      >
-        <Image src={aiBody} alt="" fill sizes={sizes} className="pointer-events-none" />
-        {/* pencil hand: the forearm lifts from the elbow, its end tucked under the elbow cap */}
-        <div data-part="forearm" className="absolute inset-0" style={{ transformOrigin: "92.22% 38.46%" }}>
-          <Image src={aiForearm} alt="" fill sizes={sizes} className="pointer-events-none" />
-        </div>
-        <Image src={aiElbow} alt="" fill sizes={sizes} className="pointer-events-none" />
-        <div data-part="head" className="absolute inset-0" style={{ transformOrigin: "54.44% 17.74%" }}>
-          <Image src={aiHead} alt="" fill sizes={sizes} className="pointer-events-none" />
-          {/* his artwork has closed eyes (the "closed" frame); open and half-closed eyes are painted on */}
-          <Layer src={aiEyesOpen} sizes={sizes} part="eyes" />
-          <Layer src={aiEyesHalf} sizes={sizes} part="eyes-half" hidden />
-          <Layer src={aiMouthSmall} sizes={sizes} part="mouth-small" hidden />
-          <Layer src={aiMouthWide} sizes={sizes} part="mouth-wide" hidden />
-        </div>
-      </div>
+      {/* the designer, refining his AI concepts on a tablet, standing in front of the wall */}
+      <CutCharacter part="strategist" feet="50.00% 96.61%" body={floor3Body} head={floor3Head} headOrigin="50.99% 34.22%" eyes={[{ src: floor3EyeLeft, origin: "50.13% 29.44%" }, { src: floor3EyeRight, origin: "53.64% 28.99%" }]} parts={[{ name: "forearm", src: floor3Forearm, origin: "41.07% 45.23%" }]} />
     </div>
   );
 }
@@ -328,29 +357,8 @@ export function PrintStudioFloor() {
         </div>
       ))}
 
-      {/* the reader, standing between the paper stacks */}
-      <div
-        data-part="reader"
-        className="absolute aspect-[494/1105]"
-        style={{ left: "27.84%", top: "22.97%", width: "44.69%", transformOrigin: "49.6% 97.74%" }}
-      >
-        <Image src={printBody} alt="" fill sizes={sizes} className="pointer-events-none" />
-        <div data-part="head" className="absolute inset-0" style={{ transformOrigin: "49.6% 17.38%" }}>
-          <Image src={printHead} alt="" fill sizes={sizes} className="pointer-events-none" />
-          {/* his artwork has closed eyes (the "closed" frame); open eyes, looking down at the paper, are painted on */}
-          <Layer src={printEyesOpen} sizes={sizes} part="eyes" />
-          <Layer src={printEyesHalf} sizes={sizes} part="eyes-half" hidden />
-          <Layer src={printMouthSmall} sizes={sizes} part="mouth-small" hidden />
-          <Layer src={printMouthWide} sizes={sizes} part="mouth-wide" hidden />
-        </div>
-        {/* the newspaper and the hands holding it; the right page flexes at the fold */}
-        <div data-part="paper" className="absolute inset-0" style={{ transformOrigin: "49.6% 38.91%" }}>
-          <div data-part="page" className="absolute inset-0" style={{ transformOrigin: "49.6% 38.91%" }}>
-            <Image src={printPageRight} alt="" fill sizes={sizes} className="pointer-events-none" />
-          </div>
-          <Image src={printPageLeft} alt="" fill sizes={sizes} className="pointer-events-none" />
-        </div>
-      </div>
+      {/* the reader with the morning paper, standing between the paper stacks */}
+      <CutCharacter part="reader" feet="50.00% 96.61%" body={floor4Body} head={floor4Head} headOrigin="52.48% 34.43%" eyes={[{ src: floor4EyeLeft, origin: "50.17% 29.00%" }, { src: floor4EyeRight, origin: "54.34% 28.60%" }]} parts={[{ name: "paper", src: floor4Paper, origin: "51.82% 47.37%" }]} />
     </div>
   );
 }
@@ -402,28 +410,8 @@ export function RadioStudioFloor() {
         </div>
       ))}
 
-      {/* the host */}
-      <div
-        data-part="host"
-        className="absolute aspect-[635/1151]"
-        style={{ left: "23.13%", top: "19.92%", width: "57.44%", transformOrigin: "47.24% 97.74%" }}
-      >
-        <Image src={radioBody} alt="" fill sizes={sizes} className="pointer-events-none" />
-        {/* free arm: swings out from the shoulder, off her hip */}
-        <div data-part="arm" className="absolute inset-0" style={{ transformOrigin: "63.94% 23.63%" }}>
-          <Image src={radioArm} alt="" fill sizes={sizes} className="pointer-events-none" />
-        </div>
-        {/* head and the arm pressing her headphones move together, from the neck */}
-        <div data-part="head" className="absolute inset-0" style={{ transformOrigin: "45.98% 21.11%" }}>
-          <Image src={radioHead} alt="" fill sizes={sizes} className="pointer-events-none" />
-          {/* her artwork has closed eyes (the "closed" frame); open and half-closed eyes are painted on */}
-          <Layer src={radioEyesOpen} sizes={sizes} part="eyes" />
-          <Layer src={radioEyesHalf} sizes={sizes} part="eyes-half" hidden />
-          {/* her artwork is mid-word (mouth open): closed lips by default, a small open frame for some syllables */}
-          <Layer src={radioMouthClosed} sizes={sizes} part="mouth-closed" />
-          <Layer src={radioMouthSmall} sizes={sizes} part="mouth-small" hidden />
-        </div>
-      </div>
+      {/* the host: headphones on, talking into her mic */}
+      <CutCharacter part="host" feet="50.00% 96.61%" body={floor5Body} head={floor5Head} headOrigin="52.42% 36.36%" eyes={[{ src: floor5EyeLeft, origin: "52.35% 30.73%" }, { src: floor5EyeRight, origin: "56.59% 30.18%" }]} parts={[{ name: "arm", src: floor5Arm, origin: "65.99% 51.07%" }]} />
     </div>
   );
 }
@@ -474,29 +462,8 @@ export function EventsStageFloor() {
         </div>
       ))}
 
-      {/* the singer, centre stage */}
-      <div
-        data-part="singer"
-        className="absolute aspect-[741/1105]"
-        style={{ left: "3.87%", top: "22.97%", width: "67.05%", transformOrigin: "68.83% 98.19%" }}
-      >
-        <Image src={singerBody} alt="" fill sizes={sizes} className="pointer-events-none" />
-        {/* free arm, open to the audience: swings from the shoulder */}
-        <div data-part="arm" className="absolute inset-0" style={{ transformOrigin: "53.58% 22.44%" }}>
-          <Image src={singerArm} alt="" fill sizes={sizes} className="pointer-events-none" />
-        </div>
-        <div data-part="head" className="absolute inset-0" style={{ transformOrigin: "68.15% 17.65%" }}>
-          <Image src={singerHead} alt="" fill sizes={sizes} className="pointer-events-none" />
-          {/* his artwork has closed eyes (the "closed" frame); open and half-closed eyes are painted on */}
-          <Layer src={singerEyesOpen} sizes={sizes} part="eyes" />
-          <Layer src={singerEyesHalf} sizes={sizes} part="eyes-half" hidden />
-          {/* his artwork sings an open note; humming lips and a wide "aah" are the other shapes */}
-          <Layer src={singerMouthHum} sizes={sizes} part="mouth-hum" hidden />
-          <Layer src={singerMouthWide} sizes={sizes} part="mouth-wide" hidden />
-        </div>
-        {/* the mic stays in front of his face */}
-        <Image src={singerMic} alt="" fill sizes={sizes} className="pointer-events-none" />
-      </div>
+      {/* the emcee, centre stage: mic in one hand, welcoming everyone in with the other */}
+      <CutCharacter part="singer" feet="50.00% 96.61%" body={floor6Body} head={floor6Head} headOrigin="52.89% 34.25%" eyes={[{ src: floor6EyeLeft, origin: "50.67% 28.84%" }, { src: floor6EyeRight, origin: "54.97% 28.54%" }]} parts={[{ name: "arm", src: floor6Arm, origin: "42.82% 37.85%" }]} />
     </div>
   );
 }
@@ -535,26 +502,13 @@ export function ArtistsCarpetFloor() {
         </div>
       </div>
 
-      {/* the artist on the carpet */}
-      <div
-        data-part="artist"
-        className="absolute aspect-[529/1298]"
-        style={{ left: "26.03%", top: "9.83%", width: "47.85%", transformOrigin: "50.09% 98.61%" }}
-      >
-        <Image src={artistsBody} alt="" fill sizes={sizes} className="pointer-events-none" />
-        <div data-part="head" className="absolute inset-0" style={{ transformOrigin: "50.09% 30.43%" }}>
-          <Image src={artistsHead} alt="" fill sizes={sizes} className="pointer-events-none" />
-          <Layer src={artistsSmile} sizes={sizes} part="smile" hidden />
-          <Layer src={artistsSmileOpen} sizes={sizes} part="smile-open" hidden />
+      {/* the artist on the carpet, waving */}
+      <CutCharacter part="artist" feet="50.00% 96.61%" body={floor7Body} head={floor7Head} headOrigin="50.74% 35.73%" eyes={[]} parts={[{ name: "forearm", src: floor7Forearm, origin: "66.55% 37.39%" }]}>
+        {/* her sunglasses: a glint runs across the lenses now and then */}
+        <div className="pointer-events-none absolute overflow-hidden rounded-[30%]" style={{ left: "45.69%", top: "28.86%", width: "9.62%", height: "3.16%" }}>
+          <span data-part="glint" className="absolute -inset-y-full w-[28%] rotate-[25deg] bg-linear-to-r from-transparent via-white/80 to-transparent opacity-0" style={{ left: "-40%" }} />
         </div>
-        {/* waving arm: a little from the shoulder; the forearm and hand wave from the elbow, under the elbow */}
-        <div data-part="arm" className="absolute inset-0" style={{ transformOrigin: "72.78% 33.51%" }}>
-          <div data-part="forearm" className="absolute inset-0" style={{ transformOrigin: "89.22% 20.96%" }}>
-            <Image src={artistsForearm} alt="" fill sizes={sizes} className="pointer-events-none" />
-          </div>
-          <Image src={artistsUpperArm} alt="" fill sizes={sizes} className="pointer-events-none" />
-        </div>
-      </div>
+      </CutCharacter>
     </div>
   );
 }
@@ -619,27 +573,8 @@ export function DigitalGrowthFloor() {
         </div>
       ))}
 
-      {/* the strategist */}
-      <div
-        data-part="strategist"
-        className="absolute aspect-[437/1100]"
-        style={{ left: "24.67%", top: "23.31%", width: "39.53%", transformOrigin: "64.07% 97.73%" }}
-      >
-        <Image src={digitalBody} alt="" fill sizes={sizes} className="pointer-events-none" />
-        {/* her hand lifts off the laptop: the forearm turns from the elbow, its end under the elbow */}
-        <div data-part="forearm" className="absolute inset-0" style={{ transformOrigin: "89.93% 38.64%" }}>
-          <Image src={digitalForearm} alt="" fill sizes={sizes} className="pointer-events-none" />
-        </div>
-        <Image src={digitalElbow} alt="" fill sizes={sizes} className="pointer-events-none" />
-        <div data-part="head" className="absolute inset-0" style={{ transformOrigin: "65.22% 17.09%" }}>
-          <Image src={digitalHead} alt="" fill sizes={sizes} className="pointer-events-none" />
-          {/* her artwork has closed eyes (the "closed" frame); open and half-closed eyes are painted on, inside the glasses */}
-          <Layer src={digitalEyesOpen} sizes={sizes} part="eyes" />
-          <Layer src={digitalEyesHalf} sizes={sizes} part="eyes-half" hidden />
-          <Layer src={digitalMouthSmall} sizes={sizes} part="mouth-small" hidden />
-          <Layer src={digitalMouthWide} sizes={sizes} part="mouth-wide" hidden />
-        </div>
-      </div>
+      {/* the digital strategist, presenting her growth chart on a tablet */}
+      <CutCharacter part="strategist" feet="50.00% 96.61%" body={floor8Body} head={floor8Head} headOrigin="54.48% 36.14%" eyes={[{ src: floor8EyeLeft, origin: "52.09% 29.06%" }, { src: floor8EyeRight, origin: "56.60% 28.32%" }]} parts={[{ name: "forearm", src: floor8Forearm, origin: "52.49% 48.91%" }]} />
     </div>
   );
 }
@@ -667,20 +602,19 @@ export function ComingSoonFloor({ floor }: { floor: number }) {
  */
 export function FloorArtworkPreloader() {
   const art = [
-    { src: floor1Room, sizes: "324px" }, { src: floor1Cameraman, sizes: "324px" },
-    { src: reelsBackground, sizes: "330px" }, { src: reelsBody, sizes: "330px" }, { src: reelsHead, sizes: "330px" },
-    { src: reelsArmWave, sizes: "330px" }, { src: reelsArmUpper, sizes: "330px" }, { src: reelsArmPhone, sizes: "330px" }, { src: reelsEyesOpen, sizes: "330px" }, { src: reelsEyesHalf, sizes: "330px" },
-    ...[aiWall, aiNote1, aiNote2, aiNote3, aiNote4, aiNote5, aiNote6, aiStarBig, aiStarMid, aiStarSmall, aiBody, aiForearm, aiElbow, aiHead, aiEyesOpen, aiEyesHalf, aiMouthSmall, aiMouthWide].map((src) => ({ src, sizes: "330px" })),
-    ...[printWall, printSignNew, printSignSale, printSignOpen, printBody, printHead, printPageLeft, printPageRight, printEyesOpen, printEyesHalf, printMouthSmall, printMouthWide].map((src) => ({ src, sizes: "330px" })),
-    ...[radioWall, radioBody, radioArm, radioHead, radioEyesOpen, radioEyesHalf, radioMouthClosed, radioMouthSmall].map((src) => ({ src, sizes: "330px" })),
+    { src: floor1Room, sizes: "324px" }, { src: floor1Cameraman, sizes: "324px" }, { src: floor1EyeLeft, sizes: "324px" }, { src: floor1EyeRight, sizes: "324px" },
+    ...[reelsBackground, reelsRing, reelsBody, reelsHead, reelsEyeLeft, reelsEyeRight, reelsArmWave, reelsArmPhone, reelsIconYoutube, reelsIconFacebook, reelsIconFollow, reelsIconClapper].map((src) => ({ src, sizes: "330px" })),
+    ...[aiWall, aiNote1, aiNote2, aiNote3, aiNote4, aiNote5, aiNote6, aiStarBig, aiStarMid, aiStarSmall].map((src) => ({ src, sizes: "330px" })),
+    ...[printWall, printSignNew, printSignSale, printSignOpen].map((src) => ({ src, sizes: "330px" })),
+    ...[radioWall].map((src) => ({ src, sizes: "330px" })),
     ...RADIO_PANELS.map(({ src }) => ({ src, sizes: "64px" })),
-    ...[stageBackground, stageValance, singerBody, singerArm, singerHead, singerMic, singerEyesOpen, singerEyesHalf, singerMouthHum, singerMouthWide].map((src) => ({ src, sizes: "330px" })),
+    ...[stageBackground, stageValance].map((src) => ({ src, sizes: "330px" })),
     ...STAGE_CURTAINS.map(({ src }) => ({ src, sizes: "40px" })),
-    ...[artistsBackground, artistsBody, artistsHead, artistsForearm, artistsUpperArm, artistsSmile, artistsSmileOpen].map((src) => ({ src, sizes: "330px" })),
+    ...[artistsBackground].map((src) => ({ src, sizes: "330px" })),
     { src: artistsStar, sizes: "150px" },
-    ...[digitalWall, digitalBody, digitalForearm, digitalElbow, digitalHead, digitalEyesOpen, digitalEyesHalf, digitalMouthSmall, digitalMouthWide].map((src) => ({ src, sizes: "330px" })),
+    ...[digitalWall].map((src) => ({ src, sizes: "330px" })),
     { src: digitalTrend, sizes: "250px" }, { src: digitalHeart, sizes: "48px" }, { src: digitalStar, sizes: "48px" },
-    { src: reelsMouthSmall, sizes: "330px" }, { src: reelsMouthWide, sizes: "330px" },
+    ...[floor3Body, floor3Head, floor3EyeLeft, floor3EyeRight, floor3Forearm, floor4Body, floor4Head, floor4EyeLeft, floor4EyeRight, floor4Paper, floor5Body, floor5Head, floor5EyeLeft, floor5EyeRight, floor5Arm, floor6Body, floor6Head, floor6EyeLeft, floor6EyeRight, floor6Arm, floor7Body, floor7Head, floor7Forearm, floor8Body, floor8Head, floor8EyeLeft, floor8EyeRight, floor8Forearm].map((src) => ({ src, sizes: "330px" })),
   ];
   return (
     <div aria-hidden="true" className="pointer-events-none absolute size-px overflow-hidden opacity-0">

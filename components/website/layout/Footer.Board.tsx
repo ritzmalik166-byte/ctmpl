@@ -8,8 +8,7 @@ import { footerContent } from "@/config/footer";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils/cn";
 import ctmLogo from "@/public/images/website/brand/ctm-logo.png";
-import woman from "@/public/images/website/footer/board/woman.webp";
-import man from "@/public/images/website/footer/board/man.webp";
+import { FOOTER_PEOPLE, FooterPerson } from "./Footer.People";
 import plant from "@/public/images/website/footer/board/plant.webp";
 
 const ART = "/images/website/footer/board";
@@ -291,8 +290,16 @@ function Board() {
 }
 
 /** A soft shadow on the floor under someone's feet. */
+/** The shadow a figure casts where it stands: tight under its shoes, so its feet sit on the floor. */
 function FloorShadow({ className }: { className?: string }) {
-  return <span aria-hidden="true" className={cn("absolute h-[14px] rounded-[50%] bg-[radial-gradient(closest-side,rgba(95,70,40,0.42),rgba(95,70,40,0))]", className)} />;
+  return (
+    <>
+      {/* the shadow pooled right under the shoes (darkest where they touch the floor) */}
+      <span aria-hidden="true" className={cn("absolute h-[18px] rounded-[50%] bg-[radial-gradient(closest-side,rgba(55,36,16,0.7),rgba(55,36,16,0.35)_45%,rgba(55,36,16,0)_100%)]", className)} />
+      {/* and a longer, fainter one cast across the floor away from the light (from the left) */}
+      <span aria-hidden="true" className={cn("absolute h-[14px] rounded-[50%] bg-[radial-gradient(closest-side,rgba(55,36,16,0.28),rgba(55,36,16,0)_100%)] blur-[2px]", className, "ml-[14%] w-[150%]")} />
+    </>
+  );
 }
 
 /**
@@ -315,8 +322,9 @@ export function BoardFooter() {
         {/* the torn top edge of the paper wall */}
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-[46px] bg-size-[720px_46px] bg-repeat-x" style={{ backgroundImage: `url(${ART}/torn-edge.svg)` }} />
         {/* the city, faint, on the floor line; and the floor */}
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-[46px] h-[110px] bg-size-[704px_110px] bg-bottom bg-repeat-x opacity-60 xl:h-[150px] xl:bg-size-[960px_150px] xl:opacity-100" style={{ backgroundImage: `url(${ART}/skyline.svg)` }} />
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[46px] bg-[linear-gradient(180deg,rgba(196,172,132,0.55),rgba(204,182,145,0.4)_40%,rgba(208,187,150,0.25))]" />
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-[56px] h-[110px] bg-size-[704px_110px] bg-bottom bg-repeat-x opacity-60 xl:bottom-[64px] xl:h-[150px] xl:bg-size-[960px_150px] xl:opacity-100" style={{ backgroundImage: `url(${ART}/skyline.svg)` }} />
+        {/* the floor they stand on: a warm paper floor, its edge where it meets the city behind */}
+        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[56px] border-t border-[rgba(110,80,45,0.28)] bg-[linear-gradient(180deg,rgba(160,128,86,0.5),rgba(178,150,108,0.42)_45%,rgba(190,164,124,0.32))] xl:h-[64px]" />
 
         <div className="relative px-4 pt-[70px] sm:px-8 sm:pt-[80px] xl:static xl:p-0">
           <Board />
@@ -324,18 +332,19 @@ export function BoardFooter() {
 
         {/* the two of them: either side of the board (xl), else on the floor under it */}
         <div className="relative mx-auto h-[230px] max-w-[979px] sm:h-[270px] xl:static xl:h-auto xl:max-w-none">
-          <div data-sr="slide-left" className="absolute bottom-[30px] left-[6%] h-[180px] sm:h-[220px] xl:bottom-[32px] xl:left-[max(8px,calc(50%-649.3px))] xl:h-[415.7px]">
-            <FloorShadow className="-bottom-[7px] left-1/2 w-[150%] -translate-x-1/2" />
-            <Image src={woman} alt="" sizes="(min-width: 1280px) 125px, 75px" className="relative h-full w-auto" />
+          <div data-sr="slide-left" className="absolute bottom-[6px] left-[6%] h-[180px] sm:h-[220px] xl:bottom-[6px] xl:left-[max(8px,calc(50%-649.3px))] xl:h-[415.7px]">
+            <FloorShadow className="-bottom-[5px] left-[54%] w-[105%] -translate-x-1/2" />
+            <FooterPerson person={FOOTER_PEOPLE.lead} sizes="(min-width: 1280px) 125px, 75px" />
           </div>
-          <div data-sr="slide-right" className="absolute right-[12%] bottom-[29px] h-[198px] sm:right-[10%] sm:h-[242px] xl:right-auto xl:bottom-[30px] xl:left-[min(calc(50%+473px),calc(100%-195px))] xl:h-[456.7px]">
-            <FloorShadow className="-bottom-[7px] left-[55%] w-[110%] -translate-x-1/2" />
-            <Image src={man} alt="" sizes="(min-width: 1280px) 191px, 105px" className="relative h-full w-auto" />
+          <div data-sr="slide-right" className="absolute right-[12%] bottom-[6px] h-[198px] sm:right-[10%] sm:h-[242px] xl:right-auto xl:bottom-[6px] xl:left-[min(calc(50%+473px),calc(100%-195px))] xl:h-[456.7px]">
+            <FloorShadow className="-bottom-[5px] left-[53%] w-[100%] -translate-x-1/2" />
+            <FooterPerson person={FOOTER_PEOPLE.producer} sizes="(min-width: 1280px) 141px, 80px" />
             {/* below xl the plant stands at his feet, as in the design */}
             <Image src={plant} alt="" sizes="40px" className="absolute bottom-0 left-[75.4%] h-[22.6%] w-auto xl:hidden" />
           </div>
-          <div data-sr="rise" className="absolute bottom-[29px] max-xl:hidden xl:right-auto xl:bottom-[29.7px] xl:left-[min(calc(50%+617px),calc(100%-80px))] xl:h-[103.3px]">
-            <Image src={plant} alt="" sizes="72px" className="h-full w-auto" />
+          <div data-sr="rise" className="absolute bottom-[6px] max-xl:hidden xl:right-auto xl:bottom-[6px] xl:left-[min(calc(50%+617px),calc(100%-80px))] xl:h-[103.3px]">
+            <FloorShadow className="-bottom-[5px] left-1/2 w-[90%] -translate-x-1/2" />
+            <Image src={plant} alt="" sizes="72px" className="relative h-full w-auto" />
           </div>
         </div>
       </div>

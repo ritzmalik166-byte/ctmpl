@@ -51,8 +51,8 @@ export const navigationCopy = {
   formIntro: "Tell us what you're making. We write back within a working day.",
   fields: [
     { name: "name", label: "Name", type: "text", autoComplete: "name", placeholder: "Your name" },
-    { name: "email", label: "Email", type: "email", autoComplete: "email", placeholder: "you@company.com" },
     { name: "phone", label: "Phone", type: "tel", autoComplete: "tel", placeholder: "+91" },
+    { name: "email", label: "Email", type: "email", autoComplete: "email", placeholder: "you@company.com" },
   ],
   messageLabel: "Message",
   messagePlaceholder: "A few lines about your idea",

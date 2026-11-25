@@ -50,7 +50,8 @@ function FloorRow({ floor, current, pending, onSelect }: FloorRowProps) {
         <span aria-hidden="true" className={cn("absolute inset-y-0 left-0 w-[3px] rounded-l-[4px] bg-[#b84530] transition-opacity duration-300", current ? "opacity-100" : "opacity-0")} />
         <FloorButton number={floor.number} current={current} pending={pending} />
         <span className="min-w-0 flex-1 truncate text-lg leading-none font-semibold tracking-[-0.01em] text-[#2d2c28] md:text-[clamp(15px,2.4svh,18px)] xl:text-[22px]">{floor.name}</span>
-        {floor.aiPowered && <AiTag className={current ? "mr-[9px]" : "mr-[11.5px]"} />}
+        {/* (only on the floor the lift is at) */}
+        {floor.aiPowered && current && <AiTag className="mr-[9px]" />}
         {/* the lit floor's arrow */}
         {current && (
           <svg aria-hidden="true" viewBox="0 0 16 14" className="h-3.5 w-[15px] shrink-0 animate-[service-in_0.45s_ease-out] text-[#b84530] motion-reduce:animate-none">

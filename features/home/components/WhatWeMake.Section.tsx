@@ -13,7 +13,8 @@ import paperWall from "@/public/images/website/home/who-we-are/paper-wall.jpg";
  * directory and the lift rides up to it, its doors opening on that floor's
  * studio, while the floor's details show beside it.
  *
- *  - xl (1280+): the Figma desktop frame ("Eight floors", 1440 × 1080), to its
+ *  - xl (1280+): the Figma desktop frame ("Eight floors", 1440 wide, 1135 tall so the space
+ *    under "Talk to us" matches the 110px over the heading), to its
  *    coordinates, centred: heading, then the directory, the floor's details and
  *    the lift side by side;
  *  - below xl it all fits on one screen (100svh, the panel taking what the
@@ -32,7 +33,7 @@ const [headingFirst, headingRest] = (() => {
 function WhatWeMakeSection() {
   const ref = useWhatWeMakeReveal();
   return (
-    <section ref={ref} id="what-we-make" className="relative isolate flex h-svh min-h-[600px] flex-col overflow-hidden py-[clamp(1.5rem,5svh,3.5rem)] md:min-h-[620px] xl:block xl:h-[1080px] xl:min-h-0 xl:py-0">
+    <section ref={ref} id="what-we-make" className="relative isolate flex h-svh min-h-[600px] flex-col overflow-hidden py-[clamp(1.5rem,5svh,3.5rem)] md:min-h-[620px] xl:block xl:h-[1135px] xl:min-h-0 xl:py-0">
       {/* paper, washed almost white */}
       <Image src={paperWall} alt="" fill sizes="100vw" className="-z-10 object-cover" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[rgba(250,247,242,0.84)]" />
