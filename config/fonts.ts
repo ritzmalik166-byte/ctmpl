@@ -69,5 +69,23 @@ export const instrumentSerif = localFont({
   variable: "--font-instrument-serif-face",
 });
 
+/** Instrument Serif roman (latin), for the menu's serif lines ("Seven desks, one roof.", the letter pad's intro). */
+export const instrumentSerifRoman = localFont({
+  src: "../public/fonts/instrument-serif/InstrumentSerif-Regular.woff2",
+  weight: "400",
+  style: "normal",
+  display: "swap",
+  variable: "--font-instrument-serif-roman-face",
+});
+
+/** UnifrakturCook bold (latin), the blackletter of the menu's masthead ("The CTM Times"). */
+export const unifrakturCook = localFont({
+  src: "../public/fonts/unifraktur-cook/UnifrakturCook-700.woff2",
+  weight: "700",
+  style: "normal",
+  display: "swap",
+  variable: "--font-unifraktur-face",
+});
+
 /** Class string that registers every font variable on <html>. */
-export const fontVariables = `${instrumentSans.variable} ${inter.variable} ${caveat.variable} ${courierPrime.variable} ${plusJakartaSans.variable} ${rye.variable} ${instrumentSerif.variable}`;
+export const fontVariables = `${instrumentSans.variable} ${inter.variable} ${caveat.variable} ${courierPrime.variable} ${plusJakartaSans.variable} ${rye.variable} ${instrumentSerif.variable} ${instrumentSerifRoman.variable} ${unifrakturCook.variable}`;

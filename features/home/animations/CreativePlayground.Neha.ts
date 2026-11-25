@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { blinkFrames, talkFrames, usePuppet } from "./puppet";
+import { usePuppet } from "./puppet";
 import { STAMP_LANDS_AT } from "./CreativePlayground.FilingRoom";
 
 /**
@@ -28,20 +28,27 @@ export function useNehaStamp(signal: number) {
   return ref;
 }
 
+/** A blink: both eyes squash shut and open again, every few seconds (the wait changes each time). */
+function squashBlink(eyes: Element[]) {
+  return gsap
+    .timeline({ repeat: -1, repeatRefresh: true, repeatDelay: 2.4, delay: gsap.utils.random(0.8, 2) })
+    .to(eyes, { scaleY: 0.08, duration: 0.07, ease: "power2.in" })
+    .to(eyes, { scaleY: 1, duration: 0.1, ease: "power2.out" })
+    .to({}, { duration: () => gsap.utils.random(0.4, 2.6) });
+}
+
 /**
- * Neha, the filing-room clerk. Every few seconds she tells us something: her
- * lips follow the words, the arm holding the stamp lifts from the shoulder and
+ * Neha, the filing-room clerk. Every few seconds she tells us something (no
+ * lip movement: her smile stays as drawn): the arm holding the stamp lifts from the shoulder and
  * marks her points, her head tilts, and she shifts her weight a little. Between
  * sentences she blinks, breathes and sways gently on her feet.
  */
 export function useNehaPuppet() {
   return usePuppet((q) => {
-    const [neha, head, arm, eyes, eyesHalf, mouthSmall, mouthWide] = [
-      q("neha"), q("head"), q("arm"), q("eyes"), q("eyes-half"), q("mouth-small"), q("mouth-wide"),
-    ];
+    const [neha, head, arm, eyes] = [q("neha"), q("head"), q("arm"), q("eye")];
 
     const telling = gsap.timeline({ repeat: -1, delay: 1, repeatDelay: 2.4 });
-    const end = talkFrames(telling, mouthSmall, mouthWide, 0.15, 11);
+    const end = 3.1; // (she gestures as she tells it; her mouth stays as drawn)
     telling
       // the stamp arm comes up a little (- = up), beats on her words, settles
       .to(arm, { rotation: -4, duration: 0.5, ease: "power2.out" }, 0)
@@ -59,7 +66,7 @@ export function useNehaPuppet() {
 
     // her weight shifts slowly from foot to foot
     const sway = gsap.fromTo(neha, { rotation: -0.5, x: -1 }, { rotation: 0.5, x: 1, duration: 2.6, ease: "sine.inOut", yoyo: true, repeat: -1 });
-    const blinking = blinkFrames(eyes, eyesHalf);
+    const blinking = squashBlink(eyes);
     const breathing = gsap.to(neha, { scaleY: 1.006, duration: 1.9, ease: "sine.inOut", yoyo: true, repeat: -1 });
     return [telling, sway, blinking, breathing];
   });

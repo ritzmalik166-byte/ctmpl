@@ -14,6 +14,8 @@
   --font-jakarta: var(--font-plus-jakarta-sans-face), ui-sans-serif, system-ui, sans-serif;
   --font-western: var(--font-rye-face), Georgia, serif;
   --font-serif-italic: var(--font-instrument-serif-face), Georgia, serif;
+  --font-serif-roman: var(--font-instrument-serif-roman-face), Georgia, serif;
+  --font-blackletter: var(--font-unifraktur-face), "Old English Text MT", serif;
 }
 
 @theme {
@@ -304,4 +306,15 @@ body::-webkit-scrollbar {
   50% {
     rotate: var(--swing);
   }
+}
+
+/* the paper plane cursor (see PaperPlaneCursor): the plane is the pointer, except where you type */
+html.plane-cursor,
+html.plane-cursor * {
+  cursor: none !important;
+}
+html.plane-cursor input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]),
+html.plane-cursor textarea,
+html.plane-cursor [contenteditable="true"] {
+  cursor: text !important;
 }

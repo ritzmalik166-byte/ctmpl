@@ -25,7 +25,7 @@ export const footerContent = {
     },
     {
       heading: "Read and listen",
-      links: ["Blog", "E-books", "Podcasts", "Company video", "Company profile (PDF)"],
+      links: ["Blog", "E-books", "Podcasts", "Company video", "Company profile"],
     },
   ],
   /** The pinboard footer (Figma 211:1226): the "Find us online" note and the contact note. */

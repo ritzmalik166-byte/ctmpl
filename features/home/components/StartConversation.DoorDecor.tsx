@@ -3,6 +3,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { CAT_ART, type CatShape } from "../constants/playgroundCat.art";
 import { useWindowCat } from "../animations/StartConversation.WindowCat";
+import { DoorGlassArt } from "./StartConversation.DoorGlass";
 
 /**
  * Things on the meeting room door, in px of the door leaf (396 × 625.5): the
@@ -138,7 +139,7 @@ function WindowCat() {
  * plate with a red rim, "CTM" across it and the room's name under it. It
  * sways a little.
  */
-function DoorSign() {
+export function DoorSign() {
   return (
     <div className="absolute top-[364px] left-1/2 w-[164px] -translate-x-1/2">
       {/* the pin */}
@@ -173,7 +174,7 @@ function Sticker({ left, top, tilt, children }: { left: number; top: number; til
 }
 
 /** The few stickers the team's stuck on the door's bottom panel, clear of the window, the sign and the handle. */
-function DoorStickers() {
+export function DoorStickers() {
   const sheen = "pointer-events-none absolute inset-0 rounded-[inherit] bg-linear-to-br from-white/35 via-white/0 to-white/0";
   return (
     <>
@@ -210,13 +211,17 @@ function DoorStickers() {
   );
 }
 
-/** Everything on the door leaf: the cat in the window, the stickers and the sign. */
+/**
+ * Everything on the door leaf: the cat behind the window, and on the glass the
+ * studio's stickers, as in Figma (see DoorGlassArt; it's 257 × 276, centred
+ * on the 260 × 279 window). The earlier hanging sign and panel stickers
+ * (DoorSign, DoorStickers) are kept but no longer on the door.
+ */
 export function DoorDecor() {
   return (
     <>
       <WindowCat />
-      <DoorStickers />
-      <DoorSign />
+      <DoorGlassArt className="absolute overflow-hidden" style={{ left: GLASS.left + 1.5, top: GLASS.top + 1.5 }} />
     </>
   );
 }

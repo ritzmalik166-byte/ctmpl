@@ -79,7 +79,7 @@ function WhoWeAreHeader() {
         data-anim="plane"
         src={paperAirplane}
         alt=""
-        className="mt-5 w-[90px] md:w-[110px] xl:absolute xl:top-[278px] xl:-left-[43px] xl:mt-0 xl:w-[154px]"
+        className="mt-5 block w-[90px] md:w-[110px] xl:absolute xl:top-[278px] xl:-left-[43px] xl:mt-0 xl:w-[154px]"
       />
     </div>
   );

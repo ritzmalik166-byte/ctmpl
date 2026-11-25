@@ -19,7 +19,6 @@ function SectionLabel({ children, tone = "dark", className }: SectionLabelProps)
         className
       )}
     >
-      {/* the plane's landing spot: the home page's scroll plane flies from one eyebrow to the next (see ScrollPlane) */}
       <Image src={paperPlaneAccent} alt="" width={27} height={27} unoptimized className="shrink-0" data-plane-dock />
       {children}
     </p>
