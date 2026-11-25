@@ -6,7 +6,7 @@ import { TESTIMONIAL_SECONDS, useTestimonialCycle } from "../animations/KindWord
 import { SpeechBubble } from "./KindWords.SpeechBubble";
 import { ArjunPuppet } from "./KindWords.Arjun";
 import { RobotPuppet } from "./KindWords.Robot";
-import { StickyNotes } from "./KindWords.StickyNotes";
+import { DeskStickers } from "./KindWords.DeskStickers";
 import { WaterBubbles } from "./KindWords.WaterBubbles";
 import { RoomStage } from "./KindWords.Stage";
 import waterCoolerRoom from "@/public/images/website/home/kind-words/water-cooler-room.png";
@@ -53,7 +53,8 @@ export function WaterCooler() {
         <RobotPuppet signal={told} seconds={TESTIMONIAL_SECONDS - 0.5} />
         <Image src={noticeBoard} alt="" fill sizes="(min-width: 1280px) 1440px, 100vw" className="pointer-events-none object-cover" />
         <WaterBubbles />
-        <StickyNotes />
+        {/* the stickers on the front of the robot's desk (they replace the old blank notes; see KindWords.StickyNotes) */}
+        <DeskStickers />
         <ArjunPuppet speechSignal={told} speechSeconds={TESTIMONIAL_SECONDS - 0.5} label={kindWordsCopy.askArjun} onClick={next} />
       </RoomStage>
 

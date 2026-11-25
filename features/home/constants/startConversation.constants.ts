@@ -4,7 +4,7 @@ export const startConversationCopy = {
   heading: "The meeting room is free. Shall we book it?",
   intro: "Fill in the request and the sign on the door flips to yours. Someone from the team will call or write within a working day.",
   formTitle: "Meeting request",
-  submit: "Book The Room",
+  submit: "Book the room",
   sending: "Booking the room…",
   /** The note clipped on once the request is taken in. */
   booked: {

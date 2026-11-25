@@ -187,7 +187,7 @@ function RegisterRow({ entry }: { entry: Entry }) {
  * comes into view). Paper-cut decorations as in the design: a lamp hanging
  * over the intro, a plant in the corner, folds of paper at the edges.
  *
- *  - xl (1280+): the 1440 design (1200 tall), to its coordinates;
+ *  - xl (1280+): the 1440 design, to its coordinates (as tall as its register);
  *  - smaller screens: the same register, its columns closed up; on phones the
  *    intro goes under the heading and each signature under its name.
  */
@@ -195,7 +195,7 @@ function CompanyWeKeepRegister() {
   const ref = useScrollReveal<HTMLElement>();
   useSignatureInk(ref);
   return (
-    <section ref={ref} id="company-we-keep" className="relative isolate -mt-[3px] overflow-hidden pt-14 pb-36 md:pt-20 md:pb-44 xl:h-[1200px] xl:p-0">
+    <section ref={ref} id="company-we-keep" className="relative isolate -mt-[3px] overflow-hidden pt-14 pb-36 md:pt-20 md:pb-44 xl:px-0 xl:pt-0 xl:pb-[120px]">
       {/* paper, washed nearly white */}
       <Image src={paperWall} alt="" fill sizes="100vw" className="-z-20 object-cover" />
       <div aria-hidden="true" className="absolute inset-0 -z-20 bg-[rgba(247,244,239,0.82)]" />
@@ -223,7 +223,7 @@ function CompanyWeKeepRegister() {
       </div>
 
       {/* the plant in the corner */}
-      <Image src={plant} alt="" sizes="155px" className="pointer-events-none absolute right-0 bottom-0 -z-10 h-auto w-[64px] sm:w-[76px] xl:top-[791px] xl:bottom-auto xl:w-[154.7px]" />
+      <Image src={plant} alt="" sizes="155px" className="pointer-events-none absolute right-0 bottom-0 -z-10 h-auto w-[64px] sm:w-[76px] xl:bottom-[40px] xl:w-[154.7px]" />
 
       <div className="site-container relative xl:ml-[calc(50%-620px)] xl:w-[1200px] xl:max-w-none">
         {/* heading, and the line about it */}

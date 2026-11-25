@@ -4,15 +4,13 @@
  * exist (Home and Contact Us already work).
  */
 export const navigationLinks = [
-  { label: "Home", href: "/" },
+  { label: "What we make", href: "/#what-we-make" },
+  { label: "Our work", href: "/#creative-playground" },
+  { label: "Clients", href: "/#company-we-keep" },
   { label: "Blog", href: "#" },
-  { label: "Portfolio", href: "#" },
-  { label: "Clients", href: "#" },
-  { label: "E-Books", href: "#" },
-  { label: "Podcasts", href: "#" },
+  { label: "About", href: "#" },
   { label: "Careers", href: "#" },
-  { label: "About Us", href: "#" },
-  { label: "Contact Us", href: "/#start-a-conversation" },
+  { label: "Contact", href: "/#start-a-conversation" },
 ];
 
 export const navigationServices = [
@@ -35,15 +33,8 @@ export const navigationBlogs = [
 
 /** Ways to reach the studio, printed at the foot of the menu. */
 export const navigationContacts = [
-  {
-    label: "Call",
-    links: [
-      { text: "+91 72900 02168", href: "tel:+917290002168" },
-      { text: "+91 98118 69950", href: "tel:+919811869950" },
-    ],
-  },
-  { label: "Write", links: [{ text: "info@creativethinksmedia.com", href: "mailto:info@creativethinksmedia.com" }] },
-  { label: "Chat", links: [{ text: "WhatsApp Us", href: "https://wa.me/917290002168", external: true }] },
+  { label: "Call", links: [{ text: "+91 72900 02168", href: "tel:+917290002168" }] },
+  { label: "Chat", links: [{ text: "WhatsApp us", href: "https://wa.me/917290002168", external: true }] },
 ];
 
 export const navigationCopy = {

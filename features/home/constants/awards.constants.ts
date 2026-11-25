@@ -30,15 +30,15 @@ export type Award = {
  * fill in #8, whose plaque can't be read in the photo).
  */
 export const awards: Award[] = [
-  { image: award1, title: "BIG Dream Makers Award", text: "A framed certificate from the BIG Dream Makers awards, presented to Ritz Media World." },
-  { image: award2, title: "Feverlive Award", text: "A studio microphone trophy presented by Feverlive to our founder, Ritesh Malik." },
+  { image: award1, title: "BIG Dream Makers Award", text: "A certificate from the BIG Dream Makers awards, presented to Ritz Media World." },
+  { image: award2, title: "Feverlive Award", text: "A studio-microphone trophy from Feverlive, presented to our founder, Ritesh Malik." },
   { image: award3, title: "ET Young Industry Leaders 2025", text: "The Economic Times honoured Ritesh Malik for Excellence in Integrated Advertising Solutions." },
   { image: award4, title: "AdAura Awards", text: "Generative AI Campaign of the Year, in the AI & Innovation Excellence category, awarded to Ritz Media World." },
-  { image: award5, title: "In Hindustan Times", text: "Our story, featured in the pages of Hindustan Times and framed for the wall." },
+  { image: award5, title: "Hindustan Times", text: "Hindustan Times featured our story and our work." },
   { image: award6, title: "Hindustan Times feature", text: "Another Hindustan Times feature on our work, kept in pride of place." },
   { image: award7, title: "My Property Fact", text: "Recognised on stage at a My Property Fact event." },
   { image: award8, title: "Gold trophy", text: "A gold trophy from our shelf. (Add the award's name and year here.)" },
-  { image: award9, title: "Dainik Jagran Gaurav Ratna", text: "A Certificate of Excellence from Dainik Jagran to Mr. Ritesh Malik, Managing Director." },
-  { image: award10, title: "ET Excellence Leadership", text: "Featured by The Economic Times for excellence and leadership: a shout-out to the whole RMW team." },
-  { image: award11, title: "Red FM Special Achievement Award", text: "Red FM 93.5's Special Achievement Award, Retail Category, Delhi, to Creative Thinks Media at its National Sales Meet, Goa, 2011." },
+  { image: award9, title: "Dainik Jagran Gaurav Ratna", text: "A Certificate of Excellence from Dainik Jagran, awarded to Ritesh Malik, Managing Director." },
+  { image: award10, title: "ET Excellence Leadership", text: "Featured by The Economic Times for excellence and leadership, a shout-out to the whole Ritz Media World team." },
+  { image: award11, title: "Red FM 93.5 Special Achievement Award", text: "Retail Category, Delhi, presented to Creative Thinks Media at its National Sales Meet in Goa, 2011." },
 ];
