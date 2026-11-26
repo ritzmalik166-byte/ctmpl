@@ -24,6 +24,9 @@ export const creativePlaygroundCopy = {
   almirahHint: "Click a drawer to open its case file",
   /** The desk's sliding drawers. */
   deskRail: "More case files: drag to browse",
+  /** The note on the desk (and over the phones' strip) until one of its drawers has been opened. */
+  deskHint: "Pull a drawer to open its file",
+  stripHint: "Tap a drawer to open its file",
   caseFileTab: "Case File",
   /** Phones: under the case file you flip through. */
   swipeHint: "Tap or swipe the file to turn the page",

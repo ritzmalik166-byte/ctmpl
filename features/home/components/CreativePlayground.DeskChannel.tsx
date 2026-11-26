@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type PointerEvent } from "react";
+import { useEffect, useRef, type PointerEvent, type Ref } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { cn } from "@/lib/utils/cn";
@@ -13,6 +13,8 @@ const GLIDE = 0.8;
 const CLICK = 6;
 /** The drawers are laid out three times over, so the channel can run on forever either way. */
 const COPIES = 3;
+/** Until a drawer's been opened: how long after each move along the middle drawer peeks out at a tapping hand (ms). */
+const NUDGE_AFTER = 2400;
 
 /**
  * Sizes, px: "desk" is in the room's 1440 frame (the channel replaces the desk's
@@ -76,6 +78,48 @@ function DrawerFront({ index, open }: { index: number; open: boolean }) {
   );
 }
 
+/** A pointing hand (a paper cut-out), its fingertip at the top middle. */
+function TapHand() {
+  return (
+    <svg viewBox="0 0 40 48" className="block size-full drop-shadow-[2px_4px_3px_rgba(70,50,25,0.35)]">
+      <path
+        d="M16 4.5a3.5 3.5 0 0 1 7 0V21l1.6-.6a3.3 3.3 0 0 1 4.2 2l.3.9 1.4-.4a3.3 3.3 0 0 1 4 2.3l.3 1a3.3 3.3 0 0 1 3.4 3.2l.1 5.1c.1 6.6-4.6 12.3-11.1 12.9l-2.6.2c-4.3.3-8.4-1.8-10.6-5.5L6.3 33a3.4 3.4 0 0 1 5.6-3.8l4.1 4.4Z"
+        fill="#fbf4e2"
+        stroke="#5b4520"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path d="M23 21v7.5M28.9 23.3v6M34.2 27v4.5" fill="none" stroke="#5b4520" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/** The note saying the drawers open: on the desk's top edge (desk), or over the strip (phones), with an arrow down at them. */
+function DrawerHint({ variant, shown, ref }: { variant: keyof typeof LAYOUT; shown: boolean; ref: Ref<HTMLDivElement> }) {
+  const desk = variant === "desk";
+  return (
+    <div
+      ref={ref}
+      aria-hidden="true"
+      className={cn(
+        "group/hint pointer-events-none absolute z-[3] flex items-start transition-[opacity,translate] data-gone:-translate-y-2! data-gone:opacity-0! duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        desk ? "-top-[66px] left-[4px]" : "inset-x-0 -top-[42px] justify-center",
+        shown ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0"
+      )}
+    >
+      <p className="relative -rotate-2 rounded-[2px] bg-[#fbf4e2] px-3 pt-[6px] pb-[5px] font-caveat text-[20px] leading-none font-bold whitespace-nowrap text-[#5b4520] shadow-[0_6px_10px_-4px_rgba(70,50,25,0.4),0_1px_2px_rgba(70,50,25,0.15)]">
+        <span className="absolute -top-[7px] left-1/2 block h-[12px] w-[44px] -translate-x-1/2 rotate-3 bg-[#e9d9b4]/85" />
+        {desk ? creativePlaygroundCopy.deskHint : creativePlaygroundCopy.stripHint}
+      </p>
+      {/* the arrow, curling down at the drawers */}
+      <svg viewBox="0 0 44 40" className={cn("ml-1 block h-[40px] w-[44px] text-[#b96245]", shown && "animate-[almirah-hint-bob_0.9s_ease-in-out_infinite]")}>
+        <path d="M3 8 C 20 2, 34 10, 32 30" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+        <path d="M24 23 L32 33 L39 22" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
+}
+
 /**
  * The desk's drawers on a channel: every client after the cabinet's three has
  * a drawer (its logo on the label), and they slide along a channel in the
@@ -85,6 +129,10 @@ function DrawerFront({ index, open }: { index: number; open: boolean }) {
  * The channel runs on forever both ways. Press a drawer and it glides to the
  * middle (clear of the faded ends) and slides out towards us, its coloured file tabs showing, and that client's file goes on
  * the desk. On phones (`strip`) it sits under the case file.
+ *
+ * Until one of them has been opened (so newcomers can tell they open): a note
+ * on the desk says so (DrawerHint), and a little after each move along the
+ * drawer in the middle peeks out at a paper hand tapping it.
  */
 export function DeskChannel({ active, onOpen, variant = "desk" }: DeskChannelProps) {
   const { drawer, height, gap, frame } = LAYOUT[variant];
@@ -100,6 +148,14 @@ export function DeskChannel({ active, onOpen, variant = "desk" }: DeskChannelPro
   const lastMove = useRef(0);
   /** A desk drawer is open: the drawers stay put (no sliding on their own) until another file is picked. */
   const deskOpen = useRef(DESK_CASES.includes(active));
+  /** One of these drawers has been opened (or the drawers slid by hand): no more hints (the note is told straight off). */
+  const triedRef = useRef(false);
+  const hint = useRef<HTMLDivElement>(null);
+  const hand = useRef<HTMLDivElement>(null);
+  const markTried = () => {
+    triedRef.current = true;
+    hint.current?.setAttribute("data-gone", "");
+  };
   useEffect(() => {
     deskOpen.current = DESK_CASES.includes(active);
   }, [active]);
@@ -132,6 +188,27 @@ export function DeskChannel({ active, onOpen, variant = "desk" }: DeskChannelPro
     });
   };
 
+  /** The drawer in the middle of the view peeks out a little as a hand taps it (see NUDGE_AFTER). */
+  const peek = () => {
+    const vp = viewport.current;
+    const el = track.current;
+    const finger = hand.current;
+    if (!vp || !el || !finger || triedRef.current || deskOpen.current || drag.current) return;
+    const p = Math.round(pos.current + (vp.offsetWidth - drawer) / 2 / step);
+    const front = el.children[p]?.firstElementChild;
+    if (!front) return;
+    const x = (p - pos.current) * step + drawer * 0.56;
+    gsap
+      .timeline()
+      .set(finger, { x, y: height * 0.62 + 40, rotation: -12, scale: 1, autoAlpha: 0 })
+      .to(finger, { y: height * 0.62, rotation: -4, autoAlpha: 1, duration: 0.45, ease: "power3.out" })
+      // tap: the hand presses, the drawer slides out towards us a little and back
+      .to(finger, { scale: 0.86, duration: 0.12, ease: "power2.in", yoyo: true, repeat: 1 })
+      .to(front, { y: "7%", scale: 1.04, duration: 0.28, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "50% 100%" }, "<0.1")
+      .to(finger, { scale: 0.86, duration: 0.12, ease: "power2.in", yoyo: true, repeat: 1 }, ">-0.1")
+      .to(finger, { y: "+=34", rotation: -14, autoAlpha: 0, duration: 0.4, ease: "power2.in" }, ">0.25");
+  };
+
   useEffect(() => {
     const el = track.current;
     const vp = viewport.current;
@@ -142,12 +219,18 @@ export function DeskChannel({ active, onOpen, variant = "desk" }: DeskChannelPro
     const observer = new IntersectionObserver(([entry]) => (visible = entry.isIntersecting));
     observer.observe(vp);
     // on their own: one along to the left every 5 s (not while held, and not straight after being moved by hand)
+    let nudge = 0;
     const timer = window.setInterval(() => {
       if (reduced || !visible || deskOpen.current || drag.current || document.hidden || Date.now() - lastMove.current < AUTOPLAY - 100) return;
       glideTo(Math.round(pos.current) + 1);
+      // not opened one yet: once it's settled, the middle drawer peeks out at a tapping hand
+      if (!triedRef.current) nudge = window.setTimeout(peek, NUDGE_AFTER);
     }, AUTOPLAY);
+    const first = reduced ? 0 : window.setTimeout(() => visible && peek(), 1800);
     return () => {
       window.clearInterval(timer);
+      window.clearTimeout(nudge);
+      window.clearTimeout(first);
       observer.disconnect();
       gsap.killTweensOf(el);
     };
@@ -175,6 +258,9 @@ export function DeskChannel({ active, onOpen, variant = "desk" }: DeskChannelPro
     if (!d.moved) {
       d.moved = true;
       e.currentTarget.setPointerCapture(e.pointerId);
+      // (slid by hand: they've found the drawers)
+      triedRef.current = true;
+      hint.current?.setAttribute("data-gone", "");
     }
     const now = performance.now();
     const next = d.pos - dx / scale() / step;
@@ -210,6 +296,9 @@ export function DeskChannel({ active, onOpen, variant = "desk" }: DeskChannelPro
       <span aria-hidden="true" className="absolute inset-x-0 -bottom-[3px] block h-[3px] rounded-full bg-linear-to-b from-[#9c7a4c] to-[#d9c3a0] opacity-80" />
 
       {/* the drawers (room above and below for a pulled-out drawer and its tabs; faded out at the ends) */}
+      {/* until a drawer's been opened: the note that says they open */}
+      <DrawerHint ref={hint} variant={variant} shown={!DESK_CASES.includes(active)} />
+
       <div
         ref={viewport}
         className="absolute inset-x-0 -top-[34px] -bottom-[26px] cursor-grab touch-pan-y overflow-hidden select-none active:cursor-grabbing [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
@@ -234,6 +323,7 @@ export function DeskChannel({ active, onOpen, variant = "desk" }: DeskChannelPro
                 draggable={false}
                 onClick={() => {
                   if (dragged.current) return void (dragged.current = false);
+                  markTried();
                   // brought to the middle, clear of the faded ends, as it slides out
                   lastMove.current = Date.now();
                   const width = viewport.current?.offsetWidth ?? 3 * step;
@@ -249,6 +339,10 @@ export function DeskChannel({ active, onOpen, variant = "desk" }: DeskChannelPro
               </button>
             );
           })}
+        </div>
+        {/* the tapping hand (see peek) */}
+        <div ref={hand} aria-hidden="true" className="pointer-events-none invisible absolute top-[34px] left-0 z-[3] h-[46px] w-[38px] -translate-x-1/2 opacity-0">
+          <TapHand />
         </div>
       </div>
     </div>
