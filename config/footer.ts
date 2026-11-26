@@ -34,11 +34,11 @@ export const footerContent = {
    */
   hoverNotes: {
     social: {
-      Instagram: "Reels, campaign drops and the studio's daily chaos, one square and story at a time.",
-      LinkedIn: "Agency news, hiring calls and the thinking behind our work, for the ones who love the details.",
-      YouTube: "Brand films, ad films and studio stories: our work in motion, best with the sound on.",
-      Facebook: "Launches, events and studio moments, shared with the community that's followed us since 2008.",
-      "X (Twitter)": "Quick takes on ads, brands and trends as they happen. Short, sharp and now and then funny.",
+      Instagram: "Creative reels, inspiring campaigns, fresh ideas and exclusive behind-the-scenes moments from our ever-evolving creative studio.",
+      LinkedIn: "Industry insights, creative strategies, agency updates and fresh perspectives on the ideas shaping brands and businesses.",
+      YouTube: "Explore brand films, campaigns and studio stories bringing creative ideas to life through powerful visuals.",
+      Facebook: "Follow our latest campaigns, event highlights and behind-the-scenes moments from the Creative Thinks Media team.",
+      "X (Twitter)": "Fresh takes on brands, bold ideas and trending conversations. Stay inspired, stay curious and stay ahead.",
     },
     Company: {
       "About us": "A full-service creative agency in Noida, making brands louder across Delhi NCR since 2008.",
