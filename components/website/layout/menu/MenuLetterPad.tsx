@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useState, type CSSProperties, type FormEvent, type ReactNode } from "react";
 import { navigationCopy } from "@/config/navigation";
+import { CrumpleButton } from "@/components/ui/CrumpleButton";
+import { cn } from "@/lib/utils/cn";
 
 /** How long sending takes (s; stands in for the real request for now). */
 const SENDING_SECONDS = 1.6;
@@ -56,17 +58,32 @@ export function PadField({ name, placeholder, multiline, style }: { name: string
   );
 }
 
-/** "Send it in": the pad's button (it pulses while sending). */
+/**
+ * "Send it in": the pad's button, with the paper crumple hover of the site's
+ * other buttons (as on the meeting request form's): crushed, it flips to cream
+ * with an orange edge and dark text, shedding paper bits; it pulses while
+ * sending. (Its Figma look comes in inline styles, so the flipped look overrides
+ * them with !important.)
+ */
 export function PadSubmit({ className, style, children }: { className?: string; style?: CSSProperties; children: ReactNode }) {
   const status = useContext(PadStatus);
   return (
-    <button
+    <CrumpleButton
       type="submit"
       aria-busy={status === "sending"}
-      className={`${className ?? ""} cursor-pointer transition-[translate,filter] duration-200 hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 disabled:cursor-wait ${status === "sending" ? "animate-pulse" : ""}`}
+      crumple={status === "idle"}
+      chunkColors={["#d16a42", "var(--color-paper-cream)", "#b95534"]}
+      className={cn(
+        className,
+        "cursor-pointer overflow-clip p-0 transition-[scale,translate] duration-200 hover:-translate-y-0.5 active:scale-[0.99] disabled:cursor-wait",
+        "data-flipped:bg-paper-cream! data-flipped:bg-none! data-flipped:shadow-[inset_0_0_0_1.5px_#d16a42]! data-flipped:[&_p]:text-ink-soft! data-flipped:[&_path]:fill-[#d16a42]",
+        // (its label and plane are placed from the button's top left: the wrapper round them fills the button)
+        "[&>span:last-child]:absolute [&>span:last-child]:inset-0 [&>span:last-child]:block",
+        status === "sending" && "animate-pulse"
+      )}
       style={style}
     >
       {children}
-    </button>
+    </CrumpleButton>
   );
 }

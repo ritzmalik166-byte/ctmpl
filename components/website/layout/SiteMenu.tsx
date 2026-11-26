@@ -47,8 +47,8 @@ function useMenuLayout(shown: boolean) {
 }
 
 /**
- * The menu button, and the menu it opens: the special edition of The CTM Times
- * laid out on the studio's desk (the Figma "Mega Menu · Paper Art" frames, see
+ * The menu button, and the menu it opens: a newspaper-style edition laid out on
+ * the studio's desk (its masthead: the logo, today's dateline and the Close tag) (the Figma "Mega Menu · Paper Art" frames, see
  * MenuDesk and MenuMobile): the masthead, the folder of pages, the services
  * sheet, the blog clippings, the letter pad (the quick contact form) and the
  * ticket stub, with the mug, glasses and pencil lying about.
