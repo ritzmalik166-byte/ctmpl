@@ -68,7 +68,7 @@ function Navbar() {
             </div>
           </nav>
 
-          {/* the menu: a special edition of The CTM Times (see SiteMenu) */}
+          {/* the menu: a newspaper-style edition on the desk (see SiteMenu) */}
           <SiteMenu />
         </div>
       </Container>

@@ -1,5 +1,5 @@
 /**
- * The site menu (the "CTM Times" menu edition, see SiteMenu): pages, services,
+ * The site menu (the newspaper-style menu edition, see SiteMenu): pages, services,
  * latest blogs and the quick contact form. Links point to "#" until the pages
  * exist (Home and Contact Us already work).
  */

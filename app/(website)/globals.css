@@ -308,7 +308,7 @@ body::-webkit-scrollbar {
   }
 }
 
-/* the paper plane cursor (see PaperPlaneCursor): the plane is the pointer, except where you type */
+/* the paper plane cursor (see PaperPlaneCursor; no longer mounted, so these only apply if it is): the plane is the pointer, except where you type */
 html.plane-cursor,
 html.plane-cursor * {
   cursor: none !important;
