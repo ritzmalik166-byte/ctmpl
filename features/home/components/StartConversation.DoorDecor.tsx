@@ -65,7 +65,7 @@ function Paw({ x, y, flip = false }: { x: number; y: number; flip?: boolean }) {
  * studio cat's own (playgroundCat.art), a little smaller than life behind the
  * frosted glass.
  */
-function WindowCat() {
+export function WindowCat() {
   const ref = useWindowCat();
   return (
     <svg
@@ -212,15 +212,14 @@ export function DoorStickers() {
 }
 
 /**
- * Everything on the door leaf: the cat behind the window, and on the glass the
- * studio's stickers, as in Figma (see DoorGlassArt; it's 257 × 276, centred
- * on the 260 × 279 window). The earlier hanging sign and panel stickers
- * (DoorSign, DoorStickers) are kept but no longer on the door.
+ * Everything on the door leaf: on the glass, the studio's stickers, as in Figma
+ * (see DoorGlassArt; it's 257 × 276, centred on the 260 × 279 window). The
+ * cat behind the window (WindowCat) and the earlier hanging sign and panel
+ * stickers (DoorSign, DoorStickers) are kept but no longer on the door.
  */
 export function DoorDecor() {
   return (
     <>
-      <WindowCat />
       <DoorGlassArt className="absolute overflow-hidden" style={{ left: GLASS.left + 1.5, top: GLASS.top + 1.5 }} />
     </>
   );

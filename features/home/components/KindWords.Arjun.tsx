@@ -8,15 +8,24 @@ import head from "@/public/images/website/home/kind-words/arjun-updated/head.web
 import arm from "@/public/images/website/home/kind-words/arjun-updated/arm.webp";
 import eyeLeft from "@/public/images/website/home/kind-words/arjun-updated/eye-left.webp";
 import eyeRight from "@/public/images/website/home/kind-words/arjun-updated/eye-right.webp";
-import lowerLip from "@/public/images/website/home/kind-words/arjun-updated/lower-lip.webp";
+// his mouth shapes for lip-sync (the old lower-lip.webp is kept, unused)
+import mouthS from "@/public/images/website/home/kind-words/arjun-updated/mouth-s.webp";
+import mouthE from "@/public/images/website/home/kind-words/arjun-updated/mouth-e.webp";
+import mouthAh from "@/public/images/website/home/kind-words/arjun-updated/mouth-ah.webp";
+import mouthA from "@/public/images/website/home/kind-words/arjun-updated/mouth-a.webp";
+import mouthO from "@/public/images/website/home/kind-words/arjun-updated/mouth-o.webp";
 
 /** His artwork is 1024 × 1536; he is drawn 312 wide at (190, 221) of the room, standing where he always has. */
 const sizes = "312px";
 
+/** His mouth shapes, each a layer over his head (closed, his mouth is as drawn). */
+const mouths = { s: mouthS, e: mouthE, ah: mouthAh, a: mouthA, o: mouthO };
+
 /**
  * Arjun, telling the stories: a paper puppet cut from his artwork. Each time
- * `speechSignal` changes (a new testimonial) he tells it: his mouth follows the
- * words (opening from the upper lip, keeping his smile), his raised hand moves
+ * `speechSignal` changes (a new testimonial) he tells it: his mouth lip-syncs
+ * the words (mouth shapes for ah, oh, ee and s, with his teeth, tongue and jaw,
+ * switching syllable by syllable), his raised hand moves
  * from the shoulder to mark his points and his head nods along; in between he
  * blinks (his eyes squash shut behind his glasses), breathes and sways. Click
  * him for the next testimonial.
@@ -43,10 +52,12 @@ export function ArjunPuppet({ speechSignal, speechSeconds, label, onClick }: {
             <div data-part="eye" className="absolute inset-0" style={{ transformOrigin: "55.27% 10.29%" }}>
               <Layer src={eyeRight} sizes={sizes} />
             </div>
-            {/* his lower lip: it drops and lifts as he talks (his smile and upper lip stay as drawn) */}
-            <div data-part="mouth" className="absolute inset-0">
-              <Layer src={lowerLip} sizes={sizes} />
-            </div>
+            {/* his mouth shapes: one shows at a time as he talks */}
+            {Object.entries(mouths).map(([name, src]) => (
+              <div key={name} data-viseme={name} className="absolute inset-0 opacity-0">
+                <Layer src={src} sizes={sizes} />
+              </div>
+            ))}
           </div>
           {/* where the words come out (the speech bubble grows from here) */}
           <span data-mouth className="absolute top-[14.2%] left-[52.44%] size-0" />

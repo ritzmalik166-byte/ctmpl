@@ -40,13 +40,13 @@ function CasePage({ index }: { index: number }) {
           ].map(([label, value]) => (
             <div key={label} className="contents">
               <dt className="pt-px text-[9px] leading-none font-bold tracking-[1.2px] text-[#625d58] uppercase">{label}</dt>
-              <dd className="truncate text-[13px] leading-none text-[#3f3b38]">{value}</dd>
+              <dd className="text-[13px] leading-[1.25] text-[#3f3b38]">{value}</dd>
             </div>
           ))}
         </dl>
       </div>
-      {/* APPROVED */}
-      <div data-book="stamp" className="absolute right-[6%] bottom-[5%] aspect-[214/88] w-[46%] -rotate-6">
+      {/* APPROVED, stamped over the photo's corner (the details under it stay clear) */}
+      <div data-book="stamp" className="absolute top-[47%] right-[4%] aspect-[214/88] w-[40%] -rotate-6">
         <Image src={stampApproved} alt="Approved" fill sizes="160px" className="pointer-events-none" />
       </div>
     </div>

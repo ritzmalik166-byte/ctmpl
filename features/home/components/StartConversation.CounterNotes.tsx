@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils/cn";
 import { startConversationCopy } from "../constants/startConversation.constants";
 
 const { call, mail, visit } = startConversationCopy.cafe;
-const mapQuery = encodeURIComponent(`Corporate Park, Tower A1, Sector 142, Noida 201305`);
+const mapQuery = encodeURIComponent(`Creative Thinks Media, Tower A2, Corporate Park, Sector 142, Noida`);
 
 type Size = "counter" | "card" | "compact";
 

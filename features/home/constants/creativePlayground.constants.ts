@@ -41,7 +41,7 @@ export type PlaygroundCase = {
   logo: StaticImageData;
   /** The campaign photo clipped in the case file (dummy artwork for now). */
   cover: StaticImageData;
-  /** What is typed on the case file's sheet (dummy content for now). */
+  /** What is typed on the case file's sheet. */
   file: { client: string; campaign: string; services: string; brief: string };
 };
 
@@ -52,17 +52,17 @@ const COVERS = [client1File, client2File, client3File, client4File, client5File,
  * The case files, one per main client. The first three (Vedvan, Sikka, Eldeco)
  * are in the cabinet, top drawer first (its bottom drawer is "View all
  * projects"; see CABINET_CASES); the other five are in the drawers sliding
- * along the desk's channel (see DESK_CASES). Campaigns and briefs are placeholders.
+ * along the desk's channel (see DESK_CASES).
  */
 export const playgroundCases: PlaygroundCase[] = [
-  { client: "Vedvan", logo: logoVedvan, cover: COVERS[0], file: { client: "Vedvan", campaign: "Elemental living", services: "Launch campaign, print, digital", brief: "A campaign that put Vedvan where its people already look: one clear idea, carried from the first sketch to the last screen." } },
-  { client: "Sikka", logo: logoSikka, cover: COVERS[1], file: { client: "Sikka", campaign: "Homes of distinction", services: "Outdoor, radio, digital", brief: "A campaign that put Sikka where its people already look: one clear idea, carried from the first sketch to the last screen." } },
-  { client: "Eldeco", logo: logoEldeco, cover: COVERS[2], file: { client: "Eldeco", campaign: "Homes, honestly", services: "Print, outdoor, digital", brief: "A campaign that put Eldeco where its people already look: one clear idea, carried from the first sketch to the last screen." } },
-  { client: "Exotica", logo: logoExotica, cover: COVERS[3], file: { client: "Exotica", campaign: "Creating space for life", services: "Brand identity, print, digital", brief: "A campaign that put Exotica where its people already look: one clear idea, carried from the first sketch to the last screen." } },
-  { client: "GHD Infra", logo: logoGhdInfra, cover: COVERS[4], file: { client: "GHD Infra", campaign: "Your dream, we deliver", services: "Launch campaign, outdoor", brief: "A campaign that put GHD Infra where its people already look: one clear idea, carried from the first sketch to the last screen." } },
-  { client: "Lumora Estates", logo: logoLumora, cover: COVERS[5], file: { client: "Lumora Estates", campaign: "Light up every day", services: "Brand identity, digital", brief: "A campaign that put Lumora Estates where its people already look: one clear idea, carried from the first sketch to the last screen." } },
-  { client: "Onyx by Splendor", logo: logoOnyx, cover: COVERS[6], file: { client: "Onyx by Splendor", campaign: "The Black Edition", services: "Launch campaign, social, events", brief: "A campaign that put Onyx by Splendor where its people already look: one clear idea, carried from the first sketch to the last screen." } },
-  { client: "Sanskar Realty", logo: logoSanskar, cover: COVERS[0], file: { client: "Sanskar Realty", campaign: "Lotus Heights launch", services: "Brand film, print, outdoor", brief: "A campaign that put Sanskar Realty where its people already look: one clear idea, carried from the first sketch to the last screen." } },
+  { client: "VedVan", logo: logoVedvan, cover: COVERS[0], file: { client: "VedVan", campaign: "Elemental Living", services: "Creative Services, Website Design & Development", brief: "A digital experience inspired by VedVan's vision of elemental living. From creative brand communication to a thoughtfully designed website, every detail brings the brand's identity to life." } },
+  { client: "Sikka", logo: logoSikka, cover: COVERS[1], file: { client: "Sikka", campaign: "A Creative Identity", services: "Creative Services", brief: "A creative approach that gives Sikka a distinctive brand presence. Through thoughtful design and engaging visual communication, we bring consistency and character to every brand touchpoint." } },
+  { client: "Eldeco", logo: logoEldeco, cover: COVERS[2], file: { client: "Eldeco", campaign: "Digital Growth", services: "Digital Marketing", brief: "A digital-first approach designed to strengthen Eldeco's online presence. Through strategic marketing and consistent brand communication, we bring the brand closer to its audience." } },
+  { client: "Exotica", logo: logoExotica, cover: COVERS[3], file: { client: "Exotica", campaign: "Creating Space for Identity", services: "Creative Services & Digital Marketing", brief: "A distinctive creative direction that brings Exotica's brand personality to life. Through thoughtful design and digital marketing, we create meaningful connections and a memorable brand presence." } },
+  { client: "GHD Infra", logo: logoGhdInfra, cover: COVERS[4], file: { client: "GHD Infra", campaign: "Building Brand Presence", services: "Creative Services & Digital Marketing", brief: "A creative and digital approach that builds a stronger brand presence for GHD Infra. From compelling visual communication to strategic digital marketing, every interaction helps shape a consistent brand experience." } },
+  { client: "Lumora", logo: logoLumora, cover: COVERS[5], file: { client: "Lumora", campaign: "Digital Experiences", services: "Creative Services, Website Design & Development", brief: "A cohesive brand experience designed to bring Lumora's vision to life. From thoughtful creative communication to a visually engaging, user-friendly website, every detail reflects the brand's identity across digital touchpoints." } },
+  { client: "Splendor", logo: logoOnyx, cover: COVERS[6], file: { client: "Splendor", campaign: "Creative Presence", services: "Creative & Digital Marketing", brief: "A creative approach that gives Splendor a distinctive digital presence. From engaging visual communication to strategic digital marketing, every touchpoint is designed to make the brand stand out." } },
+  { client: "Sanskar Realty", logo: logoSanskar, cover: COVERS[0], file: { client: "Sanskar Realty", campaign: "Building Digital Connections", services: "Creative Services, Website Design & Development", brief: "A cohesive brand experience created for Sanskar Realty. From impactful creative communication to a user-friendly website, we bring the brand's identity together through design and digital experiences." } },
 ];
 
 /** Which files are in the cabinet (its drawers, top to bottom) and which slide along the desk (in order). */

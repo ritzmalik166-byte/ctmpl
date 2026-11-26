@@ -5,6 +5,9 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { catGone, KICK_EVENT, KICK_HOLD } from "./StartConversation.KickedCat";
 
+/** Whether the cat in the meeting room is kicked out as the door closes (the cat, KickedCat, is off the page). */
+const KICK_CATS = false as boolean;
+
 gsap.registerPlugin(useGSAP);
 
 /**
@@ -115,8 +118,8 @@ export function useBookingSequence() {
         alongArm(-INTO_ROOM, 34),
       ];
 
-      // the first time in a visit, the cat in the room gets kicked out before the door closes (see useKickedCat)
-      const kick = !catGone();
+      // (the cat that used to get kicked out of the room here is no longer in it: KICK_CATS turns it back on)
+      const kick = KICK_CATS && !catGone();
       const close = 2.95 + (kick ? KICK_HOLD : 0);
 
       playing.current = gsap

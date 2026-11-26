@@ -14,23 +14,41 @@ function squashBlink(eyes: Element[]) {
     .to({}, { duration: () => gsap.utils.random(0.4, 2.8) });
 }
 
-/**
- * Talking, as a mouth really moves: only his lower lip (cut out on its own, the
- * dark of his mouth painted under it) drops on each syllable and comes back up,
- * now and then closing right up; his smile and upper lip stay as drawn. Returns
- * when the phrase ends, his lip back as drawn.
- */
-function talkPhrase(timeline: gsap.core.Timeline, mouth: Element[], at: number, syllables: number) {
-  let t = at;
-  for (let i = 0; i < syllables; i++) {
-    const length = gsap.utils.random(0.09, 0.15);
-    timeline
-      .to(mouth, { yPercent: gsap.utils.random(0.14, 0.38), duration: length, ease: "power2.out" }, t)
-      .to(mouth, { yPercent: Math.random() < 0.2 ? -0.08 : gsap.utils.random(0, 0.05), duration: length * 0.9, ease: "power2.in" }, t + length);
-    t += length * 1.9 + gsap.utils.random(0.02, 0.08);
+type Visemes = Record<string, Element>;
+const VOWELS = ["a", "a", "ah", "ah", "ah", "e", "e", "o"]; // (open sounds come up most)
+const CONSONANTS = ["rest", "rest", "s", "s", "e"]; // (m/b/p close the lips, s/t/d/n show the teeth)
+const pick = (list: string[]) => list[Math.floor(Math.random() * list.length)];
+
+/** Shows one mouth shape (or "rest": his mouth as drawn), with the quickest of crossfades. */
+function mouthShape(timeline: gsap.core.Timeline, visemes: Visemes, name: string, at: number) {
+  for (const [key, el] of Object.entries(visemes)) {
+    timeline.to(el, { opacity: key === name ? 1 : 0, duration: 0.05, ease: "none" }, at);
   }
-  timeline.to(mouth, { yPercent: 0, duration: 0.15, ease: "sine.out" }, t);
-  return t;
+}
+
+/**
+ * Talking, lip-synced: each syllable is a consonant (lips closing, or the teeth
+ * together for s and t) then a vowel (ah, oh, ee: the jaw drops, the teeth and
+ * tongue show), held as long as it's said, the shapes switching as a real
+ * mouth does; the phrase ends with his mouth closed, as drawn. Returns when the
+ * phrase ends.
+ */
+function talkPhrase(timeline: gsap.core.Timeline, visemes: Visemes, at: number, syllables: number) {
+  let t = at;
+  let last = "";
+  for (let i = 0; i < syllables; i++) {
+    if (i > 0 || Math.random() < 0.5) {
+      mouthShape(timeline, visemes, pick(CONSONANTS), t);
+      t += gsap.utils.random(0.05, 0.08);
+    }
+    let vowel = pick(VOWELS);
+    if (vowel === last) vowel = pick(VOWELS);
+    last = vowel;
+    mouthShape(timeline, visemes, vowel, t);
+    t += gsap.utils.random(0.09, 0.17) * (i === syllables - 1 ? 1.4 : 1); // (the last one drawn out)
+  }
+  mouthShape(timeline, visemes, "rest", t);
+  return t + 0.05;
 }
 
 /** Arjun at rest: he blinks, breathes, and shifts his weight a little. */
@@ -58,15 +76,16 @@ export function useArjunSpeech(signal: number, seconds: number) {
       const el = ref.current;
       if (!signal || !el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const q = (part: string) => gsap.utils.toArray<Element>(`[data-part="${part}"]`, el);
-      const [arm, head, mouth] = [q("arm"), q("head"), q("mouth")];
+      const [arm, head] = [q("arm"), q("head")];
+      const visemes: Visemes = Object.fromEntries(gsap.utils.toArray<HTMLElement>("[data-viseme]", el).map((v) => [v.dataset.viseme, v]));
 
       // a new story cuts the last one short (arm and head carry on from wherever they are)
       current.current?.kill();
-      gsap.set(mouth, { yPercent: 0 });
+      gsap.set(Object.values(visemes), { opacity: 0 });
       const speech = (current.current = gsap.timeline({ delay: 0.15 }));
-      // the words: phrases of 5–9 syllables with a breath between; the last one ends within his time
+      // the words: phrases of 5–10 syllables with a breath between; the last one ends within his time
       let t = 0;
-      while (t < seconds - 2.2) t = talkPhrase(speech, mouth, t, gsap.utils.random(5, 9, 1)) + gsap.utils.random(0.25, 0.45);
+      while (t < seconds - 2.2) t = talkPhrase(speech, visemes, t, gsap.utils.random(5, 10, 1)) + gsap.utils.random(0.25, 0.45);
 
       // the arm: lifts as he starts, beats on his words, opens out, settles back as he finishes
       // (his hand is raised high, so small turns at the shoulder carry it a long way)
