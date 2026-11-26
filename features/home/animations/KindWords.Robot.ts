@@ -53,7 +53,7 @@ export function useRobotReaction(signal: number, seconds: number) {
       }
       // thinking it over: the fingers tap its head, twice, now and then
       for (let at = 2.2; at < seconds - 1.6; at += gsap.utils.random(2.6, 3.4)) {
-        tl.to(arm, { rotation: -1.2, duration: 0.12, ease: "sine.inOut", yoyo: true, repeat: 3 }, at);
+        tl.to(arm, { rotation: 1.2, duration: 0.12, ease: "sine.inOut", yoyo: true, repeat: 3 }, at);
       }
       // the story's over: straighten up
       tl.to(head, { rotation: 0, y: 0, ...settle }, seconds - 0.9).to(robot, { rotation: 0, ...settle }, seconds - 0.9);

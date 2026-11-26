@@ -20,7 +20,6 @@ import { PlaygroundStage } from "./CreativePlayground.Stage";
 import { CaseBook } from "./CreativePlayground.CaseBook";
 import { DeskChannel } from "./CreativePlayground.DeskChannel";
 import { AlmirahHint } from "./CreativePlayground.AlmirahHint";
-import { PlaygroundCat } from "./CreativePlayground.Cat";
 import drawerTanishq from "@/public/images/website/home/creative-playground/drawer-tanishq.png";
 import filingRoom from "@/public/images/website/home/creative-playground/filing-room-empty.png";
 import almirah from "@/public/images/website/home/creative-playground/almirah.png";
@@ -209,8 +208,6 @@ export function FilingRoom() {
             </div>
           </div>
 
-          {/* the paper cat, who comes through with its ball (and later a paper plane) once a drawer is opened */}
-          <PlaygroundCat active={active} />
         </PlaygroundStage>
       </div>
 

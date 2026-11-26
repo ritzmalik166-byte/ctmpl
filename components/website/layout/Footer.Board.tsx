@@ -2,13 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import type { CSSProperties, ReactNode } from "react";
+import { useRef, type CSSProperties, type ReactNode } from "react";
 import { useScrollReveal } from "@/lib/animations/scrollReveal";
 import { footerContent } from "@/config/footer";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils/cn";
 import ctmLogo from "@/public/images/website/brand/ctm-logo.png";
 import { FOOTER_PEOPLE, FooterPerson } from "./Footer.People";
+import { FooterHoverNote } from "./Footer.HoverNote";
 import plant from "@/public/images/website/footer/board/plant.webp";
 
 const ART = "/images/website/footer/board";
@@ -105,7 +106,7 @@ function ContactNote({ className }: { className?: string }) {
       <ul className="mt-[2px]">
         {call.numbers.map((n) => (
           <li key={n.href}>
-            <a href={n.href} className={value}>
+            <a href={n.href} data-note={`call::${n.text}`} className={value}>
               {n.text}
             </a>
           </li>
@@ -114,13 +115,13 @@ function ContactNote({ className }: { className?: string }) {
       <div className="mt-[12px]">
         <ScriptLabel icon={ICONS.mail}>{mail.label}</ScriptLabel>
       </div>
-      <a href={`mailto:${mail.email}`} className={cn(value, "mt-[3px] block break-all")}>
+      <a href={`mailto:${mail.email}`} data-note={`mail::${mail.email}`} className={cn(value, "mt-[3px] block break-all")}>
         {mail.email}
       </a>
       <div className="mt-[11px]">
         <ScriptLabel icon={ICONS.pin}>{visit.label}</ScriptLabel>
       </div>
-      <a href={visit.mapUrl} target="_blank" rel="noopener noreferrer" className={cn(value, "mt-[4px] block leading-[22px]")}>
+      <a href={visit.mapUrl} target="_blank" rel="noopener noreferrer" data-note="map::visit" className={cn(value, "mt-[4px] block leading-[22px]")}>
         {visit.lines.map((line) => (
           <span key={line} className="block">
             {line}
@@ -189,7 +190,7 @@ function SocialNote({ className }: { className?: string }) {
           const tile = TILES[label];
           return (
             <li key={label} className="flex justify-center">
-              <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label}: ${footerContent.followUs}`} className="group flex flex-col items-center text-center">
+              <a href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label}: ${footerContent.followUs}`} data-note={`social::${label}`} className="group flex flex-col items-center text-center">
                 {/* the tile, on its paper shadow */}
                 <span className="relative block size-[38px] transition-transform duration-300 ease-out group-hover:-translate-y-1 group-hover:-rotate-3 lg:size-[42px]">
                   <span aria-hidden="true" className="absolute inset-0 translate-y-[2px] bg-[#d5c6ad]" style={{ clipPath: tile.clip }} />
@@ -223,7 +224,7 @@ function LinkNote({ heading, links, color, tilt, delay, wide, className }: { hea
       <ul className={cn("mt-2 sm:mt-[10px]", wide && "max-sm:grid max-sm:grid-cols-2 max-sm:gap-x-3")}>
         {links.map((label) => (
           <li key={label}>
-            <Link href="#" className="font-instrument text-[13px] leading-[28px] whitespace-nowrap min-[400px]:text-[14px] sm:text-[15.5px] sm:leading-[30px] text-[#2a231d] transition-colors hover:text-[#a9472b]">
+            <Link href="#" data-note={`${heading}::${label}`} className="font-instrument text-[13px] leading-[28px] whitespace-nowrap min-[400px]:text-[14px] sm:text-[15.5px] sm:leading-[30px] text-[#2a231d] transition-colors hover:text-[#a9472b]">
               {label}
             </Link>
           </li>
@@ -246,15 +247,17 @@ const LINK_NOTES = [
  *    then the three link notes;
  *  - phones: one note under another, the link notes two across (the third
  *    across the board, its links in two columns).
+ * On desktops (lg+) a hovered link gets a note written out beside it (FooterHoverNote).
  */
 function Board() {
   const { columns } = footerContent;
+  const cork = useRef<HTMLDivElement>(null);
   return (
     <div
       data-sr="rise"
       className="relative mx-auto w-full max-w-[979px] rounded-[2px] bg-[#a17749] p-3 shadow-[inset_0_0_0_1px_rgba(90,55,20,0.25),0_10px_14px_-4px_rgba(70,45,20,0.35)] sm:p-[18px] xl:absolute xl:top-[88px] xl:left-[calc(50%-490px)]"
     >
-      <div className="relative grid grid-cols-2 gap-x-3 gap-y-9 bg-[#c4a476] bg-[url(/images/website/footer/board/cork.webp)] bg-size-[320px] px-3 pt-8 pb-9 shadow-[inset_0_2px_7px_rgba(60,35,10,0.4)] min-[400px]:px-4 sm:grid-cols-6 sm:gap-x-5 sm:px-6 sm:pt-9 lg:block lg:h-[524px] lg:p-0">
+      <div ref={cork} className="relative grid grid-cols-2 gap-x-3 gap-y-9 bg-[#c4a476] bg-[url(/images/website/footer/board/cork.webp)] bg-size-[320px] px-3 pt-8 pb-9 shadow-[inset_0_2px_7px_rgba(60,35,10,0.4)] min-[400px]:px-4 sm:grid-cols-6 sm:gap-x-5 sm:px-6 sm:pt-9 lg:block lg:h-[524px] lg:p-0">
         {/* the logo */}
         <Note tilt={-1.2} className="px-[27px] pt-[23px] pb-[22px] col-span-2 sm:col-span-3 sm:self-start lg:absolute lg:top-[37px] lg:left-[37px] lg:w-[262px]">
           <Pin color={RED} className="top-[1px] left-1/2" />
@@ -284,6 +287,9 @@ function Board() {
             />
           ))}
         </nav>
+
+        {/* desktop: the note written out beside a hovered link */}
+        <FooterHoverNote board={cork} />
       </div>
     </div>
   );

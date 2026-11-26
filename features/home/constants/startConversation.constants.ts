@@ -26,7 +26,7 @@ export const startConversationCopy = {
     visit: {
       label: "Visit",
       hint: "hover for map",
-      address: "402–404, 4th Floor, Corporate Park, Tower A1, Sector 142, Noida 201305",
+      address: "7th Floor, Tower A2, Corporate Park, Sector 142, Noida, Uttar Pradesh, India",
       openMap: "Open in Google Maps",
     },
   },
