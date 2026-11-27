@@ -7,6 +7,7 @@ import Link from "next/link";
 import type { Ref } from "react";
 import { LetterPad, PadField, PadSubmit } from "./MenuLetterPad";
 import { MenuTab } from "./MenuTab";
+import { MenuBlogPreview } from "./MenuBlogPreview";
 
 export const MENU_DESK_SIZE = { width: 1440, height: 1060 } as const;
 
@@ -65,7 +66,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
           <p className="absolute" style={{ left: 307, top: 20, width: 167, height: 29, fontFamily: "var(--font-serif-roman)", fontWeight: 400, fontSize: 22, lineHeight: "28.6px", color: "#b95534", whiteSpace: "pre", fontStyle: "italic" }}>Seven desks, one roof.</p>
           <div className="absolute" style={{ left: 26, top: 52, width: 448, height: 2, backgroundColor: "#2b2825" }} />
           <div className="absolute" style={{ left: 26, top: 57, width: 448, height: 0.75, backgroundColor: "#2b2825" }} />
-          <Link href="#" onClick={onNavigate} aria-label="Print: learn more" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 26, top: 78, width: 208, height: 150 }}>
+          <Link href="#" onClick={onNavigate} aria-label="Print: learn more" data-service="card" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 26, top: 78, width: 208, height: 150 }}>
             <div className="absolute" style={{ left: 4, top: 4, width: 40, height: 40, transformOrigin: "0 0", transform: "matrix(0.99452, 0.10453, -0.10453, 0.99452, 0, 0)", backgroundColor: "#123f82", borderRadius: 8 }} />
             <div className="absolute" style={{ left: 0, top: 0, width: 40, height: 40, backgroundColor: "#1d5bb5", borderRadius: 8, boxShadow: "0px 2px 3px 0px rgba(64,41,20,0.2)" }}>
               <div className="absolute" style={{ left: 8, top: 8, width: 24, height: 24, overflow: "hidden" }}>
@@ -79,7 +80,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
             <p className="absolute" style={{ left: 0, top: 119, width: 88, height: 16, fontFamily: "var(--font-inter)", fontWeight: 700, fontSize: 13, lineHeight: "15.73px", color: "#2b2825", whiteSpace: "pre" }}>Learn more →</p>
             <div className="absolute" style={{ left: 0, top: 138, width: 88, height: 1.5, backgroundColor: "#d16a42" }} />
           </Link>
-          <Link href="#" onClick={onNavigate} aria-label="Radio: learn more" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 266, top: 78, width: 208, height: 150 }}>
+          <Link href="#" onClick={onNavigate} aria-label="Radio: learn more" data-service="card" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 266, top: 78, width: 208, height: 150 }}>
             <div className="absolute" style={{ left: 4, top: 4, width: 40, height: 40, transformOrigin: "0 0", transform: "matrix(0.99452, 0.10453, -0.10453, 0.99452, 0, 0)", backgroundColor: "#b84a0c", borderRadius: 8 }} />
             <div className="absolute" style={{ left: 0, top: 0, width: 40, height: 40, backgroundColor: "#f26b1d", borderRadius: 8, boxShadow: "0px 2px 3px 0px rgba(64,41,20,0.2)" }}>
               <div className="absolute" style={{ left: 8, top: 8, width: 24, height: 24, overflow: "hidden" }}>
@@ -93,7 +94,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
             <p className="absolute" style={{ left: 0, top: 119, width: 88, height: 16, fontFamily: "var(--font-inter)", fontWeight: 700, fontSize: 13, lineHeight: "15.73px", color: "#2b2825", whiteSpace: "pre" }}>Learn more →</p>
             <div className="absolute" style={{ left: 0, top: 138, width: 88, height: 1.5, backgroundColor: "#d16a42" }} />
           </Link>
-          <Link href="#" onClick={onNavigate} aria-label="Production: learn more" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 26, top: 246, width: 208, height: 150 }}>
+          <Link href="#" onClick={onNavigate} aria-label="Production: learn more" data-service="card" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 26, top: 246, width: 208, height: 150 }}>
             <div className="absolute" style={{ left: 4, top: 4, width: 40, height: 40, transformOrigin: "0 0", transform: "matrix(0.99452, 0.10453, -0.10453, 0.99452, 0, 0)", backgroundColor: "#000000", borderRadius: 8 }} />
             <div className="absolute" style={{ left: 0, top: 0, width: 40, height: 40, backgroundColor: "#2b2825", borderRadius: 8, boxShadow: "0px 2px 3px 0px rgba(64,41,20,0.2)" }}>
               <div className="absolute" style={{ left: 8, top: 8, width: 24, height: 24, overflow: "hidden" }}>
@@ -107,7 +108,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
             <p className="absolute" style={{ left: 0, top: 119, width: 88, height: 16, fontFamily: "var(--font-inter)", fontWeight: 700, fontSize: 13, lineHeight: "15.73px", color: "#2b2825", whiteSpace: "pre" }}>Learn more →</p>
             <div className="absolute" style={{ left: 0, top: 138, width: 88, height: 1.5, backgroundColor: "#d16a42" }} />
           </Link>
-          <Link href="#" onClick={onNavigate} aria-label="Event Management: learn more" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 266, top: 246, width: 208, height: 150 }}>
+          <Link href="#" onClick={onNavigate} aria-label="Event Management: learn more" data-service="card" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 266, top: 246, width: 208, height: 150 }}>
             <div className="absolute" style={{ left: 4, top: 4, width: 40, height: 40, transformOrigin: "0 0", transform: "matrix(0.99452, 0.10453, -0.10453, 0.99452, 0, 0)", backgroundColor: "#11542a", borderRadius: 8 }} />
             <div className="absolute" style={{ left: 0, top: 0, width: 40, height: 40, backgroundColor: "#1f7a3d", borderRadius: 8, boxShadow: "0px 2px 3px 0px rgba(64,41,20,0.2)" }}>
               <div className="absolute" style={{ left: 8, top: 8, width: 24, height: 24, overflow: "hidden" }}>
@@ -120,7 +121,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
             <p className="absolute" style={{ left: 0, top: 121, width: 88, height: 16, fontFamily: "var(--font-inter)", fontWeight: 700, fontSize: 13, lineHeight: "15.73px", color: "#2b2825", whiteSpace: "pre" }}>Learn more →</p>
             <div className="absolute" style={{ left: 0, top: 140, width: 88, height: 1.5, backgroundColor: "#d16a42" }} />
           </Link>
-          <Link href="#" onClick={onNavigate} aria-label="Artist Management: learn more" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 26, top: 414, width: 208, height: 150 }}>
+          <Link href="#" onClick={onNavigate} aria-label="Artist Management: learn more" data-service="card" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 26, top: 414, width: 208, height: 150 }}>
             <div className="absolute" style={{ left: 4, top: 4, width: 40, height: 40, transformOrigin: "0 0", transform: "matrix(0.99452, 0.10453, -0.10453, 0.99452, 0, 0)", backgroundColor: "#a87c05", borderRadius: 8 }} />
             <div className="absolute" style={{ left: 0, top: 0, width: 40, height: 40, backgroundColor: "#e2a90f", borderRadius: 8, boxShadow: "0px 2px 3px 0px rgba(64,41,20,0.2)" }}>
               <div className="absolute" style={{ left: 8, top: 8, width: 24, height: 24, overflow: "hidden" }}>
@@ -132,7 +133,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
             <p className="absolute" style={{ left: 0, top: 121, width: 88, height: 16, fontFamily: "var(--font-inter)", fontWeight: 700, fontSize: 13, lineHeight: "15.73px", color: "#2b2825", whiteSpace: "pre" }}>Learn more →</p>
             <div className="absolute" style={{ left: 0, top: 140, width: 88, height: 1.5, backgroundColor: "#d16a42" }} />
           </Link>
-          <Link href="#" onClick={onNavigate} aria-label="Digital Marketing: learn more" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 266, top: 414, width: 208, height: 150 }}>
+          <Link href="#" onClick={onNavigate} aria-label="Digital Marketing: learn more" data-service="card" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 266, top: 414, width: 208, height: 150 }}>
             <div className="absolute" style={{ left: 4, top: 4, width: 40, height: 40, transformOrigin: "0 0", transform: "matrix(0.99452, 0.10453, -0.10453, 0.99452, 0, 0)", backgroundColor: "#55407a", borderRadius: 8 }} />
             <div className="absolute" style={{ left: 0, top: 0, width: 40, height: 40, backgroundColor: "#7b5ea7", borderRadius: 8, boxShadow: "0px 2px 3px 0px rgba(64,41,20,0.2)" }}>
               <div className="absolute" style={{ left: 8, top: 8, width: 24, height: 24, overflow: "hidden" }}>
@@ -155,7 +156,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
             <svg aria-hidden="true" className="absolute" viewBox="0 0 8.92 12" style={{ left: 6.08, top: 3, width: 8.92, height: 12, overflow: "visible" }}><path d="M0.477297 2.5977C0.213693 2.3341 -0.213693 2.3341 -0.477297 2.5977C-0.740901 2.86131 -0.740901 3.28869 -0.477297 3.5523L0 3.075L0.477297 2.5977ZM8.4477 12.4773C8.71131 12.7409 9.13869 12.7409 9.4023 12.4773C9.6659 12.2137 9.6659 11.7863 9.4023 11.5227L8.925 12L8.4477 12.4773ZM-0.477297 8.4477C-0.740901 8.71131 -0.740901 9.13869 -0.477297 9.4023C-0.213693 9.6659 0.213693 9.6659 0.477297 9.4023L0 8.925L-0.477297 8.4477ZM9.4023 0.477297C9.6659 0.213693 9.6659 -0.213693 9.4023 -0.477297C9.13869 -0.740901 8.71131 -0.740901 8.4477 -0.477297L8.925 0L9.4023 0.477297ZM0 3.075L-0.477297 3.5523L8.4477 12.4773L8.925 12L9.4023 11.5227L0.477297 2.5977L0 3.075ZM0 8.925L0.477297 9.4023L9.4023 0.477297L8.925 0L8.4477 -0.477297L-0.477297 8.4477L0 8.925Z" fill="#8a6a43" /></svg>
           </div>
           <div className="absolute" style={{ left: 30, top: 594, width: 444, height: 150, transformOrigin: "0 0", transform: "matrix(0.99978, 0.02094, -0.02094, 0.99978, 0, 0)", backgroundColor: "#b95534", borderRadius: 6 }} />
-          <Link href="#" onClick={onNavigate} aria-label="Creative Agency: learn more" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 26, top: 588, width: 448, height: 150, backgroundImage: "url(/images/website/menu/paper-22.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#d16a42", borderRadius: 6, boxShadow: "0px 6px 12px 0px rgba(64,41,20,0.25)" }}>
+          <Link href="#" onClick={onNavigate} aria-label="Creative Agency: learn more" data-service="feature" className="absolute group transition-[translate] duration-300 hover:-translate-y-0.5" style={{ left: 26, top: 588, width: 448, height: 150, backgroundImage: "url(/images/website/menu/paper-22.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#d16a42", borderRadius: 6, boxShadow: "0px 6px 12px 0px rgba(64,41,20,0.25)" }}>
             <div className="absolute" style={{ left: 22, top: 24, width: 52, height: 52, backgroundColor: "#fbf3e6", borderRadius: 10 }}>
               <div className="absolute" style={{ left: 11, top: 11, width: 30, height: 30, overflow: "hidden" }}>
                 <svg aria-hidden="true" className="absolute" viewBox="0 0 7.5 3.75" style={{ left: 11.25, top: 22.5, width: 7.5, height: 3.75, overflow: "visible" }}><path d="M0 -1.125C-0.62132 -1.125 -1.125 -0.62132 -1.125 0C-1.125 0.62132 -0.62132 1.125 0 1.125L0 0L0 -1.125ZM7.5 1.125C8.12132 1.125 8.625 0.62132 8.625 0C8.625 -0.62132 8.12132 -1.125 7.5 -1.125L7.5 0L7.5 1.125ZM1.25 2.625C0.62868 2.625 0.125 3.12868 0.125 3.75C0.125 4.37132 0.62868 4.875 1.25 4.875L1.25 3.75L1.25 2.625ZM6.25 4.875C6.87132 4.875 7.375 4.37132 7.375 3.75C7.375 3.12868 6.87132 2.625 6.25 2.625L6.25 3.75L6.25 4.875ZM0 0L0 1.125L7.5 1.125L7.5 0L7.5 -1.125L0 -1.125L0 0ZM1.25 3.75L1.25 4.875L6.25 4.875L6.25 3.75L6.25 2.625L1.25 2.625L1.25 3.75Z" fill="#d16a42" /></svg>
@@ -176,7 +177,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
         <div className="absolute" style={{ left: 6, top: 8, width: 236, height: 34, transformOrigin: "0 0", transform: "matrix(0.99966, 0.02618, -0.02618, 0.99966, 0, 0)", backgroundColor: "#2b2825", boxShadow: "0px 3px 6px 0px rgba(64,41,20,0.25)" }}>
           <p className="absolute" style={{ left: 16, top: 9, width: 206, height: 15, fontFamily: "var(--font-typewriter)", fontWeight: 700, fontSize: 13, lineHeight: "14.6px", color: "#fbf3e6", whiteSpace: "pre", letterSpacing: 2.6 }}>LATEST FROM THE BLOG</p>
         </div>
-        <Link href="#" onClick={onNavigate} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 4, top: 62, width: 252, height: 100, transformOrigin: "0 0", transform: "matrix(0.9997, 0.02443, -0.02443, 0.9997, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#fffdf7", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
+        <Link href="#" onClick={onNavigate} data-blog={0} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 4, top: 62, width: 252, height: 100, transformOrigin: "0 0", transform: "matrix(0.9997, 0.02443, -0.02443, 0.9997, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#fffdf7", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
           <p className="absolute" style={{ left: 16, top: 18, width: 194, height: 12, fontFamily: "var(--font-typewriter)", fontWeight: 700, fontSize: 11, lineHeight: "12.35px", color: "#c23b22", whiteSpace: "pre", letterSpacing: 1.2 }}>REAL ESTATE · 01 NOV 2026</p>
           <p className="absolute" style={{ left: 16, top: 36, width: 220, height: 48, fontFamily: "var(--font-instrument)", fontWeight: 700, fontSize: 19, lineHeight: "24px", color: "#2b2825", whiteSpace: "pre-wrap" }}>Creative marketing for real estate</p>
         </Link>
@@ -184,7 +185,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
           <div className="absolute" style={{ left: 0, top: 0, width: 16, height: 16, backgroundColor: "#d9472b", borderRadius: "50%", boxShadow: "0px 3px 3px 0px rgba(64,41,20,0.35)" }} />
           <div className="absolute" style={{ left: 4, top: 3, width: 5, height: 5, backgroundColor: "rgba(255,255,255,0.55)", borderRadius: "50%" }} />
         </div>
-        <Link href="#" onClick={onNavigate} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 10, top: 180, width: 252, height: 94, transformOrigin: "0 0", transform: "matrix(0.99982, -0.0192, 0.0192, 0.99982, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#f8f0df", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
+        <Link href="#" onClick={onNavigate} data-blog={1} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 10, top: 180, width: 252, height: 94, transformOrigin: "0 0", transform: "matrix(0.99982, -0.0192, 0.0192, 0.99982, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#f8f0df", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
           <p className="absolute" style={{ left: 16, top: 18, width: 155, height: 12, fontFamily: "var(--font-typewriter)", fontWeight: 700, fontSize: 11, lineHeight: "12.35px", color: "#c23b22", whiteSpace: "pre", letterSpacing: 1.2 }}>AGENCY · 24 OCT 2026</p>
           <p className="absolute" style={{ left: 16, top: 36, width: 220, height: 42, fontFamily: "var(--font-instrument)", fontWeight: 700, fontSize: 16, lineHeight: "21px", color: "#2b2825", whiteSpace: "pre-wrap" }}>How to find the right creative digital marketing agency</p>
         </Link>
@@ -192,7 +193,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
           <div className="absolute" style={{ left: 0, top: 0, width: 16, height: 16, backgroundColor: "#1d5bb5", borderRadius: "50%", boxShadow: "0px 3px 3px 0px rgba(64,41,20,0.35)" }} />
           <div className="absolute" style={{ left: 4, top: 3, width: 5, height: 5, backgroundColor: "rgba(255,255,255,0.55)", borderRadius: "50%" }} />
         </div>
-        <Link href="#" onClick={onNavigate} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 4, top: 292, width: 252, height: 94, transformOrigin: "0 0", transform: "matrix(0.99993, 0.01222, -0.01222, 0.99993, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#f8f0df", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
+        <Link href="#" onClick={onNavigate} data-blog={2} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 4, top: 292, width: 252, height: 94, transformOrigin: "0 0", transform: "matrix(0.99993, 0.01222, -0.01222, 0.99993, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#f8f0df", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
           <p className="absolute" style={{ left: 16, top: 18, width: 147, height: 12, fontFamily: "var(--font-typewriter)", fontWeight: 700, fontSize: 11, lineHeight: "12.35px", color: "#c23b22", whiteSpace: "pre", letterSpacing: 1.2 }}>RADIO · 17 OCT 2026</p>
           <p className="absolute" style={{ left: 16, top: 36, width: 220, height: 42, fontFamily: "var(--font-instrument)", fontWeight: 700, fontSize: 16, lineHeight: "21px", color: "#2b2825", whiteSpace: "pre-wrap" }}>Why a good jingle still beats a big budget</p>
         </Link>
@@ -200,7 +201,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
           <div className="absolute" style={{ left: 0, top: 0, width: 16, height: 16, backgroundColor: "#e2a90f", borderRadius: "50%", boxShadow: "0px 3px 3px 0px rgba(64,41,20,0.35)" }} />
           <div className="absolute" style={{ left: 4, top: 3, width: 5, height: 5, backgroundColor: "rgba(255,255,255,0.55)", borderRadius: "50%" }} />
         </div>
-        <Link href="#" onClick={onNavigate} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 10, top: 404, width: 252, height: 94, transformOrigin: "0 0", transform: "matrix(0.99974, -0.02269, 0.02269, 0.99974, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#f8f0df", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
+        <Link href="#" onClick={onNavigate} data-blog={3} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 10, top: 404, width: 252, height: 94, transformOrigin: "0 0", transform: "matrix(0.99974, -0.02269, 0.02269, 0.99974, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#f8f0df", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
           <p className="absolute" style={{ left: 16, top: 18, width: 155, height: 12, fontFamily: "var(--font-typewriter)", fontWeight: 700, fontSize: 11, lineHeight: "12.35px", color: "#c23b22", whiteSpace: "pre", letterSpacing: 1.2 }}>EVENTS · 09 OCT 2026</p>
           <p className="absolute" style={{ left: 16, top: 36, width: 220, height: 42, fontFamily: "var(--font-instrument)", fontWeight: 700, fontSize: 16, lineHeight: "21px", color: "#2b2825", whiteSpace: "pre-wrap" }}>What makes a product launch worth showing up for</p>
         </Link>
@@ -208,7 +209,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
           <div className="absolute" style={{ left: 0, top: 0, width: 16, height: 16, backgroundColor: "#1f7a3d", borderRadius: "50%", boxShadow: "0px 3px 3px 0px rgba(64,41,20,0.35)" }} />
           <div className="absolute" style={{ left: 4, top: 3, width: 5, height: 5, backgroundColor: "rgba(255,255,255,0.55)", borderRadius: "50%" }} />
         </div>
-        <Link href="#" onClick={onNavigate} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 4, top: 516, width: 252, height: 94, transformOrigin: "0 0", transform: "matrix(0.99985, 0.01745, -0.01745, 0.99985, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#f8f0df", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
+        <Link href="#" onClick={onNavigate} data-blog={4} className="absolute transition-[translate,box-shadow] duration-300 hover:-translate-y-1" style={{ left: 4, top: 516, width: 252, height: 94, transformOrigin: "0 0", transform: "matrix(0.99985, 0.01745, -0.01745, 0.99985, 0, 0)", backgroundImage: "url(/images/website/menu/paper-45.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#f8f0df", boxShadow: "0px 4px 8px 0px rgba(64,41,20,0.2)" }}>
           <p className="absolute" style={{ left: 16, top: 18, width: 163, height: 12, fontFamily: "var(--font-typewriter)", fontWeight: 700, fontSize: 11, lineHeight: "12.35px", color: "#c23b22", whiteSpace: "pre", letterSpacing: 1.2 }}>DIGITAL · 02 OCT 2026</p>
           <p className="absolute" style={{ left: 16, top: 36, width: 220, height: 42, fontFamily: "var(--font-instrument)", fontWeight: 700, fontSize: 16, lineHeight: "21px", color: "#2b2825", whiteSpace: "pre-wrap" }}>Reels that sell: short videos for local brands</p>
         </Link>
@@ -379,7 +380,7 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
           </div>
         </div>
       </div>
-      <div data-menu="part" className="absolute" style={{ left: 168, top: 962, width: 1080, height: 66, transformOrigin: "0 0", transform: "matrix(0.99996, -0.00873, 0.00873, 0.99996, 0, 0)", backgroundImage: "url(/images/website/menu/paper-50.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#fbf3e6", borderRadius: 4, boxShadow: "0px 6px 12px 0px rgba(64,41,20,0.22)" }}>
+      <div data-menu="part" data-ticket className="absolute" style={{ left: 168, top: 962, width: 1080, height: 66, transformOrigin: "0 0", transform: "matrix(0.99996, -0.00873, 0.00873, 0.99996, 0, 0)", backgroundImage: "url(/images/website/menu/paper-50.webp)", backgroundSize: "cover", backgroundPosition: "center", backgroundBlendMode: "multiply", backgroundColor: "#fbf3e6", borderRadius: 4, boxShadow: "0px 6px 12px 0px rgba(64,41,20,0.22)" }}>
         <div className="absolute" style={{ left: -12, top: 21, width: 24, height: 24, backgroundColor: "#d5b68a", borderRadius: "50%" }} />
         <div className="absolute" style={{ left: 1068, top: 21, width: 24, height: 24, backgroundColor: "#d5b68a", borderRadius: "50%" }} />
         <p className="absolute" style={{ left: 44, top: 25, width: 36, height: 13, fontFamily: "var(--font-typewriter)", fontWeight: 700, fontSize: 12, lineHeight: "13.48px", color: "#c23b22", whiteSpace: "pre", letterSpacing: 2.4 }}>CALL</p>
@@ -393,6 +394,8 @@ export function MenuDesk({ onClose, onNavigate, closeRef, dateline }: { onClose:
       <div data-menu="prop" className="absolute" style={{ left: 24, top: 900, width: 130, height: 117, transformOrigin: "0 0", transform: "matrix(0.99027, 0.13917, -0.13917, 0.99027, 0, 0)", backgroundImage: "url(/images/website/menu/prop-mug.webp)", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
       <div data-menu="prop" className="absolute" style={{ left: 930, top: 800, width: 170, height: 72, transformOrigin: "0 0", transform: "matrix(0.98481, -0.17365, 0.17365, 0.98481, 0, 0)", backgroundImage: "url(/images/website/menu/prop-glasses.webp)", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
       <div data-menu="prop" className="absolute" style={{ left: 1190, top: 790, width: 230, height: 44, transformOrigin: "0 0", transform: "matrix(0.91355, 0.40674, -0.40674, 0.91355, 0, 0)", backgroundImage: "url(/images/website/menu/prop-pencil.webp)", backgroundSize: "contain", backgroundPosition: "center", backgroundRepeat: "no-repeat" }} />
+      {/* hovering a blog card opens its preview paper */}
+      <MenuBlogPreview onNavigate={onNavigate} />
     </div>
   );
 }
