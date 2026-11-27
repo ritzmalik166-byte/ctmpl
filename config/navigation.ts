@@ -3,6 +3,13 @@
  * latest blogs and the quick contact form. Links point to "#" until the pages
  * exist (Home and Contact Us already work).
  */
+// the blogs' pictures: the same placeholder photos as "Fresh from our minds" (see pinboard.constants), until the real ones exist
+import blogRealEstate from "@/public/images/website/home/pinboard/blogs/dummy-1.jpg";
+import blogAgency from "@/public/images/website/home/pinboard/blogs/dummy-2.jpg";
+import blogRadio from "@/public/images/website/home/pinboard/blogs/dummy-3.jpg";
+import blogEvents from "@/public/images/website/home/pinboard/blogs/dummy-4.jpg";
+import blogReels from "@/public/images/website/home/pinboard/blogs/dummy-5.jpg";
+
 export const navigationLinks = [
   { label: "What we make", href: "/#what-we-make" },
   { label: "Our work", href: "/#creative-playground" },
@@ -23,13 +30,19 @@ export const navigationServices = [
   { title: "Creative Agency", text: "Ideas, identities and campaigns, all made in-house in Noida.", href: "#" },
 ];
 
+/**
+ * The menu's latest blogs. Desktop: hovering one opens its preview paper (MenuBlogPreview): its picture, topic
+ * and date, title and a link to read it, on paper in its pin's colour (`paper`, `pin`).
+ */
 export const navigationBlogs = [
-  { tag: "Real estate · 01 Nov 2026", title: "Creative marketing for real estate", href: "#" },
-  { tag: "Agency · 24 Oct 2026", title: "How to find the right creative digital marketing agency", href: "#" },
-  { tag: "Radio · 17 Oct 2026", title: "Why a good jingle still beats a big budget", href: "#" },
-  { tag: "Events · 09 Oct 2026", title: "What makes a product launch worth showing up for", href: "#" },
-  { tag: "Digital · 02 Oct 2026", title: "Reels that sell: short videos for local brands", href: "#" },
+  { tag: "Real estate · 01 Nov 2026", title: "Creative marketing for real estate", href: "#", image: blogRealEstate, paper: "#fbe1d9", pin: "#d9472b" },
+  { tag: "Agency · 24 Oct 2026", title: "How to find the right creative digital marketing agency", href: "#", image: blogAgency, paper: "#dde8f7", pin: "#1d5bb5" },
+  { tag: "Radio · 17 Oct 2026", title: "Why a good jingle still beats a big budget", href: "#", image: blogRadio, paper: "#faedc2", pin: "#e2a90f" },
+  { tag: "Events · 09 Oct 2026", title: "What makes a product launch worth showing up for", href: "#", image: blogEvents, paper: "#dcefdc", pin: "#1f7a3d" },
+  { tag: "Digital · 02 Oct 2026", title: "Reels that sell: short videos for local brands", href: "#", image: blogReels, paper: "#fbe2cc", pin: "#f26b1d" },
 ];
+/** The preview paper's link. */
+export const blogPreviewCta = "Read the story";
 
 /** Ways to reach the studio, printed at the foot of the menu. */
 export const navigationContacts = [

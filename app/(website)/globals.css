@@ -137,6 +137,246 @@ html[data-gateway="done"] .gateway-failsafe {
   }
 }
 
+/*
+ * The menu's services sheet (MenuDesk / MenuMobile, links marked data-service): on hover each service is cut
+ * out like a newspaper clipping. A cream clipping with a dashed cut edge lifts up behind it, its icon peels up
+ * off its shadow like a sticker (and wiggles), a highlighter swipes across its name, and "Learn more" turns
+ * orange, steps on and redraws its underline. The Creative Agency card ("feature") gets a sheen across it, its
+ * sticky note flaps and its icon tilts. (The cards come from Figma with inline styles, so some of this needs
+ * !important; the tilts use the `rotate` and `translate` properties, leaving the inline transforms alone.)
+ */
+[data-service] {
+  isolation: isolate;
+}
+[data-service="card"]::before {
+  content: "";
+  position: absolute;
+  inset: -12px -12px -4px -12px;
+  z-index: -1;
+  border: 1.2px dashed #c9a879;
+  border-radius: 3px;
+  background: #fffaf0;
+  box-shadow: 0 12px 20px -10px rgba(64, 41, 20, 0.4), 0 1px 2px rgba(64, 41, 20, 0.12);
+  opacity: 0;
+  transform: rotate(-2.5deg) scale(0.92);
+  transition: opacity 0.25s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-service="card"] > div:nth-of-type(1),
+[data-service="card"] > div:nth-of-type(2),
+[data-service="feature"] > div:nth-of-type(1),
+[data-service="feature"] > div:nth-of-type(3) {
+  transition: translate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), rotate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-service="card"] > p:nth-of-type(1) {
+  width: fit-content !important;
+  margin-left: -3px;
+  padding: 0 3px;
+  background: linear-gradient(100deg, transparent 2%, rgba(247, 214, 92, 0.75) 6%, rgba(247, 214, 92, 0.6) 94%, transparent 98%) no-repeat 0 62% / 0% 58%;
+  transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.05s;
+}
+[data-service] > p:nth-of-type(3) {
+  transition: color 0.25s, translate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-service="card"] > p:nth-of-type(2) {
+  transition: color 0.3s;
+}
+[data-service="card"] > div:nth-of-type(3),
+[data-service="feature"] > div:nth-of-type(2) {
+  transform-origin: left;
+}
+[data-service="feature"] {
+  overflow: hidden;
+}
+[data-service="feature"]::after {
+  content: "";
+  position: absolute;
+  inset: -20% auto -20% 0;
+  width: 38%;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgba(255, 248, 236, 0.32), transparent);
+  translate: -140% 0;
+  rotate: 12deg;
+}
+@media (hover: hover) {
+  [data-service="card"]:is(:hover, :focus-visible)::before {
+    opacity: 1;
+    transform: rotate(-1.2deg) scale(1);
+  }
+  [data-service="card"]:is(:hover, :focus-visible) > div:nth-of-type(1) {
+    translate: 2px 2px;
+  }
+  [data-service="card"]:is(:hover, :focus-visible) > div:nth-of-type(2),
+  [data-service="feature"]:is(:hover, :focus-visible) > div:nth-of-type(1) {
+    translate: -3px -5px;
+    rotate: -9deg;
+  }
+  [data-service="card"]:is(:hover, :focus-visible) > div:nth-of-type(2) svg,
+  [data-service="feature"]:is(:hover, :focus-visible) > div:nth-of-type(1) svg {
+    animation: service-wiggle 0.6s ease-in-out 0.15s;
+  }
+  [data-service="card"]:is(:hover, :focus-visible) > p:nth-of-type(1) {
+    background-size: 100% 58%;
+  }
+  [data-service="card"]:is(:hover, :focus-visible) > p:nth-of-type(2) {
+    color: #4a4541 !important;
+  }
+  [data-service]:is(:hover, :focus-visible) > p:nth-of-type(3) {
+    translate: 4px 0;
+  }
+  [data-service="card"]:is(:hover, :focus-visible) > p:nth-of-type(3) {
+    color: #d16a42 !important;
+  }
+  [data-service="card"]:is(:hover, :focus-visible) > div:nth-of-type(3),
+  [data-service="feature"]:is(:hover, :focus-visible) > div:nth-of-type(2) {
+    animation: service-underline 0.55s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  [data-service="feature"]:is(:hover, :focus-visible)::after {
+    translate: 380% 0;
+    transition: translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-service="feature"]:is(:hover, :focus-visible) > div:nth-of-type(3) {
+    translate: 2px -6px;
+    rotate: 7deg;
+  }
+}
+/* the icon, jiggled as it's peeled up */
+@keyframes service-wiggle {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: -12deg;
+  }
+  55% {
+    rotate: 9deg;
+  }
+  80% {
+    rotate: -4deg;
+  }
+}
+/* "Learn more"'s underline: wiped off to the right, drawn back in from the left, a little longer */
+@keyframes service-underline {
+  0% {
+    transform-origin: right;
+    scale: 1 1;
+  }
+  45% {
+    transform-origin: right;
+    scale: 0 1;
+  }
+  46% {
+    transform-origin: left;
+    scale: 0 1;
+  }
+  100% {
+    transform-origin: left;
+    scale: 1.18 1;
+  }
+}
+
+/*
+ * The menu's ticket stub (call · chat · the studio's line; marked data-ticket): hovered, the ticket lifts and
+ * straightens; the number and "WhatsApp us" turn orange with an underline drawn under them, a phone rings in
+ * beside the number (CALL shakes) and a chat bubble pops up beside "WhatsApp us" (CHAT hops); and the
+ * typewritten line types itself out again.
+ */
+[data-ticket] {
+  transition: translate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), rotate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+}
+[data-ticket] > a {
+  background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0% 1.5px;
+  transition: color 0.25s, background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-ticket] > a::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 8px);
+  width: 20px;
+  height: 20px;
+  margin-top: -10px;
+  background: no-repeat center / contain;
+  opacity: 0;
+  scale: 0.4;
+  pointer-events: none;
+  transition: opacity 0.2s, scale 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+[data-ticket] > a[href^="tel:"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d16a42' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 3h3l2 5-2.5 1.5a11 11 0 0 0 7 7L16 14l5 2v3a2 2 0 0 1-2 2A17 17 0 0 1 3 5a2 2 0 0 1 2-2Z'/%3E%3Cpath d='M15 3.5a6 6 0 0 1 5.5 5.5M15 7a2.6 2.6 0 0 1 2 2'/%3E%3C/svg%3E");
+}
+[data-ticket] > a[href*="wa.me"]::after {
+  width: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 22'%3E%3Cpath d='M4 1h18a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H11l-5.5 4.5V16H4a3 3 0 0 1-3-3V4a3 3 0 0 1 3-3Z' fill='%2317733f'/%3E%3Ccircle cx='8' cy='8.5' r='1.7' fill='%23fbf3e6'/%3E%3Ccircle cx='13' cy='8.5' r='1.7' fill='%23fbf3e6'/%3E%3Ccircle cx='18' cy='8.5' r='1.7' fill='%23fbf3e6'/%3E%3C/svg%3E");
+}
+@media (hover: hover) {
+  [data-ticket]:hover {
+    translate: 0 -4px;
+    rotate: 0.5deg;
+    box-shadow: 0 16px 24px -8px rgba(64, 41, 20, 0.42) !important;
+  }
+  [data-ticket] > a:is(:hover, :focus-visible) {
+    color: #d16a42 !important;
+    background-size: 100% 1.5px;
+  }
+  [data-ticket] > a:is(:hover, :focus-visible)::after {
+    opacity: 1;
+    scale: 1;
+  }
+  [data-ticket] > a[href^="tel:"]:is(:hover, :focus-visible)::after {
+    animation: ticket-ring 0.5s ease-in-out 0.15s 2;
+  }
+  [data-ticket] > a[href*="wa.me"]:is(:hover, :focus-visible)::after {
+    animation: ticket-hop 0.55s ease-out 0.1s;
+  }
+  [data-ticket]:has(> a[href^="tel:"]:hover) > p:nth-of-type(1) {
+    animation: ticket-ring 0.5s ease-in-out;
+  }
+  [data-ticket]:has(> a[href*="wa.me"]:hover) > p:nth-of-type(2) {
+    animation: ticket-hop 0.55s ease-out;
+  }
+  [data-ticket]:hover > p:nth-of-type(3) {
+    animation: ticket-type 1.1s steps(28) both;
+  }
+}
+@keyframes ticket-ring {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  15%,
+  45%,
+  75% {
+    rotate: -14deg;
+  }
+  30%,
+  60%,
+  90% {
+    rotate: 14deg;
+  }
+}
+@keyframes ticket-hop {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  35% {
+    translate: 0 -6px;
+  }
+  65% {
+    translate: 0 1px;
+  }
+}
+@keyframes ticket-type {
+  from {
+    clip-path: inset(-20% 100% -20% 0);
+  }
+  to {
+    clip-path: inset(-20% 0 -20% 0);
+  }
+}
+
 @layer base {
   body {
     @apply bg-white font-instrument text-ink;
